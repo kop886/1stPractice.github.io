@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Lykan_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>LYCAN</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПЕРЕТВОРЮЄТЬСЯ НА ЛЮТОГО ЗВІРА</p>
+                        <p>У людській подобі чи в подобі вовка Лікантроп знищує ворогів гострими кігтями та смертельними щелепами. Він прикликає невидимих вовків, які стежать чи нападають на ворога, а трансформація у вовчу подобу наділяє його самого швидкістю й силою, щоби наздогнати ворогів або втекти із засідки</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПЕРЕТВОРЮЄТЬСЯ НА ЛЮТОГО ЗВІРА</p>
+                        <p>Гончак-Губитель народився у благородному домі Амбрі, найвидатнішому серед землевласницьких родів у давньому королівстві Слом. Ще до повалення монархії, коли бажання короля ставали все дивнішими, а його двір сповнився чаклунами й шарлатанами, дім Амбрі першим повстав проти ненаситності трону. Вони не бажали більше платити данину, а натомість вислали до столиці шість тисяч мечників — де вони всі загинули в бою, який зрештою назвали «Різаниною відступників». І тоді старе прислів’я показало свою правду: коли б’єш у шию королю, краще одразу стинай йому голову.</p>
+                        <p>Розлючений зрадою король винищив увесь численний рід Амбрі й залишив серед живих тільки лорда і його молодшого сина. Перед усім королівським двором знеславленого лорда прикували ланцюгами до візерунчастої мармурової підлоги, а король наказав магам перетворити хлопчика на вовка, аби він роздер шию власного батька. «Зробіть це, — сказав король, — щоби лорд Амбрі спізнав біль зради». Могутні чари змінили хлопчину. Хоча його тіло стало іншим, дух лишився людським: замість того, щоби напасти на беззахисного батька, він роздер на шмаття прислугу короля. Десяток королівських лицарів загинули від зубів вовка, перш ніж його вдалося викинути в темряву ночі. Лорд Амбрі сміявся у своїх кайданах, навіть коли король проткнув його мечем. Нині спадкоємець втраченого дому Амбрі, Гончак-Губитель, блукає світом як Лікантроп, частково воїн, частково вовк, й шукає справедливої відплати за все те, що він утратив.</p>
+                                                                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+2 до прикликаних вовків</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Howl зменшує загальну шкоду від атаки</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+25% до шкоди від Feral Impulse</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+7 с до тривалості Shapeshift</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-15s Shapeshift Cooldown</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+350 до здоров'я вовків</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10 до шкоди вовків</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+3 до зменшення броні від Howl</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Верховний хижак</h3>
+                            <p>Лікантроп і підконтрольні йому істоти завдають 2% додаткової шкоди нейтральним кріпам за рівень героя.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="lycan_summon_wolves.png" alt="Summon Wolves" />
+                        <div class="tooltip">
+                            <h3>Summon Wolves</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                                                       <p>Прикликає вовків (2) на поміч Лікантропу. На 3-му рівні вовки здобувають постійну невидимість, а на 4-му — здібність Скалічення, що дає 20% шансу скалічити ціль, завдаючи тій 8 шкоди за секунду та втрати 60 швидкості атаки впродовж 4 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="lycan_howl.png" alt="Howl" />
+                        <div class="tooltip">
+                            <h3>Howl</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            
+                            <p>Лякає ворогів, що зменшує броню та шкоду від атак усіх ворогів у радіусі 2000 від Лікантропа і його вовків. Уночі зменшення броні та шкоди від атак діє на всю мапу.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="lycan_feral_impulse.png" alt="Feral Impulse" />
+                        <div class="tooltip">
+                            <h3>Feral Impulse</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            
+                            <p>Збільшує шкоду та швидкість відновлення здоров’я героя та підконтрольних йому істот.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="lycan_shapeshift.png" alt="Shapeshift" />
+                        <div class="tooltip">
+                            <h3>Shapeshift</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Ненацілена</p>
+							
+                            <p>Лікантроп набуває вовчої форми, яка дає йому критичні удари й додатковий огляд уночі. Під дією здібності Лікантроп рухається зі збільшеною швидкістю та його не можна сповільнити.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Лікантроп кусає союзного героя чи кріпа-героя, що дає йому властивості Вовкулаки. Лікантроп і вкушена ціль отримують 40% вампіризму й ділять між собою лікування від вампіризму, допоки вони на відстані до 1200 один від одного.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Викликає на одну з ваших хвиль кріпів непідконтрольного вовка, який рухається з хвилею. Крім того, ці вовки можуть накладати Скалічення на вежі.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>28</span> <span class="attribute-bonus">+3.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>18</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>23</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>52-57</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>305</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="summons.png" alt="Іконка купи" class="facet-icon">
+                        <h3 class="facet-name">ВАТАЖОК ЗГРАЇ</h3>
+                    </div>
+                    <p class="facet-description">Убивство ворожих героїв Лікантропом чи його істотами подовжує тривалість Вовкулаки.</p>
+                    <div class="facet-ability-link">
+                        <img src="lycan_shapeshift.png" alt="SHAPESHIFT">
+                        <span>SHAPESHIFT</span>
+                    </div>
+					<p class="facet-description">Додаткова швидкість руху та шанс на критичний удар також діють на всіх істот під контролем Лікантропа. Убивство ворожих героїв Лікантропом чи його істотами подовжує тривалість Вовкулаки на 5 с.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="spirit.png" alt="Іконка духа" class="facet-icon">
+                        <h3 class="facet-name">ВОВКИ-ДУХИ</h3>
+                    </div>
+                    <p class="facet-description">Виклик вовків створює невразливих неатакуючих вовків, які дають Лікантропу додаткове здоров’я та шкоду від атак.</p>
+                    <div class="facet-ability-link">
+                        <img src="lycan_summon_wolves.png" alt="SUMMON WOLVES icon">
+                        <span>SUMMON WOLVES</span>
+                    </div>
+                    <p class="facet-description">Прикликані вовки — невразливі й неконтрольовані духи, які не атакують, але дають додаткове здоров’я та шкоду від атак Лікантропу.</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ:25</p>
+					<p class="facet-bonus">ДОД. ЗДОРОВ’Я ЗА ВОВКА:60 / 120 / 180 / 240</p>
+					<p class="facet-bonus">ПРИРІСТ БАЗОВОЇ ШКОДИ ЗА ВОВКА:6 / 12 / 18 / 24</p>
+                </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="wolf.png" alt="Іконка вовка" class="facet-icon">
+                        <h3 class="facet-name">ВАТАЖКИ ЗГРАЇ</h3>
+                    </div>
+                    <p class="facet-description">Збільшує максимальний рівень Виклику вовків, але зменшує максимальний рівень Завивання та Дикого пориву.</p>
+                    <div class="facet-ability-link">
+                        <img src="lycan_summon_wolves.png" alt="SUMMON WOLVES icon">
+                        <span>SUMMON WOLVES</span>
+                    </div>
+                    <p class="facet-description">Збільшує максимальний рівень до 2. На 5-му рівні вовки здобувають Понівечення, що вкорінює ворогів під час атак та змушує тих зазнавати більшої шкоди. На 6-му рівні вовки здобувать Стрімголов, активну здібність, що дає вовкам фазисний рух, ухилення, пришвидшення руху й атаки.</p>
+					<div class="facet-ability-link">
+                        <img src="lycan_howl.png" alt="HOWL icon">
+                        <span>HOWL</span>
+						<p class="facet-description">Максимальний рівень зменшено до 1-го.</p>
+                    </div>
+					<div class="facet-ability-link">
+                        <img src="lycan_feral_impulse.png" alt="FERAL IMPULSE icon">
+                        <span>FERAL IMPULSE</span>
+						<p class="facet-description">Максимальний рівень зменшено до 1-го.</p>
+                    </div>
+                
+                
+                
+                
+                
+            </div>
+        </div>
+		</div>
+
+       <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Summon Wolves</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType"></span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Прикликає вовків (2) на поміч Лікантропу. На 3-му рівні вовки здобувають постійну невидимість, а на 4-му — здібність Скалічення, що дає 20% шансу скалічити ціль, завдаючи тій 8 шкоди за секунду та втрати 60 швидкості атаки впродовж 4 с.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">23/29/35/41/47/53</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">50</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">30/30/30/30</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">115/120/125/130/130/130</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Чари не лише змінюють його сутність, а й дозволяють прикликати вовчих братів.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Summon Wolves"
+                        data-description="Прикликає вовків (2) на поміч Лікантропу. На 3-му рівні вовки здобувають постійну невидимість, а на 4-му — здібність Скалічення, що дає 20% шансу скалічити ціль, завдаючи тій 8 шкоди за секунду та втрати 60 швидкості атаки впродовж 4 с."
+                        data-target="Ненацілена"
+                        data-damage-type=""
+                        data-scales="Ні"
+                        data-armor-reduction="23/29/35/41/47/53"
+                        data-duration="50"
+                        data-radius=""
+                        data-cooldown="30/30/30/30"
+                        data-mana-cost="115/120/125/130/130/130"
+                        data-note="Чари не лише змінюють його сутність, а й дозволяють прикликати вовчих братів."
+                >
+                    <img src="lycan_summon_wolves.png" alt="Summon Wolves">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Howl"
+                        data-description="Лякає ворогів, що зменшує броню та шкоду від атак усіх ворогів у радіусі 2000 від Лікантропа і його вовків. Уночі зменшення броні та шкоди від атак діє на всю мапу."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="25%/30%/35%/40%"
+                        data-duration="8"
+                        data-radius="N/A"
+                        data-cooldown="22/20/18/16"
+                        data-mana-cost="40"
+                        data-note="Несамовите завивання вовків свідчить про те, що разом зі зграєю в атаку мчить Бейнголлоу."
+                >
+                    <img src="lycan_howl.png" alt="Howl Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Feral Impulse"
+                        data-description="Збільшує шкоду та швидкість відновлення здоров’я героя та підконтрольних йому істот."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="10%/20%/30%/40%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Тваринний симбіоз із вовками посилює рефлекси та загострює мисливські інстинкти Лікана."
+                >
+                    <img src="lycan_feral_impulse.png" alt="Feral Impulse">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Shapeshift"
+                        data-description="Лікантроп набуває вовчої форми, яка дає йому критичні удари й додатковий огляд уночі. Під дією здібності Лікантроп рухається зі збільшеною швидкістю та його не можна сповільнити."
+                        data-target="Націлена на істоту"
+                        data-damage-type=""
+                        data-scales="Ні"
+                        data-armor-reduction="160%/200%/240%"
+                        data-duration="25"
+                        data-radius=""
+                        data-cooldown="110/100/90"
+                        data-mana-cost="100"
+                        data-note="Нездатний зцілитися від лікантропії, Бейнголлоу був вимушений змиритися з прокляттям і навчитися співіснувати зі своїм внутрішнім звіром."
+                >
+                    <img src="lycan_shapeshift.png" alt="Shapeshift Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Summon Wolves"
+                        data-description="Викликає на одну з ваших хвиль кріпів непідконтрольного вовка, який рухається з хвилею. Крім того, ці вовки можуть накладати Скалічення на вежі."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Summon Wolves">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Wolf Bite"
+                        data-description="Лікантроп кусає союзного героя чи кріпа-героя, що дає йому властивості Вовкулаки. Лікантроп і вкушена ціль отримують 40% вампіризму й ділять між собою лікування від вампіризму, допоки вони на відстані до 1200 один від одного."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="110/100/90"
+                        data-mana-cost="150"
+                        data-note="Чи виглядає цей укус зараженим?"
+                >
+                    <img src="2.jpg" alt="Wolf Bite">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>

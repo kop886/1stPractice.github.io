@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Axe (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="axe_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>AXE</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">Провокує та змушує ворогів атакувати себе</p>
+                        <p>Топір зарубує своїх ворогів один за одним. Він завжди на передовій: криком не дає ворогу уникнути бою, а коли той змушений атакувати, завдає нищівних кругових ударів своєю зброєю. Добиваючи бойовою сокирою ослаблих ворогів, він торує собі шлях крізь поле бою.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">Провокує та змушує ворогів атакувати себе</p>
+                        <p>Коли Могул Хан вступив до лав армії Червоної Мряки простим піхотинцем, то заповзявся сягнути звання генерала. Свої поривання він доводив у битві за битвою, лишаючи від ворогів криваве місиво.</p>
+    <p>Цілеспрямованість Могула не знала меж: за потреби він без вагань зносив голови своїм командирам, що безперечно сприяло його кар’єрному сходженню. Під час семирічної кампанії у Краю Тисячі Озер він показав себе безжальним воякою, і що більше гинуло бійців його армії, то яскравіше сяяла його зірка.</p>
+    <p>У день останньої переможної битви Могул Хан проголосив себе генералом Червоної Мряки і взяв найвище звання — Топір. Однак у його армії вже не було жодного воїна. Звісно, багато загинули на війні, але не менше — від леза самого Топора.</p>
+    <p>Годі й казати, що мало хто зважиться піти під командування такого генерала. Проте Топора це зовсім не тривожить, бо він знає, що армія з однієї людини — найкраща.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Множник броні від Battle Hunger: x2</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+100 до області дії Berserker's Call</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+30 до шкоди від Counter Helix</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+100 до шкоди від Culling Blade</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10 до броні від Berserker's Call</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+10% до сповільнення від Battle Hunger</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10% до швидкості руху за активної Battle Hunger</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+3 с дії ефекту за вбивство від Culling Blade</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Плащ із крові</h3>
+                            <p>Щоразу, коли Сокирник убиває ворожого героя, він назавжди закривавлює своє лезо, здобуваючи 0,2 додаткової броні за кожне поєднання. Убивство Відбракуванням дає х3 поєднань.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="axe_berserkers_call.png" alt="axe_berserkers_call" />
+                        <div class="tooltip">
+                            <h3>Berserker's Call</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Область</p>
+                            <p><strong>Урон:</strong>Фізична</p>
+                            <p>Сокирник дражнить ворогів поблизу, тож вони в пориві гніву кидаються на нього. На час дії здібності броня Сокирника посилюється.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="axe_battle_hunger.png" alt="axe_battle_hunger" />
+                        <div class="tooltip">
+                            <h3>Battle Hunger</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена</p>
+                            <p><strong>Урон:</strong>Фізична</p>
+                            <p>Розлючує ворожу істоту, змушуючи її отримувати шкоду з часом, аж поки та не вб’є іншу істоту або до завершення дії здібності. Шкода від здібності збільшується залежно від броні Сокирника. Також ворог сповільнений, допоки тікає від Сокирника.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="axe_counter_helix.png" alt="axe_counter_helix" />
+                        <div class="tooltip">
+                            <h3>Counter Helix</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Тип шкоди:</strong>Абсолютна</p>
+                            <p>Після певної кількості атак Сокирник здійснює кругову контратаку, яка завдає абсолютної шкоди всім навколишнім ворогам.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="axe_culling_blade.png" alt="axe_culling_blade" />
+                        <div class="tooltip">
+                            <h3>Culling Blade</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена</p>
+							<p><strong>Тип шкоди:</strong>Абсолютна</p>
+                            <p>Сокирник помічає слабкість та атакує, завдаючи чистої шкоди. Якщо ворога вбито Відбракуванням, здібність перезаряджається, а всі союзники поруч здобувають додаткову швидкість руху і броню.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Контроберт відтепер накладає на ворогів накопичувальний негативний ефект, який зменшує завдавану ними шкоду Сокирнику. Контроберт більше не має зарядки і його лічильник збільшується з атаками Сокирника.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Клич берсерка накладає Жагу битви на уражених істот.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+2.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>20</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 15%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 15%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 15%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>56-60</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.3</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>315</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="strength.png" alt="Іконка золота" class="facet-icon">
+                        <h3 class="facet-name">Людина-армія</h3>
+                    </div>
+                    <p class="facet-description">Людина-армія Сокирник здобуває силу відповідно до своєї броні, якщо поруч немає його союзників.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="armor.png" alt="Іконка майстра сумішей" class="facet-icon">
+                        <h3 class="facet-name">Виклик</h3>
+                    </div>
+                    <p class="facet-description">Клич берсерка дає атакуючим ворогам більше швидкості атаки, а Сокирник отримує більше броні на час дії.</p>
+                    <div class="facet-ability-link">
+                        <img src="axe_berserkers_call.png" alt="Unstable Concoction icon">
+                        <span>Berserker's Call</span>
+                    </div>
+                    <p class="facet-bonus">Клич берсерка дає Сокирнику збільшену додаткову броню та збільшує швидкість атаки зачеплених істот.</p>
+                </div>
+                           
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1spel.mp4" type="video/mp4" />
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Berserker's Call</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">На область</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Фізична</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Так</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Сокирник дражнить ворогів поблизу, тож вони в пориві гніву кидаються на нього. На час дії здібності броня Сокирника посилюється.</p>
+                    <div class="ability-values">
+                        <p><strong>ЗМЕНШЕННЯ БРОНІ:</strong> <span id="abilityArmorReduction">12 / 13 / 14 / 15</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,8 / 2,2 / 2,6 / 3</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">315</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">17 / 15 / 13 / 11</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">80 / 90 / 100 / 110</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Бойовий клич Могул Хана змушує ворогів вступати з ним у нерівний бій.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1spel.mp4"
+                        data-name="Berserker's Call"
+                        data-description="Сокирник дражнить ворогів поблизу, тож вони в пориві гніву кидаються на нього. На час дії здібності броня Сокирника посилюється."
+                        data-target="На область"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="12/13/14/15"
+                        data-duration="1,8/2,2/2,6/3"
+                        data-radius="315"
+                        data-cooldown="17/15/13/11"
+                        data-mana-cost="80/90/100/110"
+                        data-note="Бойовий клич Могул Хана змушує ворогів вступати з ним у нерівний бій."
+                >
+                    <img src="axe_berserkers_call.png" alt="Berserker's Call Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2spel.mp4"
+                        data-name="Battle Hunger"
+                        data-description="Розлючує ворожу істоту, змушуючи її отримувати шкоду з часом, аж поки та не вб’є іншу істоту або до завершення дії здібності. Шкода від здібності збільшується залежно від броні Сокирника. Також ворог сповільнений, допоки тікає від Сокирника."
+                        data-target="Націлена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="-18% / -22% / -26% / -30%"
+                        data-duration="1,7 / 2,2 / 2,7 / 3,2"
+                        data-radius="10"
+                        data-cooldown="20 / 15 / 10 / 5"
+                        data-mana-cost="50 / 60 / 70 / 80"
+                        data-note="Жага битви в Могул Хана така сильна, що під її дією звичайні герої ранитимуть себе, допоки не проллють чиюсь кров."
+                >
+                    <img src="axe_battle_hunger.png" alt="Battle Hunger Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Counter Helix"
+                        data-description="Після певної кількості атак Сокирник здійснює кругову контратаку, яка завдає абсолютної шкоди всім навколишнім ворогам."
+                        data-target="Пасивна"
+                        data-damage-type="Абсолютна"
+                        data-scales="Так"
+                        data-armor-reduction="0%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="0,3"
+                        data-mana-cost="N/A"
+                        data-note="Армії Сокирника потрібна лише одна річ — він сам."
+                >
+                    <img src="axe_counter_helix.png" alt="Counter Helix Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4spel.mp4"
+                        data-name="Culling Blade"
+                        data-description="Сокирник помічає слабкість та атакує, завдаючи чистої шкоди. Якщо ворога вбито Відбракуванням, здібність перезаряджається, а всі союзники поруч здобувають додаткову швидкість руху і броню."
+                        data-target="Націлена"
+                        data-damage-type="Абсолютна"
+                        data-scales="Так"
+                        data-armor-reduction="20/25/30"
+                        data-duration="30"
+                        data-radius="900"
+                        data-cooldown="80/75/70"
+                        data-mana-cost="100/125/150"
+                        data-note="Могул Хан — живе втілення війни і люті. Того, хто наважиться кинути йому виклик, очікує жахлива загибель."
+                >
+                    <img src="axe_culling_blade.png" alt="Culling Blade Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5spel.mp4"
+                        data-name="Berserker's Call"
+                        data-description="Клич берсерка накладає Жагу битви на уражених істот."
+                        data-target=""
+                        data-damage-type=""
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius=""
+                        data-cooldown=""
+                        data-mana-cost=""
+                        data-note=""
+                >
+                    <img src="agr.jpg" alt="Berserker's Call Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Counter Helix"
+                        data-description="Контроберт відтепер накладає на ворогів накопичувальний негативний ефект, який зменшує завдавану ними шкоду Сокирнику. Контроберт більше не має зарядки і його лічильник збільшується з атаками Сокирника."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="0,3"
+                        data-mana-cost="0"
+                        data-note="Армії Сокирника потрібна лише одна річ — він сам."
+                >
+                    <img src="passive.jpg" alt="Greevil's Greed Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Phenix_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>PHOENIX</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ЛІКУЄ ТА ЗАВДАЄ ШКОДИ ЗА РАХУНОК ВЛАСНОГО ЗДОРОВ’Я</p>
+                        <p>Пірнувши до битви, Фенікс підпалює ворогів та лікує союзників полум’ям сонячного проміння. За слушної нагоди може перетворитися на зірку, обпалюючи всіх супротивників довкола, щоби після її приголомшливого вибуху відродитися з повним запасом сил.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ЛІКУЄ ТА ЗАВДАЄ ШКОДИ ЗА РАХУНОК ВЛАСНОГО ЗДОРОВ’Я</p>
+                        <p>Самотньо у непорушній темряві виблискує перше сонце Хранителя, єдина точка розумного світла, якій судилося принести тепло у холодну порожнечу. Протягом тисячоліть цей сліпучий вогник концентрував енергію і зрештою вибухнув як наднова зоря. З полум’я з’явилися нові вогники — зоряні копії свого батька, що теж вирушили в океан темряви і стали сузір’ями. З часом і вони стали надновими, породжуючи нове світло. Так продовжувався цикл народження і переродження, доки все небо, створене титанами, не стало сяяти і мерехтіти.</p>
+                        <p>У цій космічній печі сформувалася зірка, відома смертним як Фенікс. Як і її предки, вона була викинута у безмежний космос, щоб знайти своє місце серед небесних братів і сестер. Однак небесним пташеням оволоділа непереборна цікавість — що саме зігрівають його яскраві старші родичі? Протягом багатьох років він пізнавав світ. Він дізнався, що незабаром посередині усіх світів, як цілих, так і зруйнованих, утвориться ядро, у якому усі сили зійдуться у вселенському конфлікті. І цьому центральному світові знадобиться дещо більше, ніж просто далекі промені помираючого сонця. Так зоряне дитя набуло своєї земної форми, аби нести світло усім, хто потребує цього, і, можливо, здійснити свою зоряну долю.</p>
+                                                <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="ranged.svg" alt="ДАЛЬНІЙ БІЙ" />
+                        <span>ДАЛЬНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+1000 до дальності чаклування Icarus Dive</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+2 до ударів по Supernova</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+0.6 с до приголомшення від Supernova</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+1.5% до шкоди від макс. здоров'я в Sun Ray</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+20 до реген. здоров'я</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+20 до ШЗС від Fire Spirits</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+0.5% до шансу схибити від Blinding Sun</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+25% до сповільнення від Icarus Dive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Сліпуче сонце</h3>
+                            <p>Негативні ефекти від здібностей Фенікса накладають 2% поєднуваного шансу схибити за секунду. Триває 4 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="phoenix_icarus_dive.png" alt="Icarus Dive" />
+                        <div class="tooltip">
+                            <h3>Icarus Dive</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Фенікс робить стрімкий ривок уперед, пролітаючи певну відстань по дуговій траєкторії. Істоти, які трапляться на шляху, отримають періодичну шкоду й уповільнять рух. Досягши крайньої точки ривку, Фенікс повертається на своє попереднє місце. Політ перерветься, якщо застосувати Наднову.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="phoenix_fire_spirits.png" alt="Fire Spirits" />
+                        <div class="tooltip">
+                            <h3>Fire Spirits</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Прикликає 4 вогняних духів, які починають кружляти навколо. Кожного духа можна запустити у вибрану область. Вороги, у яких потрапить запущений дух, отримують періодичну шкоду та значно сповільнюють швидкість своїх атак.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="phoenix_sun_ray.png" alt="Sun Ray" />
+                        <div class="tooltip">
+                            <h3>Sun Ray</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Ефект:</strong>Магічний</p>
+                            <p>Фенікс випускає потужний промінь світла, жертвуючи власним здоров’ям. Промінь завдає шкоди ворогам і лікує союзників на певне значення + відсоток від їхнього загального запасу здоров’я. Цей відсоток прямо пропорційний тривалості використання променя.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="phoenix_supernova.png" alt="Supernova" />
+                        <div class="tooltip">
+                            <h3>Supernova</h3>
+                            <video controls autoplay muted loop>
+                                <source src="5.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Ефект:</strong>Магічний</p>
+                            <p>Фенікс навмисне обриває життя з надією переродитися. Він перетворюється на палаючу зірку, що обпалює ворогів далеко навкруги. Зірку можуть знищити атаки ворожих героїв. Через 6 с зірка спалахує, приголомшуючи всіх ворогів поруч, після чого Фенікс воскресає з повним здоров’ям, маною і зарядженими здібностями.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує кількість необхідних атак для знищення Наднової. Також Фенікс може чаклувати Наднову на союзного героя, щоби разом із ним переродитися в палаючому світилі.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Дозволяє чаклувати Сонячний промінь під час Наднової і сповільнює зачеплених ворогів на 10%.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>23</span> <span class="attribute-bonus">+3.3</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>12</span> <span class="attribute-bonus">+1.5</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>16</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>44-54</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>1.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>525</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>280</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>1100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="barrier.png" alt="Іконка барьєру" class="facet-icon">
+                        <h3 class="facet-name">DYING LIGHT</h3>
+                    </div>
+                    <p class="facet-description">Фенікс щосекунди завдає 4.5% від свого втраченого здоров’я як магічну шкоду всім ворогам у радіусі 400.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="nuke.png" alt="Іконка зірки" class="facet-icon">
+                        <h3 class="facet-name">ГАРЯЧА ТОЧКА</h3>
+                    </div>
+                    <p class="facet-description">Сонячний промінь завдає більше шкоди й накладає більше зарядів Сліпучого сонця на кінці променя.</p>
+                    <div class="facet-ability-link">
+                        <img src="phoenix_sun_ray.png" alt="SUN RAY icon">
+                        <span>SUN RAY</span>
+                    </div>
+                    <p class="facet-bonus">Сонячний промінь завдає більше шкоди або лікування й дає × 2 до зарядів Сліпучого сонця цілям ближче до кінця променя. Інтенсивність променю починає зростати від середини його довжини й до 160% від базової шкоди чи лікування на відстані 1200. Збільшення довжини Сонячного променю далі відстані 1200 призведе до шкоди й лікування понад 160%.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Icarus Dive</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Фенікс робить стрімкий ривок уперед, пролітаючи певну відстань по дуговій траєкторії. Істоти, які трапляться на шляху, отримають періодичну шкоду й уповільнять рух. Досягши крайньої точки ривку, Фенікс повертається на своє попереднє місце. Політ перерветься, якщо застосувати Наднову.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">20/40/60/80</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">4</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">1100/1200/1300/1400</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">40/35/30/25</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">0</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Хоча Фенікс зазвичай мандрує космічною порожнечею, ширяння в повітряній атмосфері приносить йому особливу втіху.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Icarus Dive"
+                        data-description="Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="20/40/60/80"
+                        data-duration="4"
+                        data-radius="1100/1200/1300/1400"
+                        data-cooldown="40/35/30/25"
+                        data-mana-cost="0"
+                        data-note="Хоча Фенікс зазвичай мандрує космічною порожнечею, ширяння в повітряній атмосфері приносить йому особливу втіху."
+                >
+                    <img src="phoenix_icarus_dive.png" alt="Icarus Dive Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Fire Spirits"
+                        data-description="Прикликає 4 вогняних духів, які починають кружляти навколо. Кожного духа можна запустити у вибрану область. Вороги, у яких потрапить запущений дух, отримують періодичну шкоду та значно сповільнюють швидкість своїх атак."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="20/40/60/80"
+                        data-duration="4"
+                        data-radius="200"
+                        data-cooldown="50/40/30/20"
+                        data-mana-cost="100"
+                        data-note="З ядра, що невпинно стискається всередині Фенікса, час від часу вириваються недовговічні згустки розумного світла."
+                >
+                    <img src="phoenix_fire_spirits.png" alt="Fire Spirits Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Sun Ray"
+                        data-description="Фенікс випускає потужний промінь світла, жертвуючи власним здоров’ям. Промінь завдає шкоди ворогам і лікує союзників на певне значення + відсоток від їхнього загального запасу здоров’я. Цей відсоток прямо пропорційний тривалості використання променя."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="14/20/26/32"
+                        data-duration="6"
+                        data-radius="N/A"
+                        data-cooldown="30"
+                        data-mana-cost="100/110/120/130"
+                        data-note="Отвір, крізь який випромінюється ця зоряна енергія, не більше кількох атомів."
+                >
+                    <img src="phoenix_sun_ray.png" alt="Sun Ray Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Supernova"
+                        data-description="Фенікс навмисне обриває життя з надією переродитися. Він перетворюється на палаючу зірку, що обпалює ворогів далеко навкруги. Зірку можуть знищити атаки ворожих героїв. Через 6 с зірка спалахує, приголомшуючи всіх ворогів поруч, після чого Фенікс воскресає з повним здоров’ям, маною і зарядженими здібностями."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="60/90/120"
+                        data-duration="6"
+                        data-radius="1200"
+                        data-cooldown="120"
+                        data-mana-cost="150/200/250"
+                        data-note="Хоча пекельне горно наднової завжди смертельне, із його полум’я виринають нові дороговказні зірки, щоб продовжувати свій шлях у безкінечності."
+                >
+                    <img src="phoenix_supernova.png" alt="Supernova Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="7.mp4"
+                        data-name="Supernova"
+                        data-description="Збільшує кількість необхідних атак для знищення Наднової. Також Фенікс може чаклувати Наднову на союзного героя, щоби разом із ним переродитися в палаючому світилі."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="120"
+                        data-mana-cost="150/200/250"
+                        data-note="Хоча пекельне горно наднової завжди смертельне, із його полум’я виринають нові дороговказні зірки, щоб продовжувати свій шлях у безкінечності."
+                >
+                    <img src="2.jpg" alt="Supernova Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Sun Ray"
+                        data-description="Дозволяє чаклувати Сонячний промінь під час Наднової і сповільнює зачеплених ворогів на 10%."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Sun Ray Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+ 
+</body>
+</html>

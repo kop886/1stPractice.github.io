@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="centaur_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>CENTAUR WARRUNNER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ВІДБИВАЄ ШКОДУ НАЗАД ДО НАПАДНИКІВ</p>
+                        <p>Кентавр-Воєвода — майстер завдавання та поглинання шкоди. Коли він вривається в бій, то приголомшує ворогів тупотом своїх копит і миттєво контратакує кожен удар. Кентавр пришвидшує союзників у бою, що робить битву стрімкішою.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ОТРИМУЄ ДОДАТКОВЕ ЗОЛОТО ЗА ВБИВСТВА ЧИ РУНИ ДОСТАТКУ</p>
+                        <p>Кажуть, що життєвий шлях кентавра встеляють трупи полеглих. І для кентавра на прізвисько Воєвода цей шлях був дуже довгий. Багато чужоземців, що стикаються з чотириногими воїнами з кланів Друуда, часто помилково вважають їх простакуватими варварами. У їхньої мови немає письмової форми, культура бідна на графічні символи, музика не має чіткої структури, а релігія — суворих правил і догм. У кентаврів найкращим проявом думок і почуттів є битва. Це самовираження в чистому вигляді. І якщо вбивство серед кентаврів вважається мистецтвом, то найталановитіший із митців — Воєвода Бредворден. Свою славу він здобув на древній арені у землях Омекса, де тисячоліттями клани кентаврів збиралися на гладіаторські ритуали. І чим далі ширився поголос про нього, тим більше глядачів з усього світу прибували, аби побачити великого кентавра в дії. Він завжди виходив на арену перший і йшов останнім, і створював там шедеври кожною бризкою крові, кожним помахом леза. Таким є його мистецтво — це поезія крові та сталі, що лягає химерними візерунками на блідих пісках бойовища.</p>
+    <p>Воєвода перемагав доти, доки арена не вибухнула вигуками його імені, і він не лишися на полі бою сам-один, непереможним чемпіоном. Воєвода отримав великий пояс Омекса, який одягнув на свій могутній торс, але в перемозі відчув лише порожнечу. Як справжньому воїну існувати без супротивників? Того ж дня великий кентавр полишив Омекс і встановив собі нову мету. Для свого народу Кентавр-Воєвода — найвеличніший воїн з усіх, які коли-небудь ступали на арену. Тепер Воєвода прагне довести, що він — кращий воїн з усіх, які коли-небудь жили.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+0.8 с до дії Hoof Stomp</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Retaliate стає аурою</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-25 с зарядки Stampede</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+45 до шкоди від Retaliate</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+30% до силової шкоди від Double Edge</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+12 до сили</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15 до швидкості руху</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+4 до реген. здоров'я</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Жива шкіра</h3>
+                            <p>Назавжди отримує 30 до максимального здоров'я кожні 120 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="centaur_hoof_stomp.png" alt="centaur_hoof_stomp" />
+                        <div class="tooltip">
+                            <h3>Hoof Stomp</h3>
+                            <video controls autoplay muted loop>
+                                <source src="#" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Ненацілена</p>
+                            <p><strong>Тип шкоди:</strong>Магічна</p>
+                            <p>Після короткої підготовки Кентавр-Воєвода б’є об землю, приголомшуючи й ушкоджуючи ворожих істот поблизу. Під час затримки він роззброєний, але може рухатися. </p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="centaur_double_edge.png" alt="centaur_double_edge" />
+                        <div class="tooltip">
+                            <h3>Double Edge</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена</p>
+                            <p><strong>Тип шкоди:</strong>Магічна</p>
+                            <p>Кентавр робить потужний удар ближнього бою, завдаючи шкоди собі та всім істотам навколо цілі. Додаткова шкода завдається відповідно до вашого рівня сили. Кентавр не може загинути від цієї здібності.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="centaur_return.png" alt="centaur_return" />
+                        <div class="tooltip">
+                            <h3>Retaliate</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Тип шкоди:</strong>Фізична</p>
+                            <p>Кентавр контратакує на кожен отриманий удар, відбиваючи шкоду до нападника. Повертає визначену кількість, додатково збільшену в залежності від вашої сили. Вежам завдає вполовину менше шкоди.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="centaur_stampede.png" alt="centaur_stampede" />
+                        <div class="tooltip">
+                            <h3>Chemical Rage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+                            <p>Кентавр веде всіх союзників у стрімку атаку, збільшуючи швидкість їхнього руху до максимуму та дозволяючи пробігати крізь істот. Затоптані ворожі істоти сповільнюються. Ефект діє лише раз на кожного ворога, завдаючи шкоду відповідно до сили кентавра.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Кентавр тягне за собою візок. Якщо активно, то Кентавр отримує переваги Галопу актуального рівня й може застосовувати Поїздку на кареті на союзника.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Двосічне лезо сповільнює ворогів та ненадовго збільшує силу кентавра за кожного зачепленого ворога. Тривалість оновлюється за кожен заряд аж до максимальних 5 зарядів.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>27</span> <span class="attribute-bonus">+4.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>15</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>63-65</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>0.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>305</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="nuke.png" alt="Іконка удару" class="facet-icon">
+                        <h3 class="facet-name">КОНТРУДАР</h3>
+                    </div>
+                    <p class="facet-description">Шкода Двосічного леза збільшується, коли Кентавр зазнає шкоди.</p>
+                    <div class="facet-ability-link">
+                        <img src="centaur_double_edge.png" alt="centaur_double_edgeicon">
+                        <span>Double Edge</span>
+						                    </div>
+					<p class="facet-bonus">Шкоду від Двосічного леза збільшено на 35% від шкоди, яку Кентавр зазнав упродовж останніх 6 с від ворогів до загальних 100% додаткової шкоди від Двосічного леза.</p>
+						<p class="facet-bonus">Шкода скидається після застосування Двосічного леза.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="speed (1).png" alt="Іконка швидкості" class="facet-icon">
+                        <h3 class="facet-name">HORSEPOWER</h3>
+                    </div>
+                    <p class="facet-description">Кінська сила Кентавр-Воєвода здобуває швидкість руху відповідно до своєї сили.</p>
+                    <div class="facet-ability-link">
+                        </div>
+                    <p class="facet-bonus">Кентавр-Воєвода здобуває 30% від своєї сили як додаткову швидкість руху. Максимальну швидкість руху для Кентавра піднято до 575.</p>
+					<p class="facet-bonus">Ця додаткова швидкість руху не поєднується з бонусами від чобіт.</p>
+                </div>             
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="#" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Hoof Stomp</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Після короткої підготовки Кентавр-Воєвода б’є об землю, приголомшуючи й ушкоджуючи ворожих істот поблизу. Під час затримки він роззброєний, але може рухатися. </p>
+                    <div class="ability-values">
+                        <p><strong>ЗМЕНШЕННЯ БРОНІ:</strong> <span id="abilityArmorReduction">3/4/5/6</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,6 / 1,8 / 2 / 2,2</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">325</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">18/16/14/12</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100/110/120/130</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Коли могутнє копито кентавра торкається землі, тремтіння відчутно до самого обрію.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="#"
+                        data-name="Hoof Stomp"
+                        data-description="Після короткої підготовки Кентавр-Воєвода б’є об землю, приголомшуючи й ушкоджуючи ворожих істот поблизу. Під час затримки він роззброєний, але може рухатися."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="3/4/5/6"
+                        data-duration="1,6 / 1,8 / 2 / 2,2"
+                        data-radius="325"
+                        data-cooldown="18/16/14/12"
+                        data-mana-cost="100/110/120/130"
+                        data-note="Коли могутнє копито кентавра торкається землі, тремтіння відчутно до самого обрію."
+                >
+                    <img src="centaur_hoof_stomp.png" alt="centaur_hoof_stomp Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="1spel.mp4"
+                        data-name="Unstable Concoction"
+                        data-description="Кентавр робить потужний удар ближнього бою, завдаючи шкоди собі та всім істотам навколо цілі. Додаткова шкода завдається відповідно до вашого рівня сили. Кентавр не може загинути від цієї здібності."
+                        data-target="Націлена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="120 / 180 / 240 / 300"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="3,5"
+                        data-mana-cost="0"
+                        data-note="У розпалі бою своїми лютими атаками Бредворден може вряди-годи нашкодити самому собі."
+                >
+                    <img src="centaur_double_edge.png" alt="centaur_double_edge">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Retaliate"
+                        data-description="Кентавр контратакує на кожен отриманий удар, відбиваючи шкоду до нападника. Повертає визначену кількість, додатково збільшену в залежності від вашої сили. Вежам завдає вполовину менше шкоди."
+                        data-target="Пасивна"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="2% / 2,5% / 3% / 3,5%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="У Бредвордена така міцна шкура, що йому навіть не треба відбивати атаки."
+                >
+                    <img src="centaur_return.png" alt="centaur_return.">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Stampede"
+                        data-description="Кентавр веде всіх союзників у стрімку атаку, збільшуючи швидкість їхнього руху до максимуму та дозволяючи пробігати крізь істот. Затоптані ворожі істоти сповільнюються. Ефект діє лише раз на кожного ворога, завдаючи шкоду відповідно до сили кентавра."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="30"
+                        data-radius="N/A"
+                        data-cooldown="100/95/90"
+                        data-mana-cost="150/200/250"
+                        data-note="Зілля, яким Разіль напоїв огра, щоби вирватися з в’язниці, стало в пригоді й на полі бою."
+                >
+                    <img src="centaur_stampede.png" alt="centaur_stampede.png Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Work Horse"
+                        data-description="Кентавр тягне за собою візок. Якщо активно, то Кентавр отримує переваги Галопу актуального рівня й може застосовувати Поїздку на кареті на союзника."
+                        data-target="Націлена"
+                        data-damage-type="На союзних героїв"
+                        data-scales="Так"
+                        data-armor-reduction=""N/A"
+                        data-duration="8"
+                        data-radius="N/A"
+                        data-cooldown="24"
+                        data-mana-cost="75"
+                        data-note="Це велика честь отримати пропозицію покататися на Centaur Warrunner і серйозна помилка відмовлятися від неї."
+                >
+                    <img src="2.jpg" alt="Work Horse Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="4spel.mp4"
+                        data-name="Double Edge"
+                        data-description="Двосічне лезо сповільнює ворогів та ненадовго збільшує силу кентавра за кожного зачепленого ворога. Тривалість оновлюється за кожен заряд аж до максимальних 5 зарядів."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Double Edge Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

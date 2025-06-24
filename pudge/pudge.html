@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Pudge_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>PUDGE</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ЧІПЛЯЄ ТА ПРИТЯГУЄ ВОРОГІВ ДО СЕБЕ</p>
+                        <p>Кожен вивірений кидок гака Пузаня вселяє страх у серця ворогів. Притягуючи ворогів до себе, він розчленовує їх своїм тесаком. З кожним убивством він збільшує свої здоров’я та шкоду й невдовзі стає нестримним убивцею.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ЧІПЛЯЄ ТА ПРИТЯГУЄ ВОРОГІВ ДО СЕБЕ</p>
+                        <p>На Полях Одвічної Різанини, що далеко на південь від Квоїджу, щоночі невтомно працює огрядна постать — патрає, білує, скиртує кінцівки та нутрощі полеглих, аби до світання поле знову було готовим до нової крові. У цім проклятім краї ніщо саме не зогниє й не розкладеться; жоден мрець не стане прахом земним, як глибоко його не закопуй. Оточений птахами-падложерами, котрим до дзьоба влізає лишень пошматована плоть, м’ясник Пудж вправляється з лезами, які гострішають з кожним порубаним трупом. Хвись, хвись, гуп. Плоть відпадає від кісток, сухожилки та зв’язки рвуться, як мокрий папір. І з роками, окрім любові до м’ясницької справи, в Пуджа з’явився смак і до падла. Спершу кусень м’яса тут, трішки крові там… Невдовзі Пудж шматував зубами найтвердіших мерців, як пес розриває лахміття. І навіть ті, хто смерті не бояться, тремтять перед М’ясником.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Бонуси Flesh Heap i Meat Shield: x1.5</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">х1.5 шкоди та лікування від Dismember</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-4 с зарядки Meat Hook</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+0.75 с до дії Dismember</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+150 до шкоди від Meat Hook</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+8% до вампіризму від чарів</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10% сповільнення від Rot</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+5 броні</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Купа з плоті</h3>
+                            <p>Шкіра Пузаня товстішає з кожним убивством ворожого героя, що дає йому 1,1 додаткової сили за раз.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="pudge_meat_hook.png" alt="Meat Hook" />
+                        <div class="tooltip">
+                            <h3>Meat Hook</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Абсолютний</p>
+                            <p>Кидає закривавлений гак в істоту або вибрану точку. Гак зачепить першу істоту, яка трапиться на шляху його польоту, притягне її до Пузаня, вб’є її, якщо це недревній кріп, або завдасть шкоди, якщо це інший ворог.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="pudge_rot.png" alt="Rot" />
+                        <div class="tooltip">
+                            <h3>Rot</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                           <p><strong>Урон:</strong>Магічний</p>
+                            <p>Пудж випускає їдку хмару, що завдає шкоди й уповільнює рух. Шкода завдається не лише ворожим істотам, а й самому Пуджу.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="pudge_flesh_heap.png" alt="Meat Shield" />
+                        <div class="tooltip">
+                            <h3>Meat Shield</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+                            <p>Пузань покриває себе шаром плоті, що блокує шкоду всіх типів від будь-яких джерел.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="pudge_dismember.png" alt="Dismember" />
+                        <div class="tooltip">
+                            <h3>Dismember</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на істоту</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Пузань пожирає живцем ворожу істоту, знерухомлюючи її та завдаючи періодичної шкоди. Шкода посилюється силою Пузаня й лікує його на загальну кількість одиниць здоров’я. Він притягує істоту зі швидкістю 75, доки відстань між ними не скоротиться до 125.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує радіус та шкоду від Гнилі, а також зменшує відновлення здоров’я уражених ворогів.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Коли М’ясний гак влучає у ворога, він завдає додаткової шкоди відповідно до відстані притягування.
+
+Коли М’ясний гак влучає в союзника, зарядка здібності зменшується на 50%.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+3.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>11</span> <span class="attribute-bonus">+1.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>16</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>70-76</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>1.8</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>175</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>280</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="meat.png" alt="Іконка мяса" class="facet-icon">
+                        <h3 class="facet-name">НЕНАЖЕРА</h3>
+                    </div>
+                    <p class="facet-description">Розчленування збільшує силу, коли завдає шкоду героям.</p>
+                    <div class="facet-ability-link">
+                        <img src="pudge_dismember.png" alt="DISMEMBER">
+                        <span>DISMEMBER</span>
+                    </div>
+					<p class="facet-description">Розчленування збільшує силу, коли завдає шкоду героям.</p>
+					<p class="facet-bonus">ЗБІЛЬШЕННЯ СИЛИ:2/4/6</p>
+					<p class="facet-bonus">ДІЯ СИЛИ:12</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="fist.png" alt="Іконка удару" class="facet-icon">
+                        <h3 class="facet-name">ГНИЛЕ НУТРО</h3>
+                    </div>
+                    <p class="facet-description">Під час дії Гнилі Пузань кожної секунди здобуває додаткову шкоду від атаки.</p>
+                    <div class="facet-ability-link">
+                        <img src="pudge_rot.png" alt="ROT icon">
+                        <span>ROT</span>
+                    </div>
+                    <p class="facet-bonus">МАКС. ДОД. ШКОДА ВІД АТАКИ:20%/40%/60%/80%</p>
+					<p class="facet-bonus">ЧАС ДЛЯ МАКС. БОНУСУ:5</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Meat Hook</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Абсолютна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Так</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Кидає закривавлений гак в істоту або вибрану точку. Гак зачепить першу істоту, яка трапиться на шляху його польоту, притягне її до Пузаня, вб’є її, якщо це недревній кріп, або завдасть шкоди, якщо це інший ворог.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">150/220/290/360</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration"></span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">1300</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">18/16/14/12</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">110</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Гак м’ясника не даремно символізує жах: дивлячись на його вигнуте лезо, мимоволі уявляєш каліцтва, які він може спричинити.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Meat Hook"
+                        data-description="Кидає закривавлений гак в істоту або вибрану точку. Гак зачепить першу істоту, яка трапиться на шляху його польоту, притягне її до Пузаня, вб’є її, якщо це недревній кріп, або завдасть шкоди, якщо це інший ворог."
+                        data-target="Націлена на точку"
+                        data-damage-type="Абсолютна"
+                        data-scales="Так"
+                        data-armor-reduction="150/220/290/360"
+                        data-duration=""
+                        data-radius="1300"
+                        data-cooldown="18/16/14/12"
+                        data-mana-cost="110"
+                        data-note="Гак м’ясника не даремно символізує жах: дивлячись на його вигнуте лезо, мимоволі уявляєш каліцтва, які він може спричинити."
+                >
+                    <img src="pudge_meat_hook.png" alt="Meat Hook Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Rot"
+                        data-description="Пудж випускає їдку хмару, що завдає шкоди й уповільнює рух. Шкода завдається не лише ворожим істотам, а й самому Пуджу."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction=":30/60/90/120"
+                        data-duration=""
+                        data-radius="250"
+                        data-cooldown=""
+                        data-mana-cost=""
+                        data-note="Навкруги поширюється нестерпний сморід, коли з гнильних нутрощів м’ясника виходять їдкі, задушливі гази."
+                >
+                    <img src="pudge_rot.png" alt="Rot Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Meat Shield"
+                        data-description="Пузань покриває себе шаром плоті, що блокує шкоду всіх типів від будь-яких джерел."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction=""
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="20/19/18/17"
+                        data-mana-cost="50/60/70/80"
+                        data-note="М’ясник надає нове значення словосполученню «м’ясний щит»."
+                >
+                    <img src="pudge_flesh_heap.png" alt="Meat Shield Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Dismember"
+                        data-description="Пузань пожирає живцем ворожу істоту, знерухомлюючи її та завдаючи періодичної шкоди. Шкода посилюється силою Пузаня й лікує його на загальну кількість одиниць здоров’я. Він притягує істоту зі швидкістю 75, доки відстань між ними не скоротиться до 125."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="80/100/120"
+                        data-duration="2,75"
+                        data-radius="N/A"
+                        data-cooldown="30/25/20"
+                        data-mana-cost="100/130/170"
+                        data-note="«Ця голота стане гарною начинкою для пирога!»"
+                >
+                    <img src="pudge_dismember.png" alt="Dismember Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Meat Hook"
+                        data-description="Коли М’ясний гак влучає у ворога, він завдає додаткової шкоди відповідно до відстані притягування.
+
+Коли М’ясний гак влучає в союзника, зарядка здібності зменшується на 50%."
+                        data-target=""
+                        data-damage-type=""
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius=""
+                        data-cooldown=""
+                        data-mana-cost=""
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Meat Hook Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Rot"
+                        data-description="Збільшує радіус та шкоду від Гнилі, а також зменшує відновлення здоров’я уражених ворогів."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Навкруги поширюється нестерпний сморід, коли з гнильних нутрощів м’ясника виходять їдкі, задушливі гази."
+                >
+                    <img src="2.jpg" alt="Rot Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

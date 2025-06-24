@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Slardar_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>SLARDAR</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПЕРЕСЛІДУЄ СВОЇХ ВОРОГІВ,ЩОБИ ПОСЛАБИТИ Й ПРИГОЛОМШИТИ ЇХ</p>
+                        <p>Завжди готовий знайти та винищити своїх ворогів, Слардар швидко ковзає в бій. Після викриття позиції ворога та ламання захисту, він дістається ближче, щоби прикувати опонентів до місця руйнівним сплеском і приголомшеннями від могутніх ударів свого тризуба.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПЕРЕСЛІДУЄ СВОЇХ ВОРОГІВ,ЩОБИ ПОСЛАБИТИ Й ПРИГОЛОМШИТИ ЇХ</p>
+                        <p>Слардар — слизерин із роду Глибенів, вартовий неозорого плетива затонулих міст та похованих там прадавніх скарбів. У непроглядній бухті найглибшої океанської западини Cлизеринський Вартовий охороняє таємні покої з коштовностями. Він пильнує підводних злодіїв, засланих на глибоководдя жадібними сухопутними чаклунами. Відданішого за Слардара вартового не знайти. Небагатослівний Глибень надійно приховує знання про найпотаємніші місця водних безодень. Нерідко, усупереч сліпучому і до болю пекучому світлу, Слардар випливає на мілководдя для розвідки, аби переконатися, що ніхто не плете змови проти глибин, або ж для гонитви за тими небагатьма щасливцями, яким таки вдалося поцупити щось цінне із Затонулої скарбниці. Життя, проведене під величезним тиском водної товщі, зробило Слизеринського Вартового створінням колосальної сили та витривалості.</p>
+        
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Corrosive Haze не можна розвіяти</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">-3s Slithereen Crush Cooldown</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-4 броні від Corrosive Haze</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+125 до шкоди від Slithereen Crush</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+40 до шкоди від Bash of the Deep</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+300 здоров'я</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+12 до дод. шкоди від Seaborm Sentinel</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+2 с до тривалості Guardian Sprint</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Морський страж</h3>
+                            <p>Слардар здобуває додаткову швидкість руху, регенерацію здоров’я, шкоду від атаки та броню, якщо знаходиться в річці, калюжі чи на мокрому сліді.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="slardar_sprint.png" alt="Guardian Sprint" />
+                        <div class="tooltip">
+                            <h3>Guardian Sprint</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            
+                            <p>Слардар ковзає вперед, значно пришвидшує рух і проходить крізь істот.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="slardar_slithereen_crush.png" alt="Slithereen Crush" />
+                        <div class="tooltip">
+                            <h3>Slithereen Crush</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Потужно б’є по землі, залишаючи калюжу води, і завдає шкоди ворогам поблизу та приголомшує їх. Після приголомшення рух ворогів сповільнюється.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="slardar_bash.png" alt="Bash of the Deep" />
+                        <div class="tooltip">
+                            <h3>Bash of the Deep</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Кожна наступна атака після 3-ї на мить приголомшуватиме ціль.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="slardar_amplify_damage.png" alt="Corrosive Haze" />
+                        <div class="tooltip">
+                            <h3>Corrosive Haze</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на істоту</p>
+							<p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Зменшує ворожу броню, аби збільшити уразливість до фізичної шкоди та надати істинний зір і огляд по цілі, та виявляє невидимість. Ворожа істота залишає за собою мокрий слід.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Надає додаткову регенерацію здоров’я, броню та опір ефектам в калюжі, на мокрому сліду чи річці. Збільшує радіус калюжі чи сліду на 80%, а тривалість калюжі чи сліду — на 5 с.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Слизеринський сплеск також ненадовго застосовує Ядучий серпанок на всіх зачеплених істот.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>21</span> <span class="attribute-bonus">+3.6</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>17</span> <span class="attribute-bonus">+2.1</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>14</span> <span class="attribute-bonus">+1.5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 00%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 00%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>51-59</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.8</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>300</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>800</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="speed (1).png" alt="Іконка швидкості" class="facet-icon">
+                        <h3 class="facet-name">ДЕНЬ ДЛЯ НІГ</h3>
+                    </div>
+                    <p class="facet-description">Слардар має опір сповільненню та ще більшу швидкість руху на початку Ривка вартового.</p>
+                    <div class="facet-ability-link">
+                        <img src="slardar_sprint.png" alt="GUARDIAN SPRINT icon">
+                        <span>GUARDIAN SPRINT</span>
+                    </div>
+					 <p class="facet-bonus">РІЗКЕ ПРИСКОРЕННЯ:8%</p>
+					 <p class="facet-bonus">ДІЯ РІЗКОГО ПРИСКОРЕННЯ:2,5</p>
+					 <p class="facet-bonus">ОПІР СПОВІЛЬНЕННЮ:100%</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="armor.png" alt="Іконка щиту" class="facet-icon">
+                        <h3 class="facet-name">МОРЕОХОРОНЕЦЬ</h3>
+                    </div>
+                    <p class="facet-description">Ядучий серпанок збільшує броню Слардара на 50% від загального зменшення броні.</p>
+                    <div class="facet-ability-link">
+                        <img src="slardar_amplify_damage.png" alt="CORROSIVE HAZE icon">
+                        <span>CORROSIVE HAZE</span>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Guardian Sprint</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType"></span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales"></span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Слардар ковзає вперед, значно пришвидшує рух і проходить крізь істот.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction"></span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">10</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">29/25/21/17</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">25</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Навіть на суші Слардар знайшов застосування своєму могутньому хвосту — колись той слугував для плавання, а тепер допомагає бігати.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Guardian Sprint"
+                        data-description="Слардар ковзає вперед, значно пришвидшує рух і проходить крізь істот."
+                        data-target="Ненацілена"
+                        data-damage-type=""
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration="10"
+                        data-radius=""
+                        data-cooldown="29/25/21/17"
+                        data-mana-cost="25"
+                        data-note="Навіть на суші Слардар знайшов застосування своєму могутньому хвосту — колись той слугував для плавання, а тепер допомагає бігати."
+                >
+                    <img src="slardar_sprint.png" alt="Guardian Sprint Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Slithereen Crush"
+                        data-description="Потужно б’є по землі, залишаючи калюжу води, і завдає шкоди ворогам поблизу та приголомшує їх. Після приголомшення рух ворогів сповільнюється."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="75/150/225/300"
+                        data-duration="0,8"
+                        data-radius="325"
+                        data-cooldown="7"
+                        data-mana-cost="100"
+                        data-note="Стрімкий і потужний сплеск води пробиває й найміцнішу оборону."
+                >
+                    <img src="slardar_slithereen_crush.png" alt="Slithereen Crush Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Bash of the Deep"
+                        data-description="Кожна наступна атака після 3-ї на мить приголомшуватиме ціль."
+                        data-target="Пасивна"
+                        data-damage-type="Фізична"
+                        data-scales="Так"
+                        data-armor-reduction="50/100/150/200"
+                        data-duration="1,1"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Ті, хто посміє зазіхнути на скарби Глибенів, на собі відчують, настільки сильними можуть бути удари воїна слизеринської варти."
+                >
+                    <img src="slardar_bash.png" alt="Bash of the Deep Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Corrosive Haze"
+                        data-description="Зменшує ворожу броню, аби збільшити уразливість до фізичної шкоди та надати істинний зір і огляд по цілі, та виявляє невидимість. Ворожа істота залишає за собою мокрий слід."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="5"
+                        data-radius="100"
+                        data-cooldown="5"
+                        data-mana-cost="25"
+                        data-note="Навіть найміцніша броня мало вартує, коли потрапляє у солоне море."
+                >
+                    <img src="slardar_amplify_damage.png" alt="Corrosive Haze Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Slithereen Crush"
+                        data-description="Слизеринський сплеск також ненадовго застосовує Ядучий серпанок на всіх зачеплених істот."
+                        data-target=""
+                        data-damage-type=""
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius=""
+                        data-cooldown=""
+                        data-mana-cost=""
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Slithereen Crush Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Seaborn Sentinel"
+                        data-description="Надає додаткову регенерацію здоров’я, броню та опір ефектам в калюжі, на мокрому сліду чи річці. Збільшує радіус калюжі чи сліду на 80%, а тривалість калюжі чи сліду — на 5 с."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="slardar_slithereen_crush.png" alt="Seaborn Sentinel Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="GYla_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>LIFESTEALER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ЗАЛАЗИТЬ В ІШНИХ ІСТОТ ДЛЯ ЗБІЛЬШЕННЯ ШВИДКОСТІ Й СИЛИ</p>
+                        <p>Варто лише Життєкраду підібратись до своєї жертви, і тоді мало що може її врятувати. Пересуваючись у кріпу чи в союзному герої, як тільки він відчує ворога він виривається із тіла носія, зненацька нападає на ворога і роздирає його своїми кігтями.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ЗАЛАЗИТЬ В ІШНИХ ІСТОТ ДЛЯ ЗБІЛЬШЕННЯ ШВИДКОСТІ Й СИЛ</p>
+                        <p>У підземеллях Деварка мстивий чаклун сидів у кайданах і замислював утечу. В’язницю свою він ділив з белькотливим створінням на ймення Найкс — злодієм, що його Мерзотна рада зробила невмирущим, аби довічне ув’язнення за крадіжки й ошуканство було якнайсуворішою карою. За довгі роки зіржавіли ланцюги бранця і глузд його прогнив; Найкс геть забув своє колишнє життя і навіть не мріяв про втечу.</p>
+                        <p>Чаклун побачив у ньому ідеальне знаряддя для свого задуму, наклав чари Паразитування і вселився у тіло Найкса з метою розбурхати його лють; а поки почвара шаленіла би, чаклун сподівався повернутися до свого тіла та втекти непоміченим. Натомість чаклун опинився у лабетах чужого божевілля, настільки сильного, що сам був змушений йому скоритися. Пробуджений раптовим ковтком свіжого життя, Найкс прокинувся з кошмару безумства і скорився безтілесному голосу в своїй голові, який бажав лише одного — втекти.</p>
+                        <p>У ту мить народився Життєкрад. Істота проникла у помисли вартових і солдат, змусивши їх відчинити в’язницю та повбивати одне одного. І перед бранцем лежав шлях на волю, устелений тілами для бенкетування. Життєкрад досі носить розірвані кайдани, як знак того, що ніхто не зможе його поневолити, але і сам він усередині залишається бранцем. Бо ж у єдиному тілі мешкає дві душі — безіменна лиховісна почвара та пан, чиєму голосу він нібито кориться.</p>
+                                                <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+1 с до дії Rage</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+1% до лікування і шкоди від Feast</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+25% до вампіризму від Ореп Wounds</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+15% до швидкості руху/здоров'я цілі Infest</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15% до сповільнення від Open Wounds</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+50 до швидкості атаки від Ghoul Frenzy</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+3% до швидкості руху від Ghoul Frenzy</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+4 до всіх характеристик</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Пожива</h3>
+                            <p>Атаки Життєкрада завдають шкоди ворогам і лікують його на частку від максимального здоров’я цілі. Дозволяє Життєкраду атакувати союзних кріпів зі здоров’ям 75% і менше. Життєкрад назавжди підвищує максимальний рівень здоров’я за кожне вбивство кріпа чи героя.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="life_stealer_rage.png" alt="Rage" />
+                        <div class="tooltip">
+                            <h3>Rage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                                                       <p>Героя охоплює приступ люті, який дає йому імунітет до негативних ефектів і збільшує опір магії.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="life_stealer_open_wounds.png" alt="Open Wounds" />
+                        <div class="tooltip">
+                            <h3>Open Wounds</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Життєкрад роздирає ворога, уповільнюючи рух жертви й дозволяючи всім союзникам відновлювати здоров’я на частку від завданої ворогу шкоди. Під час дії здібності швидкість руху жертви поступово відновлюється.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="life_stealer_ghoul_frenzy.png" alt="Ghoul Frenzy" />
+                        <div class="tooltip">
+                            <h3>Ghoul Frenzy</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Пасивно дає Життєкраду швидкість руху та швидкість атаки.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="life_stealer_infest.png" alt="Infest" />
+                        <div class="tooltip">
+                            <h3>Infest</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на істоту</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Життєкрад проникає в тіло вибраної істоти, де стає невидимим для ворога й щосекунди лікується на частку від свого максимального здоров’я. Вириваючись назовні, він завдає шкоди ворожим істотам неподалік. Паразитуючи у ворожому або нейтральному кріпі, Найкс може керувати рухом та атакою істоти, і кріп із часом втрачає частку свого максимального здоров’я. Найкс не може паразитувати у ворожих героях.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує дальність чаклування та зменшує час перезарядки до 20 с. Ціллю Паразитування відтепер на короткий час можна вибирати ворожих героїв, атакуючи їх зсередини, що збільшує регенерацію самого Життєкрада.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Вибух від Паразитування застосовує на ворогів у радіусі ушкодження Відкриті рани тривалістю 50%.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>23</span> <span class="attribute-bonus">+2.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.9</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>15</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 60%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>39-45</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>315</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="full_heart.png" alt="Іконка серця" class="facet-icon">
+                        <h3 class="facet-name">М’ЯСНИЙ БЕНКЕТ</h3>
+                    </div>
+                    <p class="facet-description">Збільшено максимальне здоров’я за вбивство героя від Поживи. Зарядка Відкритих ран оновлюється, якщо істота помирає під дією Відкритих ран.</p>
+                    <div class="facet-ability-link">
+                        <img src="life_stealer_open_wounds.png" alt="OPEN WOUNDS">
+                        <span>OPEN WOUNDS</span>
+                    </div>
+					<div class="facet-ability-link">
+                        <img src="innate ability.png" alt="FEAST icon">
+                        <span>FEAST</span>
+                    </div>
+					<p class="facet-bonus">МАКС. ЗДОРОВ’Я ЗА ВБИТОГО ГЕРОЯ:15/20/25/30</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка кола" class="facet-icon">
+                        <h3 class="facet-name">КРИВАВИЙ ДОЩ</h3>
+                    </div>
+                    <p class="facet-description">Пожирання кріпа за допомогою Паразитування оббризкує ворогів кров’ю, яка завдає періодичної шкоди на основі решти здоров’я жертви. Паразитування можна застосовувати на древніх кріпах.</p>
+                    <div class="facet-ability-link">
+                        <img src="life_stealer_infest.png" alt="INFEST icon">
+                        <span>INFEST</span>
+                    </div>
+                    <p class="facet-bonus">РЕШТА ЗДОРОВ’Я ЯК ШКОДА КРИВАВОГО ДОЩУ:30%%</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ КРИВАВОГО ДОЩУ:3</p>
+                </div>
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Rage</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType"></span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Героя охоплює приступ люті, який дає йому імунітет до негативних ефектів і збільшує опір магії.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction"></span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">3/4/5/6</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">20/19/18/17</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">80/100/120/140</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Безумство та жорстокість Найкса робить його сильним і невблаганним ворогом на полі бою.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Rage"
+                        data-description="Героя охоплює приступ люті, який дає йому імунітет до негативних ефектів і збільшує опір магії."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="3/4/5/6"
+                        data-radius="350/400/450/500"
+                        data-cooldown="20/19/18/17"
+                        data-mana-cost="80/100/120/140"
+                        data-note="Безумство та жорстокість Найкса робить його сильним і невблаганним ворогом на полі бою."
+                >
+                    <img src="life_stealer_rage.png" alt="Rage">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Open Wounds"
+                        data-description="Життєкрад роздирає ворога, уповільнюючи рух жертви й дозволяючи всім союзникам відновлювати здоров’я на частку від завданої ворогу шкоди. Під час дії здібності швидкість руху жертви поступово відновлюється."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="20% / 30% / 40% / 50%"
+                        data-duration="7"
+                        data-radius="N/A"
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="100"
+                        data-note="Свіжі рани та запах крові часто приваблюють мародерів, які радо завершують розпочату Найксом роботу."
+                >
+                    <img src="life_stealer_open_wounds.png" alt="Open Wounds Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Ghoul Frenzy"
+                        data-description="Пасивно дає Життєкраду швидкість руху та швидкість атаки."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Далекі спогади про Мерзотну раду штовхають один розум на змовництво, а інший — на швидші й темніші дії."
+                >
+                    <img src="life_stealer_ghoul_frenzy.png" alt="Ghoul Frenzy">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Infest"
+                        data-description="Життєкрад проникає в тіло вибраної істоти, де стає невидимим для ворога й щосекунди лікується на частку від свого максимального здоров’я. Вириваючись назовні, він завдає шкоди ворожим істотам неподалік. Паразитуючи у ворожому або нейтральному кріпі, Найкс може керувати рухом та атакою істоти, і кріп із часом втрачає частку свого максимального здоров’я. Найкс не може паразитувати у ворожих героях."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="150/275/400"
+                        data-duration="30"
+                        data-radius="700"
+                        data-cooldown="80/65/50"
+                        data-mana-cost="100/125/150"
+                        data-note="За потреби Найкс здатен паразитувати в інших істотах, що дозволяє йому повертатися в бій з відновленими силами."
+                >
+                    <img src="life_stealer_infest.png" alt="Infest Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Infest"
+                        data-description="Вибух від Паразитування застосовує на ворогів у радіусі ушкодження Відкриті рани тривалістю 50%."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Infest Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Infest"
+                        data-description="Збільшує дальність чаклування та зменшує час перезарядки до 20 с. Ціллю Паразитування відтепер на короткий час можна вибирати ворожих героїв, атакуючи їх зсередини, що збільшує регенерацію самого Життєкрада."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="80/65/50"
+                        data-mana-cost="100/125/150"
+                        data-note="За потреби Найкс здатен паразитувати в інших істотах, що дозволяє йому повертатися в бій з відновленими силами."
+                >
+                    <img src="2.jpg" alt="Infest Icon">
+                </button>
+                <!-- Add more ability buttons here, each with its data attributes -->
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

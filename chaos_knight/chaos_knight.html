@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="CK_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>CHAOS KNIGHT</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">Має сильну, але випадкову вихідну шкоду</p>
+                        <p>Лицар Хаосу — сам собі армія. Викликаючи кавалерію клонів, він руйнує оборону ворога, а коли ворог з’являється для захисту, він розколює реальність, щоби притягнути себе й своїх клонів до ворога та звалити на його голову смертельний шквал ударів.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">Має сильну, але випадкову вихідну шкоду</p>
+                        <p>Лицар Хаосу — ветеран незліченної кількості битв у тисячах світів, родом із далекого виміру, де фундаментальні закони всесвіту знайшли розумне втілення. З усіх древніх Фундаменталів він — найстарший і найневгамовніший. Він поставив собі за мету знайти істоту, яку знає під ім’ям «Світло». Колись дуже давно Світло насмілилося покинути світ пращурів усупереч першій домовленості. Тепер Лицар Хаосу мандрує між світами в спробі знайти й загасити Світло, де б воно не було. Тисячі разів він гасив джерело, але кожного разу воно вислизало в інший світ, змушуючи починати пошуки знову.</p>
+                        <p>Верхи на своєму коні, Армагеддоні, Лицар вступає в битву з маніакальним безумством, черпаючи сили з хаосу всесвіту. Він — фізичне втілення самого хаосу, за потреби викликає власні копії з інших світів, і разом ці темні вершники ринуть у бій, наче якась нестримна природна сила. Пошуки завершаться лише після погашення останнього у світі Світло. За Лицарем Хаосу скрізь йде слідом смерть.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10 с до дії Phantasm</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+10% до шансу Chaos Strike</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Reality Rift пробиває імунітет до чарів</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+0.6 до мін./макс. тривалості Chaos Bolt</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10 до сили</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">-3 с зарядки Chaos Bolt</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+225 до дальності відтягування Reality Rift</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+30% до вампіризму від Chaos Strike</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Нескінченний хаос</h3>
+                            <p>Щоразу, коли створюється ілюзія Лицаря Хаосу, існує 50% шансу, що з’являться додаткові ілюзії (1).</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="chaos_knight_chaos_bolt.png" alt="Chaos Bolt" />
+                        <div class="tooltip">
+                            <h3>Chaos Bolt</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена</p>
+                            <p><strong>Урон:</strong>Магічна</p>
+                            <p>Кидає в цільову істоту згусток містичної енергії, приголомшуючи на певний час і завдаючи певну шкоду. Час і шкода визначаються навмання.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="chaos_knight_reality_rift.png" alt="Reality Rift" />
+                        <div class="tooltip">
+                            <h3>Reality Rift</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Телепортує героя, його ілюзії й цільову істоту в точку між ним і ціллю. Зменшує броню ворожої істоти на 6 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="chaos_knight_chaos_strike.png" alt="Chaos Strike" />
+                        <div class="tooltip">
+                            <h3>Chaos Strike</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                                                       <p>Атаки Лицаря Хаосу та його ілюзій мають шанс завдати критичної шкоди різної сили з додатковим вампіризмом. Вампіризм від кріпів зменшено.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="chaos_knight_phantasm.png" alt="Phantasm" />
+                        <div class="tooltip">
+                            <h3>Phantasm</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Діє:</strong> На ворожих героїв</p>
+                            <p>Викликає кілька копій Лицаря Хаосу з інших вимірів. Фантоми є ілюзіями, які завдають 100% шкоди, але самі отримують 350% шкоди.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Глобально створює ілюзію кожного союзного героя, а також додаткову ілюзію самого Лицаря Хаосу.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Розряд хаосу створює ілюзію Фантазму, що атакує ціль. Ця ілюзія завдає на 30% менше шкоди.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>24</span> <span class="attribute-bonus">+3.1</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>18</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+1.2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>48-78</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>5.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>325</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="rng.png" alt="Іконка кубику" class="facet-icon">
+                        <h3 class="facet-name">ІРРАЦІОНАЛЬНІСТЬ</h3>
+                    </div>
+                    <p class="facet-description">Розрив реальності має рівні шанси застосувати переривання, роззброєння або знемовлення на 50% від базової тривалості негативного ефекту, окрім своїх звичайних ефектів.</p>
+                    <div class="facet-ability-link">
+                        <img src="chaos_knight_reality_rift.png" alt="Reality Rift icon">
+                        <span>REALITY RIFT</span>
+                    </div>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="item.png" alt="Іконка кільця" class="facet-icon">
+                        <h3 class="facet-name">ФУНДАМЕНТАЛЬНІСТЬ</h3>
+                    </div>
+                    <p class="facet-description">Під час виготовлення нейтрального предмета Лицар Хаосу може використовувати артефакти наступного ступеня.</p>
+                    <div class="facet-ability-link">
+                                            </div>
+                                    </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="ricochet.png" alt="Іконка стрілочка" class="facet-icon">
+                        <h3 class="facet-name">РОЗЩЕПЛЕНИЙ ХАОС</h3>
+                    </div>
+                    <p class="facet-description">Розряд хаосу розщеплюється навпіл після влучання в ціль, приголомшуючи одного додаткового ворога й ушкоджуючи іншого.</p>
+                    <div class="facet-ability-link">
+                        <img src="chaos_knight_chaos_bolt.png" alt="Greevil's Greed icon">
+                        <span>Chaos Bolt</span>
+                    </div>
+                      </div>
+                
+                
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1spel.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Acid Spray</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Кидає в цільову істоту згусток містичної енергії, приголомшуючи на певний час і завдаючи певну шкоду. Час і шкода визначаються навмання.</p>
+                    <div class="ability-values">
+                        <p><strong>ЗМЕНШЕННЯ БРОНІ:</strong> <span id="abilityArmorReduction">1,75 / 2,25 / 2,75 / 3,25</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">3</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">Націлена на істоту</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">13/12/11/10</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">110</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Навіть Лицар Хаосу не може передбачити, як поведуть себе потоки нечестивої енергії.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1spel.mp4"
+                        data-name="Chaos Bolt"
+                        data-description="Кидає в цільову істоту згусток містичної енергії, приголомшуючи на певний час і завдаючи певну шкоду. Час і шкода визначаються навмання."
+                        data-target="Націлена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="1,75 / 2,25 / 2,75 / 3,25"
+                        data-duration="3"
+                        data-radius="Націлена на істоту"
+                        data-cooldown="13/12/11/10"
+                        data-mana-cost="110"
+                        data-note="Навіть Лицар Хаосу не може передбачити, як поведуть себе потоки нечестивої енергії."
+                >
+                    <img src="chaos_knight_chaos_bolt.png" alt="Chaos Bolt Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2spel.mp4"
+                        data-name="Unstable Concoction"
+                        data-description="Телепортує героя, його ілюзії й цільову істоту в точку між ним і ціллю. Зменшує броню ворожої істоти на 6 с."
+                        data-target="Націлена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="4/5/6/7"
+                        data-duration="1,7 / 2,2 / 2,7 / 3,2"
+                        data-radius="2"
+                        data-cooldown="18 / 14 / 10 / 6"
+                        data-mana-cost="50"
+                        data-note="Армагедон ширяє між світами, доставляючи Лицаря Хаосу до його жертви, де б вона не ховалась."
+                >
+                    <img src="chaos_knight_reality_rift.png" alt="Unstable Concoction Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Chaos Strike"
+                        data-description="Атаки Лицаря Хаосу та його ілюзій мають шанс завдати критичної шкоди різної сили з додатковим вампіризмом. Вампіризм від кріпів зменшено."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Непереборна міць Лицаря Хаосу змітає всіх зі шляху та трощить найтовстішу броню."
+                >
+                    <img src="chaos_knight_chaos_strike.png" alt="Chaos Strike Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4spel.mp4"
+                        data-name="Phantasm"
+                        data-description="Викликає кілька копій Лицаря Хаосу з інших вимірів. Фантоми є ілюзіями, які завдають 100% шкоди, але самі отримують 350% шкоди."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="30"
+                        data-radius="N/A"
+                        data-cooldown="75"
+                        data-mana-cost="100/200/300"
+                        data-note="Лицар Хаосу брав участь у багатьох боях у різних світах та в різні часи. Його фантоми з тих боїв повстають, щоби знищити всіх, хто протистоїть Лицареві."
+                >
+                    <img src="chaos_knight_phantasm.png" alt="Phantasm Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Phantasm"
+                        data-description="Глобально створює ілюзію кожного союзного героя, а також додаткову ілюзію самого Лицаря Хаосу."
+                        data-target="Не націлена"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="15"
+                        data-radius="N/A"
+                        data-cooldown="75"
+                        data-mana-cost="100 / 200 / 300"
+                        data-note="Лицар Хаосу брав участь у багатьох боях у різних світах та в різні часи. Його фантоми з тих боїв повстають, щоби знищити всіх, хто протистоїть Лицареві."
+                >
+                    <img src="2.jpg" alt="Phantasm Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5spel.mp4"
+                        data-name="Chaos Bolt"
+                        data-description="Розряд хаосу створює ілюзію Фантазму, що атакує ціль. Ця ілюзія завдає на 30% менше шкоди."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Chaos Bolt Icon">
+                </button>
+                </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

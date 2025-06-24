@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Underlord_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>UNDERLORD</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ТЕЛЕПОРТУЄ КОМАНДУ В БІЙ ТА З НЬОГО</p>
+                        <p>Чаклуйте хвилі пекельного вогню на нещасних ворогів, утримуваних вашим злісним паралітичним хватом. Святкуйте різанину на полі бою, отримуючи силу за кожного ворога, який загинув поруч із вами, та зменшуючи атаку ворогів у вашій присутності. Розривайте тканину реальності, аби телепортувати себе і союзників у будь-яке місце мапи та принести криваву відплату будь-кому, хто кине виклик волі Вроґроса Підземного Лорда.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ТЕЛЕПОРТУЄ КОМАНДУ В БІЙ ТА З НЬОГО</p>
+                        <p>Жоден міф і жодна пісня не провістили його прихід.</p>
+                        <p>Глибоко під поверхнею світу лежать невідомі дива та жахи. Глибоко у земній тверді, попід неспокійними лавовими полями та основами сплячих вулканів, стоїть обсидіанове місто Азійоґ, незрівнянна кам’яна кладка якого простягається вздовж безмежної печери. У пористих стінах, побудованих на кістках незліченних рабів, лежать володіння Пекельної Орди та їхнього жорстокого повелителя Вроґроса.</p>
+                        <p>Озброєний кращими ковалями свого народу та навчений мистецтву темного розлому, Вроґрос здатен заклинати полум’я та руйнівну злобу у вигин між світами. Він завжди шукав способів розширити свої володіння, знищуючи або поневолюючи всіх на своєму шляху. Проте підземний світ невеликий, тож Вроґрос обернув свій погляд нагору. Своїм наказом він прирік на смерть легіони розвідників, відправивши їх на розтерзання мешканцями поверхні, щоб оцінити міць ворогів. Тепер же Вроґрос готовий продовжити своє завоювання. Він особисто ступить на освітлену сонцем землю, щоби показати світові його майбутнього володаря. Ті, хто зустрінуться з ним, упадуть на коліна та сплатять данину, або ж помруть на місці.</p>
+                        
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Fiend's Gate завдають 100 ШЗС у радіусі 700</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+0.4 с до коренів від Pit of Malice</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10% до зменш/збільш. шкоди від Atrophy Aura</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+0.6% до палючої шкоди від Firestorm</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-3 с до зарядки Firestorm</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">Pit of Malice сповільнює на 25%</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15 с до дії Atrophy Aura</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+5% дод. руху і зменш. шкоди від Invading Force</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Загарбницьке військо</h3>
+                            <p>Коли союзний герой телепортується, він тимчасово здобуває зменшення вхідної шкоди та пришвидшення руху. Союзники отримують x2 бонусів, якщо телепортуються через Потойбічні врата.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="abyssal_underlord_firestorm.png" alt="Firestorm" />
+                        <div class="tooltip">
+                            <h3>Firestorm</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Здіймає в цільовій області хвилі вогню, які завдають шкоди ворожим істотам і підпалюють їх.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="abyssal_underlord_pit_of_malice.png" alt="Pit of Malice" />
+                        <div class="tooltip">
+                            <h3>Pit of Malice</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>У вибраній області утворюється смертоносна вирва, яка вкорінює й ушкоджує ворожих істот. На кожну істоту вкорінення діє кожні 3,6 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="abyssal_underlord_atrophy_aura.png" alt="Atrophy Aura" />
+                        <div class="tooltip">
+                            <h3>Atrophy Aura</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Аура</p>
+							<p><strong>Діє:</strong>На ворогів</p>
+                             <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Усі ворожі істоти навколо втрачають сили, і їхня базова атака слабшає. Якщо ворог гине під дією цього ефекту, Підземний Лорд отримує додаткову шкоду до своїх атак.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="abyssal_underlord_dark_portal.png" alt="Fiend's Gate" />
+                        <div class="tooltip">
+                            <h3>Fiend's Gate</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p>Відкриває два портали — один біля Підземного Лорда, а інший у цільовому місці. Герої можуть чаклувати портал упродовж 3,5 с для телепортації на інший бік. Портали повинні бути щонайменше на відстані 1500 один від одного.
+
+Подвійне клацання телепортуватиме до вашої бази (перед входом на фонтан).</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує радіус Вирви злості.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Вогняну бурю можна застосувати на союзників. У такому випадку Вогняна буря слідує за героєм. Кількість хвиль збільшено, а частота спрацювання й час дії відбуваються швидше.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+3.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>12</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>17</span> <span class="attribute-bonus">+2.3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>62-68</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>5.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>290</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка кругу" class="facet-icon">
+                        <h3 class="facet-name">ПЕКЕЛЬНА ДОСЯЖНІСТЬ</h3>
+                    </div>
+                    <p class="facet-description">Атаки Підземного Лорда завдають периферійної шкоди, поки він має додаткову шкоду від Аури виснаження.</p>
+                    <div class="facet-ability-link">
+                        <img src="abyssal_underlord_atrophy_aura.png" alt="ATROPHY AURA icon">
+                        <span>ATROPHY AURA</span>
+                    </div>
+					<p class="facet-bonus">ПЕРИФЕРІЙНА ШКОДА:35%</p>
+					<p class="facet-bonus">ДАЛЬНІСТЬ СІЧІ (БАЗОВА):100</p>
+					<p class="facet-bonus">ДАЛЬНІСТЬ СІЧІ (ЗА ЗАРЯД):5</p>
+					<div class="facet-ability-link">
+                        <img src="abyssal_underlord_dark_portal.png" alt="ATROPHY AURA icon">
+                        <span>FIEND'S GATE</span>
+                    </div>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="summons.png" alt="Іконка майстра сумішей" class="facet-icon">
+                        <h3 class="facet-name">ПЕКЕЛЬНА ОРДА</h3>
+                    </div>
+                    <p class="facet-description">Потойбічні врата періодично прикликають служників.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Firestorm</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Здіймає в цільовій області хвилі вогню, які завдають шкоди ворожим істотам і підпалюють їх.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">30/50/70/90</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">6</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">425</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">16/15/14/13</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">110/125/140/155</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Вогні завоювання палають із найтемніших глибин безодні.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Firestorm"
+                        data-description="Здіймає в цільовій області хвилі вогню, які завдають шкоди ворожим істотам і підпалюють їх."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="30/50/70/90"
+                        data-duration="6"
+                        data-radius="425"
+                        data-cooldown="16/15/14/13"
+                        data-mana-cost="110/125/140/155"
+                        data-note="Вогні завоювання палають із найтемніших глибин безодні."
+                >
+                    <img src="abyssal_underlord_firestorm.png" alt="Acid Spray Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Pit of Malice"
+                        data-description="Алхімік готує нестабільну суміш, яку можна жбурнути у ворожого героя, щоб приголомшити та завдати шкоди усім ворогам біля нього. Чим довше готується суміш, тим більша від неї шкода та довше приголомшення. Алхімік пришвидшується під час готування суміші. Максимальні характеристики суміш отримує після 5 с приготування, однак якщо завчасно не викинути її, через 5,5 с вона вибухне в руках Алхіміка."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="20/30/40/50"
+                        data-duration="12"
+                        data-radius="400"
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="110/120/130/140"
+                        data-note="Скручуючи реальність, Вроґрос паралізує тих, хто виявляє супротив його волі."
+                >
+                    <img src="abyssal_underlord_pit_of_malice.png" alt="Pit of Malice Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Atrophy Aura"
+                        data-description="Усі ворожі істоти навколо втрачають сили, і їхня базова атака слабшає. Якщо ворог гине під дією цього ефекту, Підземний Лорд отримує додаткову шкоду до своїх атак."
+                        data-target="Аура"
+                        data-damage-type="Фізична"
+                        data-scales="На союзників-так,на ворогів-ні"
+                        data-armor-reduction="30/35/40/45"
+                        data-duration="N/A"
+                        data-radius="900"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Лише перебування біля Андерлорда дає відчути поразку душею."
+                >
+                    <img src="abyssal_underlord_atrophy_aura.png" alt="Atrophy Aura Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Fiend's Gate"
+                        data-description="Відкриває два портали — один біля Підземного Лорда, а інший у цільовому місці. Герої можуть чаклувати портал упродовж 3,5 с для телепортації на інший бік. Портали повинні бути щонайменше на відстані 1500 один від одного.
+
+Подвійне клацання телепортуватиме до вашої бази (перед входом на фонтан)."
+                        data-target="Націлена на точку"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="20"
+                        data-radius="N/A"
+                        data-cooldown="110/105/100"
+                        data-mana-cost="175"
+                        data-note="Вони наступають без попередження, залишаючи полум’я та кров на місці колись пишних королівств."
+                >
+                    <img src="abyssal_underlord_dark_portal.png" alt="Fiend's Gate Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Pit of Malice"
+                        data-description="Збільшує радіус Вирви злості."
+                        data-target="Націлена"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="35"
+                        data-duration="15"
+                        data-radius="N/A"
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="100/120/130/140"
+                        data-note="Скручуючи реальність, Вроґрос паралізує тих, хто виявляє супротив його волі."
+                >
+                    <img src="2.jpg" alt="Pit of Malice Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Firestorm"
+                        data-description="Вогняну бурю можна застосувати на союзників. У такому випадку Вогняна буря слідує за героєм. Кількість хвиль збільшено, а частота спрацювання й час дії відбуваються швидше."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Firestorm Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

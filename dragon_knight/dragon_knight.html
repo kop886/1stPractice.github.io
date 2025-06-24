@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="DK_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>DRAGON KNIGHT</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПЕРЕВТІЛЮЄТЬСЯ В ЗАГРОЗЛИВОГО ДРАКОНА З ДАЛЬНОЮ АТАКОЮ</p>
+                        <p>Коли Лицар-Дракон приймає форму страхітливого дракона, то сіє страх у всіх, хто з ним зіштовхнеться. Сильний та всебічний, він може приголомшувати своїх ворогів та спалювати все на своєму шляху, часто даючи наснагу союзникам перемогти.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПЕРЕВТІЛЮЄТЬСЯ В ЗАГРОЗЛИВОГО ДРАКОНА З ДАЛЬНОЮ АТАКОЮ</p>
+                        <p>Після багатьох років вистежування легендарного стародавнього дракона Ельдвурма, лицар Девіон нарешті постав перед своїм ворогом і повністю розчарувався: страхітливий Слайрак постарів і ослаб, його крила були пошарпані, луска осипалася, плоть прогнила, ікла отупіли, а вогняне дихання було не страшнішим за коробку промоклих сірників.</p>
+                        <p>Молодий лицар не бачив честі у його вбивстві, тож хотів просто піти і дозволити старому ворогу спокійно померти. Та голос проник у його думки, і Слайрак прошепотів, що лицар надасть йому честь, якщо дозволить померти в бою. Девіон погодився, і був нагороджений за проявлене милосердя: коли він увіткнув свій меч у горло дракона, той встромив свій кіготь у горло лицаря. Їхня кров змішалася і Слайрак передав Девіону свої сили через кров’яний потік, передав свою стійкість і мудрість століть. Смерть дракона скріпила їхній союз. Так і народився Лицар-Дракон. Стародавні сили дрімають у лицареві, прокидаючись, коли він кличе їх собі на допомогу. Чи, можливо, це дракон кличе лицаря…</p>
+                                                <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+% до ефекту Wyrm's Wrath у формі Древнього дракона</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+12 до броні й реген. здоров'я від Dragon Blood</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+85% до шкоди/дальності чаклування Вгeathe Fire y формі дракона</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+150 до дальності атаки Древнього дракона</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+300 здоров'я</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+0.4 с приголомшення від Dragon Tail</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">30% зниження шкоди ВІД Breathe Fire</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+15 шкоди</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Кров дракона</h3>
+                            <p>Драконяча кров посилює регенерацію здоров’я та броню Лицаря-Дракона. Обидва значення збільшуються на 0,5 за рівень і множаться у формі дракона.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dragon_knight_breathe_fire.png" alt="Breathe Fire" />
+                        <div class="tooltip">
+                            <h3>Breathe Fire</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Націлена на істоту</p>
+                            <p><strong>Урон:</strong> Магічний</p>
+                            <p>Обпалює вогняним подихом ворожих істот, які знаходяться перед Лицарем, обпікаючи їх і зменшуючи завдавану шкоду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dragon_knight_dragon_tail.png" alt="Dragon Tail" />
+                        <div class="tooltip">
+                            <h3>Dragon Tail</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Лицар-Дракон завдає потужного ближнього удару щитом ворожій істоті, приголомшуючи та завдаючи шкоди. У формі древнього дракона відстань застосування здібності збільшується до 450.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dragon_knight_dragon_blood.png" alt="Wyrm's Wrath" />
+                        <div class="tooltip">
+                            <h3>Wyrm's Wrath</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                                                       <p>Драконяча кров посилює атаки Лицаря-Дракона. У формі дракона ці ефекти ще сильніші.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dragon_knight_elder_dragon_form.png" alt="Elder Dragon Form" />
+                        <div class="tooltip">
+                            <h3>Elder Dragon Form</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Урон:</strong>Фізичний</p>
+                            <p>Лицар набуває форми одного з трьох могутніх древніх драконів. Збільшує швидкість руху, шкоду від атаки та посилює ефекти від Гніву дракона. Ці ефекти, а також відсоток шкоди від атаки, застосовуються до всіх ворогів поблизу цілі. Збільшує дальність дії Хвоста дракона й посилює регенерацію здоров’я та броню від Крові дракона.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує рівень форми дракона, додаючи чорного дракона на 4-му рівні, який надає безперешкодний рух, збільшує шкоду й ефективність атак від Гніву дракона.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Підпалює область і завдає періодичної шкоди ворогам, які там знаходяться. У ближньому бою має зменшену дальність чаклування.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>21</span> <span class="attribute-bonus">+3.6</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>16</span> <span class="attribute-bonus">+2.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>55-61</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>2.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.6</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>315</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="dragon_fire.png" alt="dragon_fire" class="facet-icon">
+                        <h3 class="facet-name">ВОГЯНИЙ ДРАКОН</h3>
+                    </div>
+                    <p class="facet-description">Атаки Лицаря-Дракона завдають додаткової магічної шкоди, а його здібності мають збільшену область дії та посилюються у формі древнього дракона.</p>
+                    <div class="facet-ability-link">
+                        <img src="dragon_knight_dragon_tail.png" alt="DRAGON TAIL">
+                        <span>DRAGON TAIL</span>
+						<p class="facet-description">У формі дракона Хвіст дракона діє на ворогів у радіусі 100.</p>
+                    </div>
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_dragon_blood.png" alt="WYRM'S WRATH">
+                        <span>WYRM'S WRATH</span>
+						<p class="facet-description">Атаки завдають додаткової магічної шкоди ворогам, а здібності та предмети мають збільшену область дії.</p>
+                    </div>
+					<p class="facet-bonus">МАГІЧНА ШКОДА:6 / 12 / 18 / 24</p>
+					<p class="facet-bonus">ДОД. ОБЛАСТЬ ДІЇ: 25 / 50 / 75 / 100</p>
+					<p class="facet-bonus">МАГІЧНА ШКОДА:0 / 0 / 0 / 0</p>
+					<p class="facet-bonus">ДОД. ОБЛАСТЬ ДІЇ:0 / 0 / 0 / 0</p>
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_elder_dragon_form.png" alt="ELDER FRAGON FORM">
+                        <span>ELDER FRAGON FORM</span>
+						<p class="facet-description">0 / 0 / 0 / 0</p>
+                    </div>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="dragon_poison.png" alt="dragon_poison" class="facet-icon">
+                        <h3 class="facet-name">ЯДУЧИЙ ДРАКОН</h3>
+                    </div>
+                    <p class="facet-description">Атаки Лицаря-Дракона мають ядучий ефект, який посилюється у формі древнього дракона. Усі його здібності завдають фізичної шкоди.</p>
+                    <div class="facet-ability-link">
+                        <img src="dragon_knight_breathe_fire.png" alt="dragon_knight_breathe icon">
+                        <span>BREATHE FIRE</span>
+                    </div>
+                    <p class="facet-description">Тип шкоди змінено на фізичну.</p>
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_dragon_tail.png" alt="DRAGON TAIL">
+                        <span>DRAGON TAIL</span>
+						<p class="facet-description">Тип шкоди змінено на фізичну.</p>
+                    </div>
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_dragon_blood.png" alt="WYRM'S WRATH">
+                        <span>WYRM'S WRATH</span>
+						<p class="facet-description">Атаки насичені смертельною отрутою, що діє на ворожих істот і споруди, зменшує їхню броню та завдає періодичної фізичної шкоди.</p>
+						                    </div>
+						<p class="facet-bonus">ЯДУЧА ШКОДА ЗА СЕКУНДУ: 5 / 10 / 15 / 20</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ ЯДУЧОСТІ:3</p>
+					<p class="facet-bonus">ЯДУЧЕ ЗМЕНШЕННЯ БРОНІ:0 / 1 / 2 / 3</p>
+					<p class="facet-bonus">ЯДУЧА ШКОДА ЗА СЕКУНДУ:0 / 0 / 0 / 0</p>	
+					<p class="facet-bonus">ЯДУЧЕ ЗМЕНШЕННЯ БРОНІ:0 / 0 / 0 / 0</p>	
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_elder_dragon_form.png" alt="ELDER FRAGON FORM">
+                        <span>ELDER FRAGON FORM</span>
+						<p class="facet-description">0 / 0 / 0 / 0</p>
+                    </div>
+					</div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="dragon_frost.png" alt="dragon_frost" class="facet-icon">
+                        <h3 class="facet-name">МОРОЗНИЙ ДРАКОН</h3>
+                    </div>
+                    <p class="facet-description">Атаки Лицаря-Дракона мають ефекти сповільнення та зменшення відновлення здоров’я, які посилюються у формі древнього дракона.</p>
+                    <div class="facet-ability-link">
+                        <img src="dragon_knight_dragon_blood.png" alt="WYRM'S WRATH">
+                        <span>WYRM'S WRATH</span>
+						<p class="facet-description">Атаки насичені морозом, що діє на ворожих істот, сповільнює їхню швидкість руху, швидкість атаки та зменшує відновлення здоров’я.</p>
+						                    </div>
+						<p class="facet-bonus">СПОВІЛЬНЕННЯ РУХУ ВІД МОРОЗУ:14% / 21% / 28% / 35%</p>
+					<p class="facet-bonus">СПОВІЛЬНЕННЯ АТАКИ ВІД МОРОЗУ:14 / 21 / 28 / 35</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ МОРОЗУ:3</p>
+					<p class="facet-bonus">ЗМЕНШ. ВІДНОВЛЕННЯ ЗДОРОВ’Я ВІД МОРОЗУ:14% / 21% / 28% / 35%</p>	
+					<p class="facet-bonus">СПОВІЛЬНЕННЯ РУХУ ВІД МОРОЗУ:0% / 0% / 0% / 0</p>	
+					<p class="facet-bonus">СПОВІЛЬНЕННЯ АТАКИ ВІД МОРОЗУ:0 / 0 / 0 / 0</p>
+					<p class="facet-bonus">ЗМЕНШ. ВІДНОВЛЕННЯ ЗДОРОВ’Я ВІД МОРОЗУ:0% / 0% / 0% / 0%</p>
+					<div class="facet-ability-link">
+                        <img src="dragon_knight_elder_dragon_form.png" alt="ELDER FRAGON FORM">
+                        <span>ELDER FRAGON FORM</span>
+						<p class="facet-description">0 / 0 / 0 / 0</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Breathe Fire</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Обпалює вогняним подихом ворожих істот, які знаходяться перед Лицарем, обпікаючи їх і зменшуючи завдавану шкоду.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">80/160/240/320</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">14/13/12/11</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">90/95/100/105</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Лицар Девіон отримав вогняний подих могутнього Ельдвурма Слайрака, який у свій час спопелив не один десяток інших лицарів.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Breathe Fire"
+                        data-description="Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="80/160/240/320"
+                        data-duration="1"
+                        data-radius=""
+                        data-cooldown="14/13/12/11"
+                        data-mana-cost="90/95/100/105"
+                        data-note="Лицар Девіон отримав вогняний подих могутнього Ельдвурма Слайрака, який у свій час спопелив не один десяток інших лицарів."
+                >
+                    <img src="dragon_knight_breathe_fire.png" alt="Breathe Fire Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Dragon Tail"
+                        data-description="Лицар-Дракон завдає потужного ближнього удару щитом ворожій істоті, приголомшуючи та завдаючи шкоди. У формі древнього дракона відстань застосування здібності збільшується до 450."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="60/90/120/150"
+                        data-duration="1,8/2/2,2/2,4"
+                        data-radius="N/A"
+                        data-cooldown="16/14/12/10"
+                        data-mana-cost="70/80/90/100"
+                        data-note="Драконяча міць і лицарська вправність роблять Девіона небезпечним супротивником у ближньому бою."
+                >
+                    <img src="dragon_knight_dragon_tail.png" alt="Dragon Tail Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Wyrm's Wrath"
+                        data-description="Драконяча кров посилює атаки Лицаря-Дракона. У формі дракона ці ефекти ще сильніші."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="У жилах Девіона досі тече кров Слайрака, що робить його вдвічі міцнішим за будь-якого іншого лицаря."
+                >
+                    <img src="dragon_knight_dragon_blood.png" alt="Wyrm's Wrath Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Elder Dragon Form"
+                        data-description="Лицар набуває форми одного з трьох могутніх древніх драконів. Збільшує швидкість руху, шкоду від атаки та посилює ефекти від Гніву дракона. Ці ефекти, а також відсоток шкоди від атаки, застосовуються до всіх ворогів поблизу цілі. Збільшує дальність дії Хвоста дракона й посилює регенерацію здоров’я та броню від Крові дракона."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="20/60/100/140"
+                        data-duration="60"
+                        data-radius="275"
+                        data-cooldown="100"
+                        data-mana-cost="50/50/50"
+                        data-note="Девіон дає волю драконячій сутності, що дрімає в його єстві, поєднуючи легендарного лицаря та легендарного Ельдвурма в єдину форму."
+                >
+                    <img src="dragon_knight_elder_dragon_form.png" alt="Elder Dragon Form">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Fireball"
+                        data-description="Підпалює область і завдає періодичної шкоди ворогам, які там знаходяться. У ближньому бою має зменшену дальність чаклування."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="75"
+                        data-duration="8"
+                        data-radius="275"
+                        data-cooldown="20"
+                        data-mana-cost="80"
+                        data-note="Більшість лицарів -драконів називають не більшим жахом, ніж бич вогню Дракона."
+                >
+                    <img src="1.jpg" alt="Berserk Potion Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Elder Dragon Form"
+                        data-description="Збільшує рівень форми дракона, додаючи чорного дракона на 4-му рівні, який надає безперешкодний рух, збільшує шкоду й ефективність атак від Гніву дракона."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="100"
+                        data-mana-cost="50/50/50"
+                        data-note="Девіон дає волю драконячій сутності, що дрімає в його єстві, поєднуючи легендарного лицаря та легендарного Ельдвурма в єдину форму."
+                >
+                    <img src="2.jpg" alt="Elder Dragon Form">
+                </button>
+                <!-- Add more ability buttons here, each with its data attributes -->
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Tusk_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>TUSK</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПРИГОЛОМЩУЄ ВОРОГІВ СНІГОВОЮ КУЛЕЮ</p>
+                        <p>Бивень завжди готовий розпочати бій. Заганяючи ворога в кут за допомогою стіни з льодяних брил, він збирає союзників у велику снігову кулю та котиться на нього, після чого підкидає ворога в повітря своїм фірмовим ударом під дихало.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПРИГОЛОМЩУЄ ВОРОГІВ СНІГОВОЮ КУЛЕЮ</p>
+                        <p>Славна була бійка! Після неї в таверні «Вовча діра» на ногах залишився стояти лише Імір — він же Бивень, він же Жах із Бар’єру, він же Сніжна куля з Кобальту і єдиний, кому вдалося здолати одного добре відомого викидайла з голками на спині. Усе почалося з невинного спору «хто кого?», що не рідкість серед завсідників закладів такого роду. У результаті в шинкаря не залишилося жодної цілої пляшки, глечика або стільця, а в глибокий нокаут відправилося четверо тутешніх пожильців, один коваль і шестеро кращих вояк Морозної дружини. Споглядаючи цю картину, Імір проголосив гучний тост на свою честь і осушив кухоль хмільного.</p>
+                        <p>Щойно оговтавшись, переможені почали вимагати реваншу і ставок вище. Іміра це лише тішило, от тільки він сумнівався, що у цих бідолах ще щось залишилося з готівки. Бачачи погром і намагаючись будь-яким чином запобігти черговому дебошу, шинкар пішов на хитрість. Оскільки Імір, незважаючи на свої відмінні бойові якості, ніколи не брав участь у реальній битві, не відав хаосу на полі брані, і не знав, якою нерозбірливою часом буває смерть, шинкар запропонував йому нове парі: взяти участь у наймасштабнішій битві, неважливо за яку сторону, при цьому вижити і розгромити ворога. Ну а що на кону? Звичайно ж, добряча порція питва за рахунок закладу.</p>
+                                            <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-8s Snowball Cooldown</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">12% Chance Walrus Punch</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+75% крита від Walrus Punch</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">-6s Ice Shards Cooldown</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+120 до шкоди від Snowball</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+325 здоров'я</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+0.75 с до приголомшення від Walrus Punch</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+2 с до тривалості Тад Теат</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Гострий холод</h3>
+                            <p>Пасивно сповільнює швидкість атаки всіх ворогів у радіусі 350.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tusk_ice_shards.png" alt="Ice Shards" />
+                        <div class="tooltip">
+                            <h3>Ice Shards</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Бивень стискає льодяні брили в грудку морозної енергії, що завдає шкоди всім ворожим істотам, у яких влучить. Коли грудка досягає зазначеного місця, із землі вистромлюються льодяні брили, створюючи бар’єр на 4 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tusk_snowball.png" alt="Snowball" />
+                        <div class="tooltip">
+                            <h3>Snowball</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Таск починає утворювати сніжну кулю. Союзників у радіусі 350 од. можна затягувати до кулі правою кнопкою миші навіть під час її руху. Після запуску кулі всі ворожі істоти, які трапляться на її шляху, будуть приголомшені та отримають шкоду. Кожний союзний герой у кулі збільшує шкоду та тривалість приголомшення від її влучання.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tusk_tag_team.png" alt="Tag Team" />
+                        <div class="tooltip">
+                            <h3>Tag Team</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+							<p><strong>Діє:</strong>На ворожих істот</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Активація тимчасово застосовує навколо Бивня ауру з негативним ефектом. Під дією аури атаковані вороги отримують додаткову фізичну шкоду та сповільнюються. Триває 6 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tusk_walrus_punch.png" alt="Walrus PUNCH!" />
+                        <div class="tooltip">
+                            <h3>Walrus PUNCH!</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на істоту</p>
+							<p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Бивень виконує свій фірмовий «моржевий удар під дихало», який завдає критичної шкоди з додатковою шкодою й запускає ворога високо в повітря.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Б’є під зад найближчого ворога в накресленому напрямку, приголомшує його, завдає шкоди та сповільнює. Також завдає шкоди всім героям у радіусі 250 в зоні приземлення. Зарядка зменшується на 50%, якщо удар завдано кріпу.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Збільшує глибину Льодяних брил, а спіймані в льодяній брилі вороги сповільнюються й отримують шкоду на секунду.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>23</span> <span class="attribute-bonus">+3.9</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>23</span> <span class="attribute-bonus">+2.1</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>50-54</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.8</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>310</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="damage (1).png" alt="Іконка золота" class="facet-icon">
+                        <h3 class="facet-name">КОМАНДНИЙ РУХ</h3>
+                    </div>
+                    <p class="facet-description">Бивень може застосувати Командний дух, через що вороги поблизу зазнаватимуть додаткової шкоди від атак.</p>
+					<p class="facet-bonus">Впливає на атаки союзних героїв, Бивня або будь-яких його істот.</p>
+                    <div class="facet-ability-link">
+                        <img src="tusk_tag_team.png" alt="TAG TEAM icon">
+                        <span>TAG TEAM</span>
+                    </div>
+					<p class="facet-description">Активація тимчасово застосовує навколо Бивня ауру з негативним ефектом. Під дією аури атаковані вороги отримують додаткову фізичну шкоду та сповільнюються. Триває 6 с.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="movement.png" alt="Іконка чоловічка" class="facet-icon">
+                        <h3 class="facet-name">ТОВАРИШ ПО ЧАРЦІ</h3>
+                    </div>
+                    <p class="facet-description">Бивень може застосувати Товариша по пляшці, що притягує його й союзника ближче й дає обом додаткову швидкість руху та шкоду від атаки.</p>
+					<p class="facet-bonus">Не притягуватиме Бивня чи обраного союзника, якщо вони в межах 250 один від одного.</p>
+					<p class="facet-bonus">Не можна застосувати під час Сніжної кулі.</p>
+                    <div class="facet-ability-link">
+                        <img src="tusk_drinking_buddies.png" alt="DRINKING BUDDIES icon">
+                        <span>DRINKING BUDDIES</span>
+                    </div>
+                   <p class="facet-description">Бивень тягнеться, щоби позначити союзну істоту, і притягує її ближче. Після цього Бивень і його позначений товариш здобувають додаткову швидкість руху та шкоду від атаки. Можна скористатися альтернативним застосуванням, щоби лише Бивень притягувався до союзника, але зі зменшеною на 50% дальністю чаклування.</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                      
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Ice Shards</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Бивень стискає льодяні брили в грудку морозної енергії, що завдає шкоди всім ворожим істотам, у яких влучить. Коли грудка досягає зазначеного місця, із землі вистромлюються льодяні брили, створюючи бар’єр на 4 с.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">75/150/225/300</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">4/5/6/7</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">200</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">23/20/17/14</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Після останнього заходу осіннього сонця в замерзлій тундрі, що біля Бар’єру, крига може намерзати ледь не миттєво.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Ice Shards"
+                        data-description="Бивень стискає льодяні брили в грудку морозної енергії, що завдає шкоди всім ворожим істотам, у яких влучить. Коли грудка досягає зазначеного місця, із землі вистромлюються льодяні брили, створюючи бар’єр на 4 с."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="75/150/225/300"
+                        data-duration="4/5/6/7"
+                        data-radius="200"
+                        data-cooldown="23/20/17/14"
+                        data-mana-cost="100"
+                        data-note="Після останнього заходу осіннього сонця в замерзлій тундрі, що біля Бар’єру, крига може намерзати ледь не миттєво."
+                >
+                    <img src="tusk_ice_shards.png" alt="Ice Shards Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Snowball"
+                        data-description="Таск починає утворювати сніжну кулю. Союзників у радіусі 350 од. можна затягувати до кулі правою кнопкою миші навіть під час її руху. Після запуску кулі всі ворожі істоти, які трапляться на її шляху, будуть приголомшені та отримають шкоду. Кожний союзний герой у кулі збільшує шкоду та тривалість приголомшення від її влучання."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="80/140/200/260"
+                        data-duration="3"
+                        data-radius="200"
+                        data-cooldown="21/19/17/15"
+                        data-mana-cost="75/75/75/75"
+                        data-note="Про неймовірний фінт, який вивершив знатну халазію на Білих полях, і понині розказують усілякі небувальщини."
+                >
+                    <img src="tusk_snowball.png" alt="Snowball Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Tag Team"
+                        data-description="Активація тимчасово застосовує навколо Бивня ауру з негативним ефектом. Під дією аури атаковані вороги отримують додаткову фізичну шкоду та сповільнюються. Триває 6 с."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="25/50/75/100"
+                        data-duration="6"
+                        data-radius="350"
+                        data-cooldown="24/21/18/15"
+                        data-mana-cost="70"
+                        data-note="Навіть далеко від рідного Кобальту Бивня до самих кісток пробирає холод Бар’єру."
+                >
+                    <img src="tusk_tag_team.png" alt="Tag Team Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Walrus PUNCH!"
+                        data-description="Бивень виконує свій фірмовий «моржевий удар під дихало», який завдає критичної шкоди з додатковою шкодою й запускає ворога високо в повітря."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="50/75/100"
+                        data-duration="1"
+                        data-radius="N/A"
+                        data-cooldown="75"
+                        data-mana-cost="16/13/10"
+                        data-note="Не важливо, хто вдарить першим, важливо — хто це зробить останнім."
+                >
+                    <img src="tusk_walrus_punch.png" alt="Walrus PUNCH! Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Walrus Kick"
+                        data-description="Б’є під зад найближчого ворога в накресленому напрямку, приголомшує його, завдає шкоди та сповільнює. Також завдає шкоди всім героям у радіусі 250 в зоні приземлення. Зарядка зменшується на 50%, якщо удар завдано кріпу."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="550"
+                        data-duration="2"
+                        data-radius="1200"
+                        data-cooldown="12"
+                        data-mana-cost="100"
+                        data-note="Бивень хоч і прославився кулаками, але мудрий ворог побоюється будь-яких його кінцівок."
+                >
+                    <img src="2.jpg" alt="Berserk Potion Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Ice Shards"
+                        data-description="Збільшує глибину Льодяних брил, а спіймані в льодяній брилі вороги сповільнюються й отримують шкоду на секунду."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Ice Shards Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

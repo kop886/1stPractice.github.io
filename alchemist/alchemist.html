@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>ALCHEMIST</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ОТРИМУЄ ДОДАТКОВЕ ЗОЛОТО ЗА ВБИВСТВА ЧИ РУНИ ДОСТАТКУ</p>
+                        <p>Синтезуючи додаткові ресурси з кожного вбивства, Алхімік без проблем накопичує всі засоби для винищення своїх ворогів. Заскочивши зненацька недругів їдкою кислотою та привітавши їх нестабільними хімікатами, він воює задля забезпечення безупинності своїх жадібних пригод.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ОТРИМУЄ ДОДАТКОВЕ ЗОЛОТО ЗА ВБИВСТВА ЧИ РУНИ ДОСТАТКУ</p>
+                        <p>Священна наука алхімії була сімейною традицією Темноварів, однак жоден Темновар не показував стільки креативності, амбіцій і навіженства як юний Разіль. Однак коли він подорослішав, то полишив сімейну торгівлю і спробував себе у виробництві золота.</p>
+                        <p>У звичній для нього манері він заявив, що перетворить на золото цілу гору. Після двох десятиліть досліджень, вкладів і приготувань, він зазнав цілковитого провалу й втрапив за ґрати у зв’язку з численними руйнівними наслідками свого експерименту. Однак Разіль не здавався так легко і став ретельно продумувати варіанти втечі, щоби продовжити дослідження.</p>
+                        <p>Коли його новим співкамерником виявився лютий огр, він отримав нагоду, на яку чекав. Після переконання огра в тому, що його не слід їсти, Разіль почав ретельно готувати настоянку з плісняви й моху, знайдених під час виправних робіт. Через тиждень вона дозріла. Коли огр випив зілля, то впав у неймовірне шаленство, порвав залізні ґрати, поруйнував стіни й перебив усю охорону.</p>
+                        <p>Незабаром утікачі сховалися десь у лісі за містом, полишивши за собою сліди руйнувань і жодних ознак переслідування. Коли дія зілля пройшла, огр почувався добре, цілком щасливим та енергійним. Парочка вирішила й далі працювати разом, тож відтоді вони разом збирають матеріали, котрі необхідні Разілю, аби здійснити ще один експеримент із перетворення гори.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+50 до регенерації Chemical Rage</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+50 до швидкості руху від Chemical Rage</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+400 до макс. шкоди від Unstable Concoction</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">-0.1 с часу базової атаки Chemical Rage</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+2 шкоди за заряд Greevil's Greed</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">Acid Spray дає броню союзникам</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+125 до радіуса Unstable Concoction</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+1 до послаблення броні від Acid Spray</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Жаднюга</h3>
+                            <p>Алхімік синтезує додаткове золото з тіл своїх ворогів та рун достатку. За кожне вбивство він отримує базове бонусне та додаткове бонусне золото. Якщо алхімік вбиває чергову істоту, яка приносить золото, за 40 секунд, кількість додаткового бонусного золота зросте на крок. Руни достатку приносять більше золота, ніж зазвичай.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="Acid_Spray_icon.webp" alt="Acid Spray" />
+                        <div class="tooltip">
+                            <h3>Acid Spray</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Область</p>
+                            <p><strong>Урон:</strong>Фізична</p>
+                            <p>Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="Unstable_Concoction_icon.webp" alt="Unstable Concoction" />
+                        <div class="tooltip">
+                            <h3>Unstable Concoction</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Фізична</p>
+                            <p>Алхімік готує нестабільну суміш, яку можна жбурнути у ворожого героя, щоб приголомшити та завдати шкоди усім ворогам біля нього. Чим довше готується суміш, тим більша від неї шкода та довше приголомшення. Алхімік пришвидшується під час готування суміші. Максимальні характеристики суміш отримує після 5 с приготування, однак якщо завчасно не викинути її, через 5,5 с вона вибухне в руках Алхіміка..</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="Corrosive_Weaponry_icon.webp" alt="Greevil's Greed" />
+                        <div class="tooltip">
+                            <h3>Greevil's Greed</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Ефект:</strong> Додаткове золото</p>
+                            <p>Алхімік обливає свою зброю та посилює здібності кислотою, яка застосовує на вражених героїв поєднуване сповільнення та зменшення базової шкоди від атаки.
+
+Атаки накладають заряди (2). Нестабільна суміш накладає заряди (1) за секунду часу варіння.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="Chemical_Rage_icon.webp" alt="Chemical Rage" />
+                        <div class="tooltip">
+                            <h3>Chemical Rage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+                            <p>Алхімік дає огру хімікалії, від яких той скаженіє. Під час сказу збільшується швидкість базової атаки, руху та регенерації здоров’я..</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Алхімік розплавляє Скіпетр Аґаніма та дарує союзнику всі бонуси предмета. Алхімік отримає додаткову шкоду за кожен подарований Скіпетр.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Алхмік кидає зілля в союзника, яке застосовує базове розвіювання, а також додає швидкість атаки, швидкість руху та регенерацію здоров’я.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+3.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>11</span> <span class="attribute-bonus">+1.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>16</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 75%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>50-56</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>295</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>800</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!--  аспект 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="gold.png" alt="Іконка золота" class="facet-icon">
+                        <h3 class="facet-name">ПОЧАТКОВИЙ КАПІТАЛ</h3>
+                    </div>
+                    <p class="facet-description">На початку Алхімія має на 250 більше золота.</p>
+                    <div class="facet-ability-link">
+                        <img src="innate ability.png" alt="Greevil's Greed icon">
+                        <span>GREEVIL'S GREED</span>
+                    </div>
+                </div>
+                <!--  аспект 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="cooldown.png" alt="Іконка майстра сумішей" class="facet-icon">
+                        <h3 class="facet-name">МАЙСТЕР СУМІШЕЙ</h3>
+                    </div>
+                    <p class="facet-description">Нестабільна суміш і Зілля берсерка заряджаються швидше під час Хімічного сказу.</p>
+                    <div class="facet-ability-link">
+                        <img src="Unstable_Concoction_icon.webp" alt="Unstable Concoction icon">
+                        <span>UNSTABLE CONCOCTION</span>
+                    </div>
+                    <p class="facet-bonus">Поки Алхімік перебуває під дією Хімічного сказу, зарядку зменшено на 35%</p>
+                </div>
+                <!--  аспект 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="aghs.png" alt="Іконка дивідендів" class="facet-icon">
+                        <h3 class="facet-name">ДИВІДЕНДИ</h3>
+                    </div>
+                    <p class="facet-description">Алхімік здобуває +70 ЗЗХ за кожен наданий союзникам Скіпетр Аганіма.</p>
+                    <div class="facet-ability-link">
+                        <img src="innate ability.png" alt="Greevil's Greed icon">
+                        <span>GREEVIL'S GREED</span>
+                    </div>
+                    <p class="facet-bonus">Алхімік здобуває +70 ЗЗХ за кожен наданий союзникам Скіпетр Аганіма</p>
+                </div>
+                <!-- Додавайте або видаляйте блоки .facet-item тут, щоб корегувати кількість аспектів -->
+                
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1spel.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Acid Spray</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">На область</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Фізична</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду.</p>
+                    <div class="ability-values">
+                        <p><strong>ЗМЕНШЕННЯ БРОНІ:</strong> <span id="abilityArmorReduction">3/4/5/6</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">15</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">350/400/450/500</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">22/21/20/19</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100/110/120/130</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Свою кислоту Разіль готує за традиційними алхімічними рецептами родини Темноварів. Готова суміш здатна роз’їсти найміцніший метал.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1spel.mp4"
+                        data-name="Acid Spray"
+                        data-description="Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду."
+                        data-target="На область"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="3/4/5/6"
+                        data-duration="15"
+                        data-radius="350/400/450/500"
+                        data-cooldown="22/21/20/19"
+                        data-mana-cost="100/110/120/130"
+                        data-note="Свою кислоту Разіль готує за традиційними алхімічними рецептами родини Темноварів. Готова суміш здатна роз’їсти найміцніший метал."
+                >
+                    <img src="Acid_Spray_icon.webp" alt="Acid Spray Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2spel.mp4"
+                        data-name="Unstable Concoction"
+                        data-description="Алхімік готує нестабільну суміш, яку можна жбурнути у ворожого героя, щоб приголомшити та завдати шкоди усім ворогам біля нього. Чим довше готується суміш, тим більша від неї шкода та довше приголомшення. Алхімік пришвидшується під час готування суміші. Максимальні характеристики суміш отримує після 5 с приготування, однак якщо завчасно не викинути її, через 5,5 с вона вибухне в руках Алхіміка."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="150/220/290/360"
+                        data-duration="1,7 / 2,2 / 2,7 / 3,2"
+                        data-radius="175"
+                        data-cooldown="16"
+                        data-mana-cost="100"
+                        data-note="Ця руйнівна суміш — побічний продукт експерименту з перетворення гори на золото."
+                >
+                    <img src="Unstable_Concoction_icon.webp" alt="Unstable Concoction Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Greevil's Greed"
+                        data-description="Алхімік обливає свою зброю та посилює здібності кислотою, яка застосовує на вражених героїв поєднуване сповільнення та зменшення базової шкоди від атаки.
+
+Атаки накладають заряди (2). Нестабільна суміш накладає заряди (1) за секунду часу варіння."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="2% / 2,5% / 3% / 3,5%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Потужний розчинник, який, як виявилося, дуже добре працює.."
+                >
+                    <img src="Corrosive_Weaponry_icon.webp" alt="Corrosive Weaponry Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4spel.mp4"
+                        data-name="Chemical Rage"
+                        data-description="Алхімік дає огру хімікалії, від яких той скаженіє. Під час сказу збільшується швидкість базової атаки, руху та регенерації здоров’я."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="30"
+                        data-radius="N/A"
+                        data-cooldown="60"
+                        data-mana-cost="50/75/100"
+                        data-note="Зілля, яким Разіль напоїв огра, щоби вирватися з в’язниці, стало в пригоді й на полі бою."
+                >
+                    <img src="Chemical_Rage_icon.webp" alt="Chemical Rage Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5spel.mp4"
+                        data-name="Berserk Potion"
+                        data-description="Алхмік кидає зілля в союзника, яке застосовує базове розвіювання, а також додає швидкість атаки, швидкість руху та регенерацію здоров’я."
+                        data-target="Націлена"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="35"
+                        data-duration="15"
+                        data-radius="N/A"
+                        data-cooldown="35"
+                        data-mana-cost="100"
+                        data-note="Після того, як прадід Раззіла випробував ранню версію цього зілля на собі, член сім’ї, що вижив, одразу побачив потенціал прибутку."
+                >
+                    <img src="Berserk Potion.jpg" alt="Berserk Potion Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Chemical Rage"
+                        data-description="Алхімік розплавляє Скіпетр Аґаніма та дарує союзнику всі бонуси предмета. Алхімік отримає додаткову шкоду за кожен подарований Скіпетр."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Хоча з горою у Разіля нічого не вийшло, перетворювати на золото менші об’єкти він може без проблем."
+                >
+                    <img src="Greevil's Greed.jpg" alt="Greevil's Greed Icon">
+                </button>
+               
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

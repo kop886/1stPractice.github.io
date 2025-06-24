@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Timber_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>TIMBERSAW</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПРОРУБУЄТЬСЯ ЧЕРЕЗ ЛІС НАЗУСТРІЧ ВОРОГАМ</p>
+                        <p>Невловний та непередбачуваний, Лісопил прорубує собі шлях крізь ліс, щоби зустрітись віч-на-віч із ворогом. З повним арсеналом пил ріже своїх ворогів на шматки або зачіпається гаком за найближче дерево і трощить ворогів по дорозі.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПРОРУБУЄТЬСЯ ЧЕРЕЗ ЛІС НАЗУСТРІЧ ВОРОГАМ</p>
+                        <p>Крики ніяк не виходили з голови Різрака. Він працював без перепочинку, вигинав, дробив, будував і кував. Сон полишив його, він тільки майстрував. Минули місяці відтоді, як він закрився в майстерні свого дядька, і кінець був близьким, як ніколи. Він почухав спину, лише на мить закрив очі й задрімав: він побачив квіти, море квітів, що неквапливо пливли тихими водами Затоки Віщувань. Ще мить — і вони розверзнуться хмарою смертоносного пилку, що вбиває усе живе. Різрак прийшов до тями й почав працювати ще завзятіше. Годинами майстерню наповнював шум гострильного каменя: то Різрак наточував леза своїх велетенських пилок, поки в його свідомості стояла єдина картина — як лози душили його колишніх сусідів і оплітали будинки. Повінь у Затоці Віщувань була нічим у порівнянні з тим, що пустило коріння в стінах міста згодом.</p>
+                        <p>Різрак думав, що пилкокостюм зробить його сильнішим, і це був останній рубіж перед страхом, що його поглинав. Гілки, тріски й кров. Коли місто впало, Різрак утік від дерев. Дерева вміли ходити. Дерева вміли битися. Дерева руйнували останні укріплення Затоки Віщувань і переслідували тих, хто уцілів. І от майстерню заповнила гнітюча тиша: Різрак витягнув товстий ланцюг із руки костюма, перебрав кожну ланку, провів тремтячим пальцем по пазуру на кінці — усе готово.</p>
+                        <p>З тремтінням Різрак запустив сповнений лезами механізм. Коваля охопив страх — перед тим, що на нього чекало, і з чим йому доведеться битися, аби повернути спокій. Коли пилкокостюм завібрував і ожив, Різрак вже знав — він має зійтися зі своїм страхом віч-на-віч, і ця зустріч буде не з приємних.</p>
+                                              <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+75% до дальності і швид. снаряду Timber Chain</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+75 дод. шкоди за дерево у Whirling Death</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+5% до сповільнення від Chakram</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">Лісова терапія лікує на 10 здоров'я за знищене дерево.</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+6 до макс. Reactive Armor i +1 за атаку героя</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+2.5% до втрати характеристик від Whirling Death</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+1.5 до реген. мани</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+0.25 до регенерації здоров'я за заряд Reactive Armor</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Лісова терапія</h3>
+                            <p>Щоразу, коли Лісопил знищує дерево, він здобуває 4 мани.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="shredder_whirling_death.png" alt="Whirling Death" />
+                        <div class="tooltip">
+                            <h3>Whirling Death</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Абсолютний</p>
+                            <p>Розкручує гостру циркулярну пилку, завдаючи шкоди ворогам і зрубуючи дерева навколо. Якщо під циркулярку потрапить ворожий герой, його основна характеристика знизиться на короткий час. Здібність завдасть додаткову шкоду за кожне спиляне дерево.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="shredder_timber_chain.png" alt="Timber Chain" />
+                        <div class="tooltip">
+                            <h3>Timber Chain</h3>
+                            <video controls autoplay muted loop>
+                                <source src="6.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Абсолютний</p>
+                            <p>Випускає ланцюг, який зачіпляється за перше ліпше дерево і притягує до нього героя. Усі вороги, які трапляться на шляху, отримають шкоду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="shredder_reactive_armor.png" alt="Reactive Armor" />
+                        <div class="tooltip">
+                            <h3>Reactive Armor</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Після кожного отриманого удару посилюється броня героя та пришвидшується регенерація здоров’я. Атаки героїв дають x3 ефекту.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="shredder_chakram.png" alt="Chakram" />
+                        <div class="tooltip">
+                            <h3>Chakram</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Абсолютний</p>
+                            <p>Запускає у вибране місце головну дискову пилку костюма, де вона зупиняється та починає обертатися, завдаючи шкоди. Потрапивши під пилку, вороги із втратою кожних 5% здоров’я все більше уповільнюються. Коли випускається та повертається в костюм, пилка завдає шкоди та зрубує дерева на своєму шляху. Під час обертання пилки герой витрачає ману та не може атакувати.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Реактивну броню тепер можна активувати, щоб отримати максимальну кількість зарядів і початковий бар’єр обсягом 200. Посилює цей бар’єр обсягом 100 + 75 за секунду за кожного ворожого героя в радіусі 600 до максимального значення 800. Через 8 с Лісопил завдає 200 + рештки бар’єру як шкоду кожному герою в радіусі 600 і втрачає бар’єр.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Вивільняє вогонь, що поширюється в напрямку погляду Лісопила. Застосовує негативний ефект, що завдає шкоду за секунду і сповільнює рух ворогів. Спорудам завдає зменшену шкоду.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>26</span> <span class="attribute-bonus">+3.5</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>16</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>23</span> <span class="attribute-bonus">+2.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>49-53</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>2.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>295</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="tree.png" alt="Іконка дерева" class="facet-icon">
+                        <h3 class="facet-name">ДРОБАРКА</h3>
+                    </div>
+                    <p class="facet-description">Ланцюг розколює дерево на скалки, що летять у всіх напрямках від Лісопила.</p>
+                    <div class="facet-ability-link">
+                        <img src="shredder_timber_chain.png" alt="TIMBER CHAIN icon">
+                        <span>TIMBER CHAIN</span>
+                    </div>
+					<p class="facet-description">Коли Лісопил стикається з цільовим деревом, воно розколюється на скалки, 10 із яких летять у всіх напрямках на відстань до 700. Якщо скалка влучає у ворога, той зазнає шкоди й ненадовго сповільнюється.</p>
+					 <p class="facet-description">ШКОДА ВІД СКАЛКИ:20/40/60/80</p>
+					  <p class="facet-description">ДІЯ СПОВІЛЬНЕННЯ ВІД СКАЛКИ:1</p>
+					   <p class="facet-description">30%/40%/50%/60%</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="spinning.png" alt="Іконка кругу" class="facet-icon">
+                        <h3 class="facet-name">TWISTED CHAKRAM</h3>
+                    </div>
+                    <p class="facet-description">Ця грань дає здібність Twisted Chakram.</p>
+                    <div class="facet-ability-link">
+                        <img src="shredder_chakram.png" alt="TWISTED CHAKRAM">
+                        <span>TWISTED CHAKRAM</span>
+                    </div>
+                    <p class="facet-description">Запускає другий окремий чакрам, який рухається вигнутим шляхом і повертається до Лісопила, ушкоджуючи і сповільнюючи всіх ворогів, крізь яких проходить. Вороги, що потрапили під пилку, рухатимуться ще повільніше за кожні 5% утраченого здоров’я.</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Whirling Death</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Абсолютна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Розкручує гостру циркулярну пилку, завдаючи шкоди ворогам і зрубуючи дерева навколо. Якщо під циркулярку потрапить ворожий герой, його основна характеристика знизиться на короткий час. Здібність завдасть додаткову шкоду за кожне спиляне дерево.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">85/130/175/220</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">12/13/14/15</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">325</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">7,5/7/6,5/6</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">На випадок, якщо Різрака оточить рослинність із нічних кошмарів, у нього підготовлена система пилоциркулярної оборони.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Whirling Death"
+                        data-description="Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду."
+                        data-target="Ненацілена"
+                        data-damage-type="Абсолютна"
+                        data-scales="Ні"
+                        data-armor-reduction="85/130/175/220"
+                        data-duration="12/13/14/15"
+                        data-radius="325"
+                        data-cooldown="7,5/7/6,5/6"
+                        data-mana-cost="100"
+                        data-note="На випадок, якщо Різрака оточить рослинність із нічних кошмарів, у нього підготовлена система пилоциркулярної оборони."
+                >
+                    <img src="shredder_whirling_death.png" alt="Whirling Death Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Timber Chain"
+                        data-description="Випускає ланцюг, який зачіпляється за перше ліпше дерево і притягує до нього героя. Усі вороги, які трапляться на шляху, отримають шкоду."
+                        data-target="Націлена на точку"
+                        data-damage-type="Абсолютна"
+                        data-scales="Ні"
+                        data-armor-reduction="45/100/155/210"
+                        data-duration="2"
+                        data-radius="225"
+                        data-cooldown="4"
+                        data-mana-cost="60/70/80/90"
+                        data-note="Ніколи не знаєш, коли тобі доведеться тікати від знавіснілої рослинності."
+                >
+                    <img src="shredder_timber_chain.png" alt="Timber Chain Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Reactive Armor"
+                        data-description="Після кожного отриманого удару посилюється броня героя та пришвидшується регенерація здоров’я. Атаки героїв дають x3 ефекту."
+                        data-target="Пасивна"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction=""
+                        data-duration="10/12/14/16"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Зафіксувавши найлегший дотик до своєї поверхні, циркулярний костюм одразу приводить у дію всі захисні механізми."
+                >
+                    <img src="shredder_reactive_armor.png" alt="Reactive Armor Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Chakram"
+                        data-description="Запускає у вибране місце головну дискову пилку костюма, де вона зупиняється та починає обертатися, завдаючи шкоди. Потрапивши під пилку, вороги із втратою кожних 5% здоров’я все більше уповільнюються. Коли випускається та повертається в костюм, пилка завдає шкоди та зрубує дерева на своєму шляху. Під час обертання пилки герой витрачає ману та не може атакувати."
+                        data-target="Націлена на точку"
+                        data-damage-type="Абсолютна"
+                        data-scales="Ні"
+                        data-armor-reduction="100/150/200"
+                        data-duration=""
+                        data-radius="200"
+                        data-cooldown="8/8/8"
+                        data-mana-cost="100/140/180"
+                        data-note="Ідеальна зброя для викорінювання флори."
+                >
+                    <img src="shredder_chakram.png" alt="Chakram Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Flamethrower"
+                        data-description="Вивільняє вогонь, що поширюється в напрямку погляду Лісопила. Застосовує негативний ефект, що завдає шкоду за секунду і сповільнює рух ворогів. Спорудам завдає зменшену шкоду."
+                        data-target="Націлена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="70"
+                        data-duration="8"
+                        data-radius="275"
+                        data-cooldown="20"
+                        data-mana-cost="100"
+                        data-note="Одна пила може вирізати лише стільки. Єдина іскра може спалити назавжди."
+                >
+                    <img src="1.jpg" alt="Flamethrower Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Reactive Armor"
+                        data-description="Реактивну броню тепер можна активувати, щоб отримати максимальну кількість зарядів і початковий бар’єр обсягом 200. Посилює цей бар’єр обсягом 100 + 75 за секунду за кожного ворожого героя в радіусі 600 до максимального значення 800. Через 8 с Лісопил завдає 200 + рештки бар’єру як шкоду кожному герою в радіусі 600 і втрачає бар’єр."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Зафіксувавши найлегший дотик до своєї поверхні, циркулярний костюм одразу приводить у дію всі захисні механізми."
+                >
+                    <img src="2.jpg" alt="Reactive Armor Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

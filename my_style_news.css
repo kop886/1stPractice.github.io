@@ -1,0 +1,893 @@
+/* --- ГЛОБАЛЬНІ СТИЛІ ДЛЯ ПЛАВНОГО СКРОЛУ --- */
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    overflow-x: hidden;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Спеціальні стилі для BODY на сторінці новин */
+body.news-page-body {
+    background-image: url('dota2_heroes_banner.jpg'); /* Фон для всієї сторінки новин */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Для ефекту паралаксу */
+}
+
+/* Накладання для BODY на сторінці новин */
+body.news-page-body::before {
+    content: '';
+    position: fixed; /* Fixed, щоб покривати весь в'юпорт */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Напівпрозорий чорний колір */
+    z-index: -1; /* Під усіма елементами */
+}
+
+
+/* --- СТИЛІ ДЛЯ ХЕДЕРА ТА ОСНОВНОГО БАНЕРА --- */
+.main-header {
+    position: relative;
+    width: 100%;
+    height: 600px; /* Висота банера */
+    overflow: hidden;
+    z-index: 50; /* Збільшений z-index для хедера */
+}
+
+.banner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    background-color: transparent;
+    color: #fff;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    z-index: 10; /* Навігація над відео */
+}
+
+/* Стилі для хедера на сторінці новин (без відео) */
+.main-header.news-header {
+    height: 250px; /* Менша висота для хедера новин */
+    position: relative; /* Щоб його вміст був відносно нього */
+}
+.main-header.news-header .navbar {
+    position: relative; /* Змінюємо на відносне позиціонування */
+
+}
+.main-header.news-header .banner-video {
+    display: none; /* Приховуємо відео на сторінці новин */
+}
+.main-header.news-header .main-banner-content {
+    display: none; /* Приховуємо цитату на сторінці новин */
+}
+
+.news-page-banner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.news-page-title {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.news-page-subtitle {
+    font-size: 1.2em;
+    color: #ccc;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-left: 20px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.dota2-icon {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.nav-links li a:hover {
+    color: #00bcd4;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.play-button-small {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 14px 30px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin-right: 20px;
+}
+
+.play-button-small:hover {
+    background-color: rgba(0, 188, 212, 0.2);
+    border-color: #00bcd4;
+    color: #00bcd4;
+}
+
+.main-banner-content {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 60px;
+    z-index: 5;
+    background-color: transparent;
+    padding: 0;
+    max-width: 600px;
+    text-align: left;
+    box-shadow: none;
+}
+
+.quote {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+    line-height: 1.2;
+}
+
+.source {
+    font-size: 1.2em;
+    color: #ccc;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.play-button-large {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease;
+    box-shadow: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.play-button-large:hover {
+    background-color: rgba(0, 188, 212, 0.2);
+    color: #00bcd4;
+    border-color: #00bcd4;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* --- СТИЛІ ДЛЯ СЕКЦІЇ "ПРИЄДНУЙТЕСЬ ДО БИТВИ ДРЕВНІХ" (RADIANT/DIRE) --- */
+.dota2-intro-banner-section {
+    position: relative;
+    width: 100%; /* Займає всю ширину */
+    height: 0;
+    padding-bottom: 50%; /* Співвідношення сторін 2:1 */
+    overflow: hidden;
+    background-image: url('radiant_dire.jpg'); /* Тепер зображення як фон CSS */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #121212; /* Фоновий колір, якщо зображення не завантажилось */
+    margin-top: -80px; /* Залишаємо цей margin-top, щоб підняти секцію на хедер */
+    z-index: 1; /* Знижений z-index, щоб хедер був зверху */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.dota2-intro-gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 400px; /* Збільшена висота градієнта */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%); /* Від майже чорного до прозорого */
+    z-index: 1; /* Над зображенням, але під текстом */
+    pointer-events: none;
+}
+
+.dota2-intro-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%); /* Піднято блок вище */
+    z-index: 2;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    max-width: 900px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dota2-intro-title {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+}
+
+.dota2-intro-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #ccc;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.dota2-intro-button {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.dota2-intro-button:hover {
+    background-color: rgba(0, 188, 212, 0.2);
+    border-color: #00bcd4;
+    color: #00bcd4;
+}
+
+/* --- СТИЛІ ДЛЯ ОБГОРТКИ MAIN З ФОНОМ ГЕРОЇВ --- */
+main {
+    padding: 0;
+    margin-top: 0;
+    position: relative;
+    z-index: 1; /* Змінив z-index, щоб не конфліктувати з хедером */
+    background-image: url('dota2_heroes_banner.jpg'); /* ФОН ДЛЯ ВСЬОГО MAIN */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Для ефекту паралаксу */
+}
+
+/* Накладання для покращення читабельності тексту на фоновому зображенні MAIN */
+main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Напівпрозорий чорний колір для фону */
+    z-index: 0; /* Під усіма іншими елементами main */
+}
+
+/* Спеціальний MAIN для сторінки новин, без власного фону */
+main.news-main-content {
+    background-image: none; /* Прибираємо фонове зображення з main для news-main-content */
+    background-color: transparent; /* Забезпечуємо прозорість */
+    /* Псевдоелемент ::before також не буде застосовуватися до news-main-content,
+       оскільки він застосований до основного main */
+}
+main.news-main-content::before {
+    content: none; /* Приховуємо псевдоелемент для news-main-content */
+}
+
+
+section {
+    margin-bottom: 0; /* Прибираємо margin-bottom з секцій, щоб вони були щільніше */
+    position: relative; /* Щоб z-index працював коректно всередині main */
+    z-index: 1; /* Всі секції всередині main будуть над фоном main */
+}
+
+/* --- СТИЛІ ДЛЯ СЕКЦІЇ "ОСТАННІ НОВИНИ" (НА ГОЛОВНІЙ СТОРІНЦІ) --- */
+.latest-news-section {
+    max-width: 1200px;
+    margin: -250px auto 0 auto; /* Збільшив негативний margin-top, щоб підняти вище */
+    position: relative;
+    z-index: 4; /* Важливо, щоб новини були над градієнтом Radiant/Dire */
+    background-color: transparent; /* Забезпечуємо прозорість */
+    padding: 40px 20px; /* Відступи зверху і знизу */
+    border-radius: 8px; /* Додаємо заокруглення, щоб відповідати іншим блокам */
+}
+
+/* Стилі для секції "ОСТАННІ НОВИНИ" (НА СТОРІНЦІ АРХІВУ НОВИН) */
+.latest-news-section.news-archive-section {
+    margin-top: 40px; /* Повертаємо нормальний відступ, бо вона не накладається */
+    padding-bottom: 40px;
+    background-color: transparent; /* Забезпечуємо прозорість */
+    max-width: 1200px; /* Обмежуємо ширину */
+    margin-left: auto;
+    margin-right: auto; /* Центруємо */
+}
+
+
+.latest-news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.latest-news-title {
+    font-size: 2.5em;
+    color: #ffd700;
+    margin: 0;
+}
+
+.view-all-news {
+    color: #00bcd4;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.view-all-news:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.news-grid-container {
+    padding: 0 10px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.news-card {
+    position: relative;
+    background-color: #2a2a2a; /* Картки зберігають свій темний фон */
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 400px;
+}
+
+.news-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease-in-out;
+}
+
+.news-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+    color: #ffffff;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.news-date {
+    font-size: 0.85em;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.news-title-short {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.news-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #eee;
+    padding: 15px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.news-title-full {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.news-details p {
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.news-read-more {
+    color: #00bcd4;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    margin-top: auto;
+    transition: color 0.3s ease;
+}
+
+.news-read-more:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* СТАН ПРИ НАВЕДЕННІ */
+.news-card.hovered .news-card-image {
+    filter: brightness(0.5);
+}
+
+.news-card.hovered .news-card-content {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.news-card.hovered .news-details {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* --- СТИЛІ ДЛЯ СЕКЦІЇ "ГЕРОЇ" --- */
+.strength-heroes {
+    max-width: 1200px;
+    margin: 40px auto; /* Відступи зверху і знизу від інших секцій */
+    padding-top: 60px; /* Відступ зверху для тексту "Кого Ви Обираєте?" */
+    padding-bottom: 60px; /* Відступ знизу від карток героїв */
+    border-radius: 8px; /* Заокруглення кутів */
+    background-color: transparent; /* ВАЖЛИВО: Прозорий фон */
+    position: relative;
+    z-index: 2; /* Над фоном main */
+}
+
+/* Стилі для тексту "Кого Ви Обираєте?" (частина strength-heroes) */
+.heroes-main-content {
+    position: relative; /* Щоб бути над фоном main */
+    z-index: 2; /* Над накладанням main */
+    text-align: center;
+    color: #fff;
+    padding: 0 20px; /* Горизонтальний padding */
+    margin-bottom: 40px; /* Відступ від заголовка "Сила" */
+}
+
+.heroes-main-title {
+    font-size: 3.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+
+.heroes-main-description {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #ccc;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    margin-bottom: 40px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2; /* Над фоном main */
+}
+
+.section-title img.attribute-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.section-title h2 {
+    font-size: 32px;
+    color: #e74c3c;
+    margin: 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    position: relative;
+    z-index: 2; /* Над фоном main */
+}
+
+.hero-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.hero-card img {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.hero-card .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 6px 0;
+    font-weight: bold;
+    font-size: 11px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hero-card:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.hero-card:hover .overlay {
+    opacity: 1;
+}
+
+footer {
+    background-color: #1e1e1e;
+    color: #999;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* --- СТИЛІ ДЛЯ СЕКЦІЇ "КІБЕРСПОРТ" --- */
+.content-section {
+    padding: 60px 40px;
+    text-align: center;
+    background-color: #1e1e1e; /* Це буде власний темний фон */
+    border-radius: 8px;
+    margin-top: 40px; /* Відступ від секції героїв */
+    margin-bottom: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2; /* Над фоном main */
+}
+
+.content-section .section-title {
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    color: #00bcd4;
+}
+
+.esports-event {
+    background-color: #2a2a2a;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.esports-event h3 {
+    color: #ffd700;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.esports-event p {
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.view-events {
+    display: inline-block;
+    margin-top: 10px;
+    color: #00bcd4;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.view-events:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Медіа-запити для адаптивності (оновлено) */
+@media (max-width: 992px) {
+    .main-header {
+        height: 500px;
+    }
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .navbar-left {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        margin-left: 0;
+    }
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .navbar-right {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .play-button-small {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 1em;
+        margin-right: 0;
+    }
+    .main-banner-content {
+        padding: 20px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .quote {
+        font-size: 2em;
+    }
+    .play-button-large {
+        padding: 12px 30px;
+        font-size: 1.2em;
+    }
+
+    /* Адаптивність інтро-банера DOTA 2 */
+    .dota2-intro-banner-section {
+        margin-top: -80px;
+        height: 0;
+        padding-bottom: 40%;
+    }
+    .dota2-intro-gradient-overlay {
+        height: 100px;
+    }
+    .dota2-intro-content {
+        padding: 15px;
+        transform: translate(-50%, -50%);
+    }
+    .dota2-intro-title {
+        font-size: 2em;
+    }
+    .dota2-intro-description {
+        display: none;
+    }
+    .dota2-intro-button {
+        margin-top: 15px;
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+
+    /* Адаптивність секції новин */
+    .latest-news-section {
+        margin-top: -180px; /* Більш агресивний підйом для мобільних */
+        padding: 30px 15px;
+    }
+    .latest-news-title {
+        font-size: 2em;
+    }
+    .news-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    .news-card {
+        height: 280px;
+    }
+    .news-card-content {
+        padding: 10px;
+    }
+    .news-title-short {
+        font-size: 1.2em;
+    }
+    .news-title-full {
+        font-size: 1.3em;
+    }
+
+    /* Адаптивність секції героїв */
+    .heroes-main-content {
+        padding: 30px 15px;
+    }
+    .heroes-main-title {
+        font-size: 2.5em;
+    }
+    .heroes-main-description {
+        font-size: 1em;
+    }
+    .strength-heroes {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    .quote {
+        font-size: 1.5em;
+    }
+    .play-button-large {
+        font-size: 1em;
+        padding: 10px 25px;
+    }
+    .section-title h2 {
+        font-size: 24px;
+    }
+    .navbar {
+        padding: 10px 15px;
+    }
+    .dota2-intro-title {
+        font-size: 1.8em;
+    }
+    .heroes-main-title {
+        font-size: 2em;
+    }
+    .heroes-main-description {
+        display: none; /* Приховуємо опис на маленьких екранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+    .section-title img.attribute-logo {
+        width: 20px;
+        height: 20px;
+    }
+    .logo-container {
+        font-size: 1.5em;
+    }
+    .dota2-icon {
+        height: 30px;
+    }
+    .nav-links li a {
+        font-size: 0.9em;
+    }
+    .navbar-left, .navbar-right {
+        gap: 10px;
+    }
+    .navbar {
+        padding: 8px 10px;
+    }
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    .dota2-intro-title {
+        font-size: 1.5em;
+    }
+    .heroes-main-title {
+        font-size: 1.5em;
+    }
+}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Динозавр_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>PRIMAL BEAST</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ВІН ТОПЧЕ ВСЕ І ПРОСТО РОЗЧАВЛЮЄ СВОЇХ ВОРОГІВ</p>
+                        <p>Люто прориваючись через ворогів і союзників, Первісний Звір майстерно створює хаос у битві. Він є неминучою загрозою: може карати нападників, бо любить ловити здобич і неодноразово гамселити нею об землю, доки від тої не лишиться мокре місце.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ВІН ТОПЧЕ ВСЕ І ПРОСТО РОЗЧАВЛЮЄ СВОЇХ ВОРОГІВ</p>
+                        <p>Занепад Імлолісся та його перетворення з мирного краю на смертоносний пропащий вир тривали довго, ще й під супровід чаклунських вибриків. Проте більшість учених погоджуються, що справжнім початком кінця стало міжвимірне пришестя Первісного Звіра.</p>
+                        <p>Цю істоту було втягнуто до існування позбавленим усіх відчуттів, окрім голоду й болю. Еони різанини вигартували з нього найстрашнішого хижака на планеті, сповненій жорстоких чудовиськ. Звіра закували в новий світ тоді, коли потенційні повелителі зрозуміли, що не можуть контролювати його, тож у відчаї вигнали. У цьому світі він може піднятися від голодного хижака до агресивної машини для вбивства, котра ні перед чим не зупиниться.</p>
+                        <p>Довгі тисячоліття Імлолісся слугувало Звіру велетенським пасовищем для його кривавого бенкету — навіть жахлива тварюка дюрана була для нього лише перекусом. Воістину, не було Звіру на його землях рівних супротивників, лише набридлива дрібнота. Аж допоки одна з цих набридливих дрібнот не заманила нездоланного Звіра в підступну пастку Ґлейпніра.</p>
+                        <p>У ній би він і залишався, навіки закутий, якби непередбачувані сили Континуумного сховища не звільнили його. Тепер, вільний від контролю Ґлейпніра та Лабіринту, далеко від Імлолісся та набагато ближче до заселених країв, Звір спрямовує свою жагу до нових вбивств та до несамовитих руйнувань. І нікчемні вогні цивілізації навряд чи зможуть зупинити цю споконвічну потвору.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+67% до тривалості Pulverize</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Не сповільнюється й не вкорінюється під час Trample</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+7 до броні за заряд Иргоат</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+20% до множника атаки від Trample</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Розвіює себе після активації Uproar</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">-5 с зарядки Trample</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+25% опору магії протягом Trample</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+20 шкоди</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Колос</h3>
+                            <p>Первісний Звір завдає на 40% більше шкоди спорудам.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="primal_beast_onslaught.png" alt="Onslaught" />
+                        <div class="tooltip">
+                            <h3>Onslaught</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Первісний Звір заряджається, а потім біжить у вибраному напрямку, відштовхуючи і ворогів, і союзників. Ворожі істоти в разі зіткнення ушкоджуються та приголомшуються. Чим довше Звір заряджається, тим далі він бігтиме.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="primal_beast_trample.png" alt="Trample" />
+                        <div class="tooltip">
+                            <h3>Trample</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Первісний Звір розтоптує все на своєму шляху. Кожні 140 дистанції всі вороги навколо зазнають шкоди. Завдає базову шкоду плюс множник шкоди від атаки Первісного Звіра. Герой роззброєний на час дії здібності.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="primal_beast_uproar.png" alt="Uproar" />
+                        <div class="tooltip">
+                            <h3>Greevil's Greed</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                         
+                            <p>Темперамент Первісного Звіра призводить до того, що за кожні 50 чи більше шкоди, що Звір зазнає від ворожих героїв, він накопичує заряд Рику.
+
+Після активації герой ричить так, що сповільнює ворогів навколо та дає собі додаткову шкоду від атаки і броню на 7 с, відповідно до поточних зарядів Рику.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="primal_beast_pulverize.png" alt="Pulverize" />
+                        <div class="tooltip">
+                            <h3>Pulverize</h3>
+                            <video controls autoplay muted loop>
+                                <source src="6.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+                            <p>Первісний Звір накопичує свою лють під час чаклування, а потім хапає цільового ворога й гамселить ним об землю, що завдає шкоди та мініприголомшень усім ворогам у зоні дії. Кожен наступний удар завдає додаткову шкоду. </p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Коли Первісний Звір активує Рик, то він колом навколо себе вивільняє хвилі (3) зі снарядами (2) за заряд Рику в кожному. Снаряди завдають шкоду й переривання ворогам, у яких влучають. Після короткої затримки кожен снаряд розділяється на два.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Первісний Звір кидає камінь у вказану область, який приголомшує та завдає шкоди ворогам. Камінь не можна кинути на мінімальну відстань від Первісного Звіра. Після приземлення камінь розділяється на 3 рівні фрагменти, які падають за межі початкової області влучання.
+
+Кидок каменя збільшує заряди Рику за кожного зачепленого героя.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>26</span> <span class="attribute-bonus">+4.3</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>16</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>62-64</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.8</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>305</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="broken_chain.png" alt="Іконка зломаної кістки" class="facet-icon">
+                        <h3 class="facet-name">ПРОВОКАЦІЯ ЗВІРА</h3>
+                    </div>
+                    <p class="facet-description">Здобуває заряди Рику (3), коли зазнає знерухомлення від ворожого героя.</p>
+                    <div class="facet-ability-link">
+                        <img src="primal_beast_uproar.png" alt="UPROAR icon">
+                        <span>UPROAR</span>
+                    </div>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка майстра сумішей" class="facet-icon">
+                        <h3 class="facet-name">ЖОРСТОКІСТЬ</h3>
+                    </div>
+                    <p class="facet-description">Кожен удар Подрібнення збільшує область дії ефектів Первісного Звіра.</p>
+                    <div class="facet-ability-link">
+                        <img src="primal_beast_pulverize.png" alt="PULVERIZE icon">
+                        <span>PULVERIZE</span>
+                    </div>
+                                    </div>
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Onslaught</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Фізична</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Первісний Звір заряджається, а потім біжить у вибраному напрямку, відштовхуючи і ворогів, і союзників. Ворожі істоти в разі зіткнення ушкоджуються та приголомшуються. Чим довше Звір заряджається, тим далі він бігтиме.
+
+Можна скасувати в будь-який момент командою зупинки.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">75/170/265/360</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,7</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">2000</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">25/22/19/16</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">120</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Безжальна зосередженість Звіра на обраній жертві лишає позаду нього зруйнованими всі інші міркування.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Onslaught"
+                        data-description="Первісний Звір заряджається, а потім біжить у вибраному напрямку, відштовхуючи і ворогів, і союзників. Ворожі істоти в разі зіткнення ушкоджуються та приголомшуються. Чим довше Звір заряджається, тим далі він бігтиме.
+
+Можна скасувати в будь-який момент командою зупинки."
+                        data-target="Націлена на точку"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="75/170/265/360"
+                        data-duration="1,7"
+                        data-radius="2000"
+                        data-cooldown="25/22/19/16"
+                        data-mana-cost="120"
+                        data-note="Безжальна зосередженість Звіра на обраній жертві лишає позаду нього зруйнованими всі інші міркування."
+                >
+                    <img src="primal_beast_onslaught.png" alt="Onslaught Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Trample"
+                        data-description="Первісний Звір розтоптує все на своєму шляху. Кожні 140 дистанції всі вороги навколо зазнають шкоди. Завдає базову шкоду плюс множник шкоди від атаки Первісного Звіра. Герой роззброєний на час дії здібності."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="15/30/45/60"
+                        data-duration="5,5"
+                        data-radius="230"
+                        data-cooldown="30/27/24/21"
+                        data-mana-cost="100"
+                        data-note="Оскільки він єдиний представник свого виду, що прибув у цей світ, то місцеві можуть лише здогадуватися, наскільки великий Звір у порівнянні з його земляками. Такі спостереження, звісно, були би простішими, якби об’єкт дослідження не їв усе, що бачить, і не знищував майже все, що не з’їв."
+                >
+                    <img src="primal_beast_trample.png" alt="Trample Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Uproar"
+                        data-description="Темперамент Первісного Звіра призводить до того, що за кожні 50 чи більше шкоди, що Звір зазнає від ворожих героїв, він накопичує заряд Рику.
+
+Після активації герой ричить так, що сповільнює ворогів навколо та дає собі додаткову шкоду від атаки і броню на 7 с, відповідно до поточних зарядів Рику."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="10/20/30/40"
+                        data-duration="3"
+                        data-radius="900"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Звір явився в Імлоліссі в розірваній збруї та ланцюгах, тож жодних інших спроб підкорити себе він не терпітиме."
+                >
+                    <img src="primal_beast_uproar.png" alt="Uproar Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Pulverize"
+                        data-description="Первісний Звір накопичує свою лють під час чаклування, а потім хапає цільового ворога й гамселить ним об землю, що завдає шкоди та мініприголомшень усім ворогам у зоні дії. Кожен наступний удар завдає додаткову шкоду. Триває 2,3 с."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="100/175/250"
+                        data-duration="3"
+                        data-radius="600"
+                        data-cooldown="40/36/32"
+                        data-mana-cost="100"
+                        data-note="Хоча ніхто не певен чи його звуки дійсно щось значать, але більшість погоджуються, що міцний хват Звіра і схильність перетворювати ворогів на місиво досить прозоро виражають його наміри."
+                >
+                    <img src="primal_beast_pulverize.png" alt="Pulverize Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="7.mp4"
+                        data-name="Rock Throw"
+                        data-description="Первісний Звір кидає камінь у вказану область, який приголомшує та завдає шкоди ворогам. Камінь не можна кинути на мінімальну відстань від Первісного Звіра. Після приземлення камінь розділяється на 3 рівні фрагменти, які падають за межі початкової області влучання.
+
+Кидок каменя збільшує заряди Рику за кожного зачепленого героя."
+                        data-target="Націлена на точку"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="325"
+                        data-duration="1,75"
+                        data-radius="225"
+                        data-cooldown="25"
+                        data-mana-cost="85"
+                        data-note="ЛУПАЙМО СЮ СКАЛУ!"
+                >
+                    <img src="1.jpg" alt="Rock Throw Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="8.mp4"
+                        data-name="Uproar"
+                        data-description="Коли Первісний Звір активує Рик, то він колом навколо себе вивільняє хвилі (3) зі снарядами (2) за заряд Рику в кожному. Снаряди завдають шкоду й переривання ворогам, у яких влучають. Після короткої затримки кожен снаряд розділяється на два."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Звір явився в Імлоліссі в розірваній збруї та ланцюгах, тож жодних інших спроб підкорити себе він не терпітиме."
+                >
+                    <img src="2.jpg" alt="Uproar Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

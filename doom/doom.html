@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="DOOM_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>DOOM</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">НЕ ДОЗВОЛЯЄ ОДНОМУ З ВОРОГІВ ЧАКЛУВАТИ ТА ЛІКУВАТИСЯ БУДЬ-ЯКИМ СПОСОБОМ</p>
+                        <p>Так чи інакше, Доленосець знемовлює своїх ворогів. Пожираючи кріпів, щоб увібрати їх здібності, він може знемовити та підпалити ворога своєю ультимативною здібністю, через що той не зможе використовувати здібності та предмети.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">НЕ ДОЗВОЛЯЄ ОДНОМУ З ВОРОГІВ ЧАКЛУВАТИ ТА ЛІКУВАТИСЯ БУДЬ-ЯКИМ СПОСОБОМ</p>
+                        <p>Він — той, хто горить, але не згорає, пожирає, але не насичується, убиває, але лишається непокараним. Він — Люцифер, що нищить долі тих, хто стає на його шляху. І попри те, що зараз він пожирає душі пекельним полум’ям свого клинка, Люцифер є занепалим янголом. Навіть коли він був слухняним генералом за межею світла, його звинуватили в гріху непокори, бо не схилив коліна.</p>
+                        <p>Шість разів його ім’я пробили у великий дзвін Вашундол. Шістдесят шість разів його крила обпалювали, доки від них не лишилося нічого, крім обсмалених лопаток. Без крил зв’язок його зі світлом обірвався, і з криком упав він на землю. Кратер у пустелі, що утворився після падіння, назвали Втраченим Раєм. Тепер Люцифер б’ється, не знаючи милості, не маючи вагомої причини. Ним керує невідома мотивація та неймовірні таланти, і всюди з собою він носить своє особисте пекло. Зухвалий до останнього. Зрештою, світ буде належати йому.</p>
+                                                <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+Doom застосовує переривання</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Doom накладає заглушення</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+2.5% до макс. здоров'я як шкоди від Infernal Blade</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">-10 с зарядки Scorched Earth</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Devour діє на древніх кріпів</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+5% до швидкості руху від Scorched Earth</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+0.2 с до приголомшення від Infernal Blade</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">Devour дає 15% опору</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Біль нижчого рівня</h3>
+                            <p>Доленосець завдає 25% додаткової шкоди героям, чий рівень нижчий за його.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="doom_bringer_devour.png" alt="Devour" />
+                        <div class="tooltip">
+                            <h3>Devour</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Націлена на істоту</p>
+                            <p>Пожирає ворожого або нейтрального кріпа, привласнюючи його спеціальні здібності. Якщо вимкнено альтернативне застосування, то Доленосець не отримує здібності кріпа. Тривалість дорівнює зарядці.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="doom_bringer_scorched_earth.png" alt="Scorched Earth" />
+                        <div class="tooltip">
+                            <h3>Scorched Earth</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Земля навколо героя спалахує вогнем, чим завдає шкоди ворогам і пришвидшує Доленосця.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="doom_bringer_infernal_blade.png" alt="Infernal Blade" />
+                        <div class="tooltip">
+                            <h3>Infernal Blade</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Дум махає своїм палаючим мечем, підпалюючи ворогів. Приголомшує на 0,6 с та застосовує палючий вогонь на 4 с, який завдає базову шкоду плюс відсоток максимального здоров’я цілі як шкоду за секунду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="doom_bringer_doom.png" alt="Doom" />
+                        <div class="tooltip">
+                            <h3>Chemical Rage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Націлена на істоту </p>
+							<p><strong>Урон:</strong> Абсолютний</p>
+                            <p>Накладає прокляття, через яке ворожа істота зазнає розвіювання, не може чаклувати та будь-яким способом лікуватися, а також отримує періодичну шкоду.p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Союзники в радіусі 350 навколо цілі під дією Кари також страждають від ефекту цієї здібності. Дозволяє застосовувати Кару на себе, щоби діяти на ворогів навколо.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Лікує Доленосця та контрольованих ним істот на 60% від значення шкоди.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>24</span> <span class="attribute-bonus">+3.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.5</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>15</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>55-66</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.9</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>200</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>290</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="meat.png" alt="Іконка шматок мяса" class="facet-icon">
+                        <h3 class="facet-name">НЕНАЖЕРЛИВІСТЬ</h3>
+                    </div>
+                    <p class="facet-description">Пожирання має заряди (2), а викрадені здібності кріпів покращуються на один рівень.</p>
+                    <div class="facet-ability-link">
+                        <img src="doom_bringer_devour.png" alt="DEVOUR">
+                        <span>DEVOUR</span>
+                    </div>
+					<p class="facet-description">Пожирання має заряди (2), а викрадені здібності кріпів покращуються на один рівень.</p>
+					 <p class="facet-bonus">БАЗОВИЙ ЧАС ВІДНОВЛЕННЯ ЗАРЯДУ:80</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="gold.png" alt="Іконка золота" class="facet-icon">
+                        <h3 class="facet-name">DEVIL'S BARGAIN</h3>
+                    </div>
+                    <p class="facet-description">Диявольська угода Доленосець може продавати предмети за 85% від їхньої вартості, але вартість його викупу збільшено на 20%.</p>
+                                    </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="cooldown.png" alt="Іконка годинника" class="facet-icon">
+                        <h3 class="facet-name">МАЙБУТНЯ КАРА</h3>
+                    </div>
+                    <p class="facet-description">Кожні 6.66 хв тривалість Кари збільшується на 0.66 с.</p>
+                    <div class="facet-ability-link">
+                        <img src="doom_bringer_doom.png" alt="Doom icon">
+                        <span>DOOM</span>
+                    </div>
+                    <p class="facet-description">Кожні 6.66 хв тривалість Кари збільшується на 0.66 с.</p>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Devour</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">N/A</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Пожирає ворожого або нейтрального кріпа, привласнюючи його спеціальні здібності. Якщо вимкнено альтернативне застосування, то Доленосець не отримує здібності кріпа. Тривалість дорівнює зарядці.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">N/A</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">N/A</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">70</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">40/50/60/70</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Апетит і жадібність Люцифера неможливо задовольнити.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Devour"
+                        data-description="Пожирає ворожого або нейтрального кріпа, привласнюючи його спеціальні здібності. Якщо вимкнено альтернативне застосування, то Доленосець не отримує здібності кріпа. Тривалість дорівнює зарядці."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="1"
+                        data-radius="N/A"
+                        data-cooldown="70"
+                        data-mana-cost="40/50/60/70"
+                        data-note="Апетит і жадібність Люцифера неможливо задовольнити."
+                >
+                    <img src="doom_bringer_devour.png" alt="Devour Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Scorched Earth"
+                        data-description="Земля навколо героя спалахує вогнем, чим завдає шкоди ворогам і пришвидшує Доленосця."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="20/35/50/6"
+                        data-duration="10/12/14/16"
+                        data-radius="600"
+                        data-cooldown="16"
+                        data-mana-cost="100"
+                        data-note="Нечестивий сіє руйнацію, пожираючи всіх полум’ям, яке його живить."
+                >
+                    <img src="doom_bringer_scorched_earth.png" alt="Scorched Earth Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Infernal Blade"
+                        data-description="Дум махає своїм палаючим мечем, підпалюючи ворогів. Приголомшує на 0,6 с та застосовує палючий вогонь на 4 с, який завдає базову шкоду плюс відсоток максимального здоров’я цілі як шкоду за секунду."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="15/30/45/60"
+                        data-duration="4"
+                        data-radius="N/A"
+                        data-cooldown="13/10/7/4"
+                        data-mana-cost="40"
+                        data-note="Люцифер таврує ворога вогнем, як це зробили з ним самим після вигнання."
+                >
+                    <img src="doom_bringer_infernal_blade.png" alt="Infernal Blade Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Doom"
+                        data-description="Накладає прокляття, через яке ворожа істота зазнає розвіювання, не може чаклувати та будь-яким способом лікуватися, а також отримує періодичну шкоду."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Абсолютна"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="12/14/16"
+                        data-radius="N/A"
+                        data-cooldown="140/130/120"
+                        data-mana-cost="150/200/250"
+                        data-note="Неминуча кара чекає на того, чиє ім’я проб’є дзвін Вашундола."
+                >
+                    <img src="doom_bringer_doom.png" alt="Doom Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Doom"
+                        data-description="Союзники в радіусі 350 навколо цілі під дією Кари також страждають від ефекту цієї здібності. Дозволяє застосовувати Кару на себе, щоби діяти на ворогів навколо."
+                        data-target="Абсолютна"
+                        data-damage-type="Абсолютна"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="12/14/16"
+                        data-radius="N/A"
+                        data-cooldown="140/130/120"
+                        data-mana-cost="150/200/250"
+                        data-note="Неминуча кара чекає на того, чиє ім’я проб’є дзвін Вашундола."
+                >
+                    <img src="2.jpg" alt="Doom Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Scorched Earth"
+                        data-description="Лікує Доленосця та контрольованих ним істот на 60% від значення шкоди."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Scorched Earth Icon">
+                </button>
+                <!-- Add more ability buttons here, each with its data attributes -->
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

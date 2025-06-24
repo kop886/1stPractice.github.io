@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Дерево_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>TREANT PROTECTOR</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ВИКЛИКАЄ СИЛУ ЛІСУ ДЛЯ УКОРІНЕННЯ ВОРОГІВ</p>
+                        <p>Ент-Захисник — дуже доброзичливий союзник.Захищає союзних героїв чи будівлі живою бронею, що відновлює їм здоров'я. Непомітно прокрадаючись біля дерев, він обв'язує ворогів корінням та висмоктує з них здоров'я, передаючи Його союзникам.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ВИКЛИКАЄ СИЛУ ЛІСУ ДЛЯ УКОРІНЕННЯ ВОРОГІВ</p>
+                        <p>Далеко на заході, у горах за Долиною Передвістя, лежать залишки древньої сили, джерела надприродної енергії, що гніздяться глибоко у високогірних лісах. Подейкують, що те, що зростає там, зростає вкрай дивно. Для сил природи це священне місце, воно заховане й невідоме стороннім. Безліч пасток і небезпек у цих землях. Тут є всепоглинальні трави, змішані тварини та отруйні квіти, але ніщо не зрівняються в грізності із могутніми ентами-захисниками.</p>
+                        <p>Ці старезні велетенські істоти охороняють мир у цих небезпечних землях, слідкують, щоби ніхто з місцевих не воював без причини, а ніхто із чужинців не розкрив таємниць. Незліченні віки вони оберігали свою землю, нездоланні й нестривожені, і лише частково знали про те, що відбувається зовні. Та зовнішній світ поширювався, чужинці довідалися про священну землю й кожної зими ставали все наполегливішими. Незабаром вони з’явилися, озброєні пристроями, щоби рубати, і полум’ям, щоби палити. І часто енти задумувалися — хто ж ці вразливі й винахідливі істоти? Що сталося з диким зеленим світом? Пройшов вік роздумів і вагань, тисяча теплих років тривалих досліджень у дусі традиції, тоді як все більше чужинців гинули й живили їхню землю</p>
+                        <p>Коли все, що колись квітнуло, зав’януло, цікавість переборола обережність. І було вирішено: один Захисник буде посланий у широкий світ. Йому буде доручено блукати там доти, доки знову не піднімуться льодовики, та слідкувати за змінами територій та істот, які їх населяють, а також вивчати невідомі небезпеки, які можуть загрожувати їхній священній землі.</p>
+                        
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">450 AoE Living Armor</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">-35 с зарядки Overgrowth</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+45 до шкоди лікування від Leech Seed</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+8 до дод. броні від Living Armor</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+25 до шкоди від Nature's Grasp</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+18% до сповільнення руху від Leech Seed</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+2.5% до швидкості руху від Nature's Guise</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+2 до лікування за секунду від Living Armor</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Злиття з природою</h3>
+                            <p>Ент отримує можливість проходити крізь дерева, якщо не отримує шкоду впродовж 2,75 с. Також отримує додаткову швидкість руху, якщо проходить біля дерева або перебуває під дією Влади природи.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="treant_natures_grasp.png" alt="Nature's Grasp" />
+                        <div class="tooltip">
+                            <h3>Nature's Grasp</h3>
+                            <video controls autoplay muted loop>
+                                <source src="dota.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Створює лози в напрямку цільового місця. Лози сповільнюють і завдають шкоду ворогам, які проходять крізь них. Лози завдають на 50% більше шкоди, якщо торкаються дерева. Завдають половинну шкоду кріпам.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="treant_leech_seed.png" alt="Leech Seed" />
+                        <div class="tooltip">
+                            <h3>Leech Seed</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+							<p><strong>Діє:</strong>На ворожих істот</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Ент садить насінину, що сповільнює і висмоктує життя, у ворожу істоту. Насінина лікує союзників навколо. Лікування кріпів зменшено на 50%.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="treant_living_armor.png" alt="Living Armor" />
+                        <div class="tooltip">
+                            <h3>Living Armor</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Діє:</strong>На союзних істот і споруди</p>
+                            <p>Огортає вибраного героя або споруду захисним покривом, що лікує ціль та дає їй додаткову броню.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="treant_overgrowth.png" alt="Overgrowth" />
+                        <div class="tooltip">
+                            <h3>Overgrowth</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Навкруги стрімко розростається лоза та гілляччя, які завдають шкоду зачепленим ворогам і не дають їм рухатися, стрибати, ставати невидимими чи атакувати.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Зачаровує дерево, яке забезпечує вільний огляд прилеглої території. При застосуванні здібності Зарості істоти поблизу від зачарованого дерева отримають шкоду та будуть знерухомлені. Пасивно пришвидшує відродження усіх дерев.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Ент-Захисник стає невидимим завдяки здібності Злиття з природою та вкорінює ворогів під час атаки. Завдає періодичної шкоди і вкорінює на довший час, якщо атака була поблизу дерева. Загальна шкода дорівнює 100 + 75% від базової шкоди атаки Ента.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+3.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>20</span> <span class="attribute-bonus">+1.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>85-93</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>1.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>280</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="damage (1).png" alt="Іконка меча" class="facet-icon">
+                        <h3 class="facet-name">ПЕРВОЗДАННА СИЛА</h3>
+                    </div>
+                    <p class="facet-description">Ент-Захисник здобуває +6 до базової шкоди від атаки за рівень.</p>
+                                   </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="tree.png" alt="Іконка дерева" class="facet-icon">
+                        <h3 class="facet-name">НАСІННЯ</h3>
+                    </div>
+                    <p class="facet-description">Насінину-кровопивцю можна застосувати на землю, щоби посадити дерево.</p>
+                    <div class="facet-ability-link">
+                        <img src="treant_leech_seed.png" alt="LEECH SEED icon">
+                        <span>LEECH SEED</span>
+                    </div>
+                    <p class="facet-bonus">Насінину-кровопивцю можна застосувати на землю й посадити дерево, яке лікуватиме союзників і ушкоджуватиме ворогів у радіусі ефекту впродовж дії здібності. Шкоду кріпам зменшено на 50%. Якщо дерево зрубати, то воно миттєво виросте знову.</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="dota.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Nature's Grasp</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Створює лози в напрямку цільового місця. Лози сповільнюють і завдають шкоду ворогам, які проходять крізь них. Лози завдають на 50% більше шкоди, якщо торкаються дерева. Завдають половинну шкоду кріпам.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">30/40/50/60</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">9/10/11/12</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">20/19/18/17</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">90</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Тендрили впливу покрівельного покриття тягнуться до всіх куточків лісу.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="dota.mp4"
+                        data-name="Nature's Grasp"
+                        data-description="Створює лози в напрямку цільового місця. Лози сповільнюють і завдають шкоду ворогам, які проходять крізь них. Лози завдають на 50% більше шкоди, якщо торкаються дерева. Завдають половинну шкоду кріпам."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="30/40/50/60"
+                        data-duration="9/10/11/12"
+                        data-radius=""
+                        data-cooldown="20/19/18/17"
+                        data-mana-cost="90"
+                        data-note="Тендрили впливу покрівельного покриття тягнуться до всіх куточків лісу."
+                >
+                    <img src="treant_natures_grasp.png" alt="Nature's Grasp Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Leech Seed"
+                        data-description="Ент садить насінину, що сповільнює і висмоктує життя, у ворожу істоту. Насінина лікує союзників навколо. Лікування кріпів зменшено на 50%."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="15/30/45/60"
+                        data-duration="5"
+                        data-radius="650"
+                        data-cooldown="24/20/16/12"
+                        data-mana-cost="80/90/100/110"
+                        data-note="Життєві сили, що висмоктуються з порушників кордонів священного лісу, ідуть на підживлення підопічних створінь."
+                >
+                    <img src="treant_leech_seed.png" alt="Leech Seed Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Living Armor"
+                        data-description="Огортає вибраного героя або споруду захисним покривом, що лікує ціль та дає їй додаткову броню."
+                        data-target="Націлена на істоту на споруди"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction=""
+                        data-duration="18/22/26/30"
+                        data-radius="N/A"
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="40/45/50/55"
+                        data-note="Своїм корінням і паростками захисники лісу можуть дотягнутися до самого обрію, що дозволяє їм стимулювати ріст рослин та відновлювати усе живе."
+                >
+                    <img src="treant_living_armor.png" alt="Living Armor Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Overgrowth"
+                        data-description="Навкруги стрімко розростається лоза та гілляччя, які завдають шкоду зачепленим ворогам і не дають їм рухатися, стрибати, ставати невидимими чи атакувати."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="85"
+                        data-duration="3/4/5"
+                        data-radius="800"
+                        data-cooldown="110/100/90"
+                        data-mana-cost="200/250/300"
+                        data-note="Захисник лісу викликає могутніх духів природи, що втілюються в рослинність навкруги."
+                >
+                    <img src="treant_overgrowth.png" alt="Overgrowth Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="7.mp4"
+                        data-name="Eyes In The Forest"
+                        data-description="Зачаровує дерево, яке забезпечує вільний огляд прилеглої території. При застосуванні здібності Зарості істоти поблизу від зачарованого дерева отримають шкоду та будуть знерухомлені. Пасивно пришвидшує відродження усіх дерев."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius="N/A"
+                        data-cooldown=""
+                        data-mana-cost="100"
+                        data-note="Завжди пильнуйте: допомога може знадобитися будь-кому і в будь-яку мить."
+                >
+                    <img src="2.jpg" alt="Eyes In The Forest Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Nature's Guise"
+                        data-description="Ент-Захисник стає невидимим завдяки здібності Злиття з природою та вкорінює ворогів під час атаки. Завдає періодичної шкоди і вкорінює на довший час, якщо атака була поблизу дерева. Загальна шкода дорівнює 100 + 75% від базової шкоди атаки Ента."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Nature's Guise Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

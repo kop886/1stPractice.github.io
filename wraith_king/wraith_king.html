@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="WK_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>WRAITH KING</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">МОЖЕ МИТТЄВО ВІДРОДИТИСЯ ПІСЛЯ СМЕРТІ</p>
+                        <p>Безстрашно крокуючи до своїх ворогів, Король-Дух приголомшує їх та знищує. Як тільки ворог візьме над ним гору, він відроджується завдяки своїй ультимативній здібності, та має шанс помститись своїм</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ОТРИМУЄ ДОДАТКОВЕ ЗОЛОТО ЗА ВБИВСТВА ЧИ РУНИ ДОСТАТКУ</p>
+                        <p>Протягом довгих років король Остаріон створював імперію з останків своїх ворогів. Вічна деспотична влада стала його нав’язливою ідеєю, повністю охопила розум. Він вважав, що вежі, побудовані поруч з його палацом, зможуть зберегти його життя назавжди. Пізніше він усвідомив, що це була глибока помилка… Адже навіть кістки колись перетворяться на порох. Глибоко розчарований недовговічністю плоті, він почав шукати більш надійний спосіб, щоб продовжити своє правління і, зрештою, знайшов його. Це була примарна енергія, форма чистого духу, яку деякі чудовиська виділяють у момент смерті. Вселивши в себе їхнє примарне єство, він сподівався знайти настільки ж потужне і безсмертне тіло, яким було його его. Під час тисячолітнього сонцестояння, відомого як Дух-вечір, він підготував обряд перетворення і наказав своїм підданим зібрати достатню кількість душ, яка допоможе наблизити його до безсмертя. Ніхто не знає, скільки відчайдушних героїв полягло в ту ніч. Єдиним вцілілим у тій бійні виявився сам король, хто наступного ранку зі сходом сонця постав як Король-дух. Відтепер він не сидить на своєму кістяному троні, а йде на полі бою з мечем у руці і вимагає вірності, не тільки до самої смерті, а й за її межами.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Reincarnation активує Wraithfire Blast</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">-2s Mortal Strike Cooldown</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+5 до кількості скелетів від Bone Guard</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+60 до швидкості атаки</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+400 здоров'я</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+1 с до приголомшення від Wraithfire Blast</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+2 сек. Уповільнити від вибуху Wraithfire</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+10% до вампіризму від Vampiric Spirit</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Вампірський дух</h3>
+                            <p>Дає Королю-Духу вампіризм. Після вбивства Король-Дух ненадовго перетворюється на блукаючого духа з додатковою швидкістю атаки й руху, що відтерміновує його смерть. Не може переродитися після перетворення на духа.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="skeleton_king_hellfire_blast.png" alt="Wraithfire Blast" />
+                        <div class="tooltip">
+                            <h3>Wraithfire Blast</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Король-Дух запускає у ворога згусток примарного вогню, який завдає шкоди та приголомшує ціль, після чого ворог сповільнюється й отримує періодичну шкоду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="skeleton_king_bone_guard.png" alt="Bone Guard" />
+                        <div class="tooltip">
+                            <h3>Bone Guard</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>За кожні два вбивства кріпів здобуває заряд, а за кожне вбивство героя — 2 заряди. Активація витрачає всі заряди і прикликає скелетів, які відроджуються 1 раз після смерті. Скелети отримують вампіризм від Вампірського духа.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="skeleton_king_mortal_strike.png" alt="Mortal Strike" />
+                        <div class="tooltip">
+                            <h3>Mortal Strike</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Діє:</strong>На ворожих героїв</p>
+                            <p>Король-Дух пасивно завдає додаткової шкоди до атаки. Має зарядку.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="skeleton_king_reincarnation.png" alt="Reincarnation" />
+                        <div class="tooltip">
+                            <h3>Reincarnation</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                             <p><strong>Тип:</strong>Націлена на істоту</p>
+							 <p><strong>Діє:</strong>На союзних героїв</p>
+                            <p>Король-Дух переформовується після загибелі, що дозволяє йому постати з мертвих під час бою. Після смерті ворожі істоти в радіусі 900 сповільняться. Можна чаклувати на себе, щоби миттєво вбити Короля-Духа.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Вампірський дух стає аурою, що дозволяє союзникам перетворюватися на духів після загибелі. Збільшує час життя духа.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Смертельний удар завдає 50% додаткової шкоди у формі духа.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>22</span> <span class="attribute-bonus">+2.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>16</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>16</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: %;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: %;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>60-62</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>310</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="summons.png" alt="Іконка шоломів" class="facet-icon">
+                        <h3 class="facet-name">ОХОРОНЕЦЬ КІСТОК</h3>
+                    </div>
+                    <p class="facet-description">Король-Дух може прикликати скелетів, щоби ті билися на його боці.</p>
+					<p class="facet-bonus">Переривання скасовує здобуття нових зарядів.</p>
+					<p class="facet-bonus">Після застосування Примарного вогню на ворога прикликані скелети почнуть атакувати його.</p>
+                    <div class="facet-ability-link">
+                        <img src="skeleton_king_bone_guard.png" alt="BONE GUARD icon">
+                        <span>BONE GUARD</span>
+                    </div>
+					<p class="facet-description">За кожні два вбивства кріпів здобуває заряд, а за кожне вбивство героя — 2 заряди. Активація витрачає всі заряди і прикликає скелетів, які відроджуються 1 раз після смерті. Скелети отримують вампіризм від Вампірського духа.</p>
+					<div class="facet-ability-link">
+                        <img src="skeleton_king_reincarnation.png" alt="REINCARNATION icon">
+                        <span>REINCARNATION</span>
+                    </div>
+					<p class="facet-description">Під час Переродження з’являються скелети (2/3/4), які атакують усіх ворожих героїв поблизу.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="damage (1).png" alt="Іконка меча" class="facet-icon">
+                        <h3 class="facet-name">ПРИМАРНИЙ КЛИНОК</h3>
+                    </div>
+                    <p class="facet-description">Атаки Короля-Духа проклинають ворогів, завдаючи після затримки додаткової шкоди.</p>
+					<p class="facet-bonus">Проклинає істот, яких атакує Король-Дух, що завдає їм фіксовану кількість шкоди, а через деякий час ще й відсоток від шкоди атаки. Вампіризм від Вампірського духа застосовується до шкоди від прокляття. Впродовж короткого часу істоту не можна проклясти знову.</p>
+                    <div class="facet-ability-link">
+                        <img src="skeleton_king_reincarnation.png" alt="REINCARNATION icon">
+                        <span>REINCARNATION</span>
+                    </div>
+                    <p class="facet-description">Під час Переродження у всіх ворожих героїв поблизу скидаються зарядки проклять.</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Wraithfire Blast</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">75/90/105/120</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">2</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">14/12/10/8</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">95/110/125/140</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Остаріон прикликає духів своїх нечестивих предків, щоби знищити ворога.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Wraithfire Blast"
+                        data-description="Король-Дух запускає у ворога згусток примарного вогню, який завдає шкоди та приголомшує ціль, після чого ворог сповільнюється й отримує періодичну шкоду."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="75/90/105/120"
+                        data-duration="2"
+                        data-radius="350/400/450/500"
+                        data-cooldown="14/12/10/8"
+                        data-mana-cost="95/110/125/140"
+                        data-note="Остаріон прикликає духів своїх нечестивих предків, щоби знищити ворога."
+                >
+                    <img src="skeleton_king_hellfire_blast.png" alt="Wraithfire Blast Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Bone Guard"
+                        data-description="За кожні два вбивства кріпів здобуває заряд, а за кожне вбивство героя — 2 заряди. Активація витрачає всі заряди і прикликає скелетів, які відроджуються 1 раз після смерті. Скелети отримують вампіризм від Вампірського духа."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="34/39/43/49"
+                        data-duration="46"
+                        data-radius=""
+                        data-cooldown="42"
+                        data-mana-cost="70/80/90/100"
+                        data-note="Своїм клинком Король-дух висмоктує життя з ворогів, щоби підживити власну примарну ауру."
+                >
+                    <img src="skeleton_king_bone_guard.png" alt="Bone Guard Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Mortal Strike"
+                        data-description="Король-Дух пасивно завдає додаткової шкоди до атаки. Має зарядку."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="160%/200%/240%/280%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="6/5,5/5/4,5"
+                        data-mana-cost="0"
+                        data-note="Один удар — один труп."
+                >
+                    <img src="skeleton_king_mortal_strike.png" alt="Mortal Strike Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Reincarnation"
+                        data-description="Король-Дух переформовується після загибелі, що дозволяє йому постати з мертвих під час бою. Після смерті ворожі істоти в радіусі 900 сповільняться. Можна чаклувати на себе, щоби миттєво вбити Короля-Духа."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="5"
+                        data-radius="N/A"
+                        data-cooldown="180/150/120"
+                        data-mana-cost="225"
+                        data-note="Багато хто намагався покінчити з Королем-духом, але йому чомусь не лежиться в могилі."
+                >
+                    <img src="skeleton_king_reincarnation.png" alt="Reincarnation Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Berserk Potion"
+                        data-description="Вампірський дух стає аурою, що дозволяє союзникам перетворюватися на духів після загибелі. Збільшує час життя духа."
+                        data-target=""
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="35"
+                        data-duration=""
+                        data-radius="N/A"
+                        data-cooldown=""
+                        data-mana-cost=""
+                        data-note=""
+                >
+                    <img src="2.jpg" alt="Berserk Potion Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Mortal Strike"
+                        data-description="Смертельний удар завдає 50% додаткової шкоди у формі духа."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Mortal Strike Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="DB_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>DAWNBREAKER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">СТРИБАЄ ДЛЯ ДОПОМОГИ СОЮЗНИКАМ, ДЕ Б НА МАПІ ВОНИ НЕ БУЛИ</p>
+                        <p>Світанкова сяє в центрі битви й не лише радо трощить ворогів своїм небесним молотом, але й зцілює союзників поблизу. Молот Валори пролітає крізь ворогів і повертається до володарки, лишаючи по собі вогняний слід. Світанкова завжди готова летіти на крилах своєї космічної енергії на допомогу союзникам у самісіньке пекло бою — де б воно не було.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">СТРИБАЄ ДЛЯ ДОПОМОГИ СОЮЗНИКАМ, ДЕ Б НА МАПІ ВОНИ НЕ БУЛИ</p>
+                        <p>Через еони після відходу Хранителя й народження доби світла декотрі з нащадків першого сонця повстали проти хаосу, породженого творцем їхнього предка. Вони називалися Дітьми Світла і вважали себе єдиними достойними одягнути на себе покинуту мантію Хранителя — очолити битву проти темряви, створюючи величні армії для очищення космосу від усіх створінь первісної ночі.</p>
+                        <p>Валора Світанкова — найвідоміший воїн із-поміж стародавніх творінь Дітей і осяйний вісник порядку та світла. Викувана в надрах юної металевої зірки й наповнена золотим диханням нового життя, вона отримала завдання нести мудрість Дітей Світла в найтемніші закутки всесвіту, де з кожним ударом свого молота в безкінечному бою проти хаосу Валора пронизувала вогнем небеса.</p>
+                        <p>Згодом Діти відкрили й іншу мету для Світанкової. Вони з’ясували як пронизати весь космос своїм внутрішнім світлом, і таким чином назавжди винищити всі прояви пітьми, тож послали Валору захопити джерело могутньої сили, останній елемент їхнього плану. Та вперше в житті Валора і її молот зазнали невдачі, а ціна поразки виявилася велетенською як для неї, так і для її повелителів. Проблиск Дітей Світла загас, а Світанкова лишилася одна серед чорного простору, де літала тисячоліттями, доки не потрапила до нового незвіданого світу.</p>
+                        <p>Тут вона відпочивала, доки мандрівна молода зоря не запалила стародавнє енергетичне вогнище — релікт Дітей Світла, що, як і вона, віками лежав під палаючими червоними пустками. Завдяки цій енергії Валора повернула собі невелику частку колишніх сил і побачила країну, яку роздирали війни та інші сили хаосу. Тож нехай її боги і зникли, але у Світанкової лишився молот, яким вона скористається задля відновлення добра та світла.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+80% до дальності чаклування/швидкості Celestial Hammer</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">-4 с зарядки Starbreaker</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-1 необхідних атак Luminosity</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+150 до радіуса Solar Guardian</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-20 с зарядки Solar Guardian</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+40% до критичної шкоди від Luminosity</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15% до сповільнення від Celestial Hammer</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+12 шкоди</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Світанок</h3>
+                            <p>Щоразу, коли сходить сонце, Світанкова здобуває додаткову базову шкоду та огляд, що зменшується протягом дня.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dawnbreaker_fire_wreath.png" alt="Starbreaker" />
+                        <div class="tooltip">
+                            <h3>Starbreaker</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>Світанкова крутить своїм молотом навколо 3 рази, завдаючи ворогам шкоду від атак, а також додаткову шкоду. Останнім ударом вона вдаряє в землю, приголомшуючи та завдаючи шкоди ворогам перед собою.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dawnbreaker_celestial_hammer.png" alt="Celestial Hammer" />
+                        <div class="tooltip">
+                            <h3>Celestial Hammer</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Валора кидає свій молот у ворога, завдаючи шкоду ворогам на його шляху. Молот лежить протягом 2 с на місці, а потім повертається до неї, залишаючи за собою хвіст полум’я, яке сповільнює ворогів. Світанкова може повернути собі молот у будь-який час, притягуючи себе і зброю один до одного, так що вони зустрінуться на середині шляху.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dawnbreaker_luminosity.png" alt="Luminosity" />
+                        <div class="tooltip">
+                            <h3>Luminosity</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Діє:</strong> На союзників</p>
+                            <p>Після низки атак Світанкова заряджає наступний удар критичною шкодою, яка лікує союзників у радіусі 650 навколо на частку від завданої шкоди. Лікування від кріпів та нейтралів — менше. Союзники лікуються на 50%.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="dawnbreaker_solar_guardian.png" alt="Solar Guardian" />
+                        <div class="tooltip">
+                            <h3>Solar Guardian</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4spe.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Націлена на точку</p>
+							<p><strong>Тип шкоди:</strong> Магічна</p>
+                            <p>ЧАКЛУЄТЬСЯ. Світанкова утворює пульсуючий ефект в області 350 біля союзного героя в будь-якій точці на мапі, що завдає шкоду ворогам та лікує союзників за кожен пульс. Через короткий проміжок часу вона летить до цільового місця, завдаючи додаткову шкоду та приголомшуючи ворогів під час приземлення. Після початку чаклування Світанкова не може його зупинити.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Сонячна варта затримується на 3 с після приземлення й слідує за Світанковою. Лікування від Сонячної варти за імпульс збільшено. Час чаклування й час у повітрі зменшено.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Світанкова отримує імунітет до негативних ефектів, 50% опору до магії та безперешкодний рух під час Зореламу. Сповільнюється на 35%, мінімальне сповільнення до 215.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>25</span> <span class="attribute-bonus">+3.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>14</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>20</span> <span class="attribute-bonus">+2.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 75%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>49-53</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.3</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>300</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="cooldown.png" alt="Іконка часу" class="facet-icon">
+                        <h3 class="facet-name">СОНЯЧНИЙ ЗАРЯД</h3>
+                    </div>
+                    <p class="facet-description">Щоразу, коли Світанкова влучає в ціль зарядженою Освітленістю, вона зменшує зарядки всіх своїх здібностей.</p>
+                    <div class="facet-ability-link">
+                        <img src="dawnbreaker_luminosity.png" alt="LUMINOSITY icon">
+                        <span>LUMINOSITY</span>
+						                    </div>
+				<p class="facet-description">Щоразу, коли Світанкова влучає в ціль зарядженою Освітленістю, вона зменшує зарядки всіх своїх здібностей.</p>
+				<p class="facet-bonus">ЗМЕНШЕННЯ ЗАРЯДКИ:1</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="fist.png" alt="Іконка кулака" class="facet-icon">
+                        <h3 class="facet-name">ЗОРЯНИЙ СПЛЕСК</h3>
+                    </div>
+                    <p class="facet-description">Світанкова та її союзники поблизу здобувають наприкінці Зореламу додаткову швидкість атаки за кожен удар, що влучає у ворожих героїв.</p>
+                    <div class="facet-ability-link">
+                        <img src="dawnbreaker_fire_wreath.png" alt="STAPBREAKE icon">
+                        <span>STAPBREAKER</span>
+                    </div>
+                    <p class="facet-bonus">ДОД. ШВИДКІСТЬ АТАКИ ЗА ПОМАХ: 15 / 21 / 27 / 33</p>
+					<p class="facet-bonus">ДОД. ШВИДКІСТЬ АТАКИ ЗА ПОМАХ (СОЮЗНИКИ: 9 / 12 / 15 / 18</p>
+					<p class="facet-bonus">ДОД. ШВИДКІСТЬ АТАКИ ЗА ПОМАХ: 0 / 0 / 0 / 0</p>
+					<p class="facet-bonus">ДОД. ШВИДКІСТЬ АТАКИ ЗА ПОМАХ (СОЮЗНИКИ: 0 / 0 / 0 / 0</p>
+                </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="skipter.jpg" alt="Іконка дивідендів" class="facet-icon">
+                        <h3 class="facet-name">ВОГНЯНИЙ СЛІД</h3>
+                    </div>
+                    <p class="facet-description">Прохід по вогняному сліду від Небесного молота дає додаткову швидкість руху.</p>
+                    <div class="facet-ability-link">
+                        <img src="speed (1).png" alt="CELESTIAL HAMMER">
+                        <span>CELESTIAL HAMMER</span>
+                    </div>
+                    <p class="facet-bonus">ДОД. ШВИДКІСТЬ РУХУ ВІД СЛІДУ: 10% / 15% / 20% / 25%</p>
+					<p class="facet-bonus">ДОД. ШВИДКІСТЬ РУХУ ВІД СЛІДУ: 0% / 0% / 0% / 0%</p>
+                </div>
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1spel.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Starbreaker</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Фізична</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Так</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Світанкова крутить своїм молотом навколо 3 рази, завдаючи ворогам шкоду від атак, а також додаткову шкоду. Останнім ударом вона вдаряє в землю, приголомшуючи та завдаючи шкоди ворогам перед собою.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">25/40/55/70</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,1</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">300</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">17/15/13/11</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Серед неосяжної кількості зоряних нащадків було безліч нескорених, які не бажали коритися волі Дітей Світла. До тих, хто насмілювався організувати захист, Діти направляли Валору та її молот, щоби показати силу їхньої могутності — перетворити міста повстанців на руїни або ж змусити їх до покори.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1spel.mp4"
+                        data-name="Starbreaker"
+                        data-description="Світанкова крутить своїм молотом навколо 3 рази, завдаючи ворогам шкоду від атак, а також додаткову шкоду. Останнім ударом вона вдаряє в землю, приголомшуючи та завдаючи шкоди ворогам перед собою."
+                        data-target="Націлена на точку"
+                        data-damage-type="Фізична"
+                        data-scales="Так"
+                        data-armor-reduction="25/40/55/70"
+                        data-duration="1,1"
+                        data-radius="300"
+                        data-cooldown="17/15/13/11"
+                        data-mana-cost="100"
+                        data-note="Серед неосяжної кількості зоряних нащадків було безліч нескорених, які не бажали коритися волі Дітей Світла. До тих, хто насмілювався організувати захист, Діти направляли Валору та її молот, щоби показати силу їхньої могутності — перетворити міста повстанців на руїни або ж змусити їх до покори."
+                >
+                    <img src="dawnbreaker_fire_wreath.png" alt="Starbreaker Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2spel.mp4"
+                        data-name="Celestial Hammer"
+                        data-description="Валора кидає свій молот у ворога, завдаючи шкоду ворогам на його шляху. Молот лежить протягом 2 с на місці, а потім повертається до неї, залишаючи за собою хвіст полум’я, яке сповільнює ворогів. Світанкова може повернути собі молот у будь-який час, притягуючи себе і зброю один до одного, так що вони зустрінуться на середині шляху."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="50 / 80 / 110 / 140"
+                        data-duration="2,5 / 3 / 3,5 / 4"
+                        data-radius="200"
+                        data-cooldown="18 / 16 / 14 / 12"
+                        data-mana-cost="100 / 110 / 120 / 130"
+                        data-note="Світломол — найстаріший супутник Валори та єдиний зв’язок із сяйвом її творців."
+                >
+                    <img src="dawnbreaker_celestial_hammer.png" alt=Celestial Hammer Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Luminosity"
+                        data-description="Після низки атак Світанкова заряджає наступний удар критичною шкодою, яка лікує союзників у радіусі 650 навколо на частку від завданої шкоди. Лікування від кріпів та нейтралів — менше. Союзники лікуються на 50%."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="125% / 150% / 175% / 200%"
+                        data-duration="0"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Послаблена без доступу до відновлюючого світла Дітей, Валора все ж може підзарядити себе й союзників, утворюючи порядок із хаосу, який наявний у кожній битві."
+                >
+                    <img src="dawnbreaker_luminosity.png" alt="Luminosity Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4spe.mp4"
+                        data-name="Solar Guardian"
+                        data-description="Світанкова утворює пульсуючий ефект в області 350 біля союзного героя в будь-якій точці на мапі, що завдає шкоду ворогам та лікує союзників за кожен пульс. Через короткий проміжок часу вона летить до цільового місця, завдаючи додаткову шкоду та приголомшуючи ворогів під час приземлення. Після початку чаклування Світанкова не може його зупинити."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="130 / 160 / 190"
+                        data-duration="1,4 / 1,6 / 1,8"
+                        data-radius="500"
+                        data-cooldown="120 / 105 / 90"
+                        data-mana-cost="150/200/250"
+                        data-note="Валора використовує залишки своєї старої сили, які лишились після блукань космосом, лише для захисту своїх союзників."
+                >
+                    <img src="dawnbreaker_solar_guardian.png" alt="Solar Guardian Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Solar Guardian"
+                        data-description="Сонячна варта затримується на 3 с після приземлення й слідує за Світанковою. Лікування від Сонячної варти за імпульс збільшено. Час чаклування й час у повітрі зменшено."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="120 / 105 / 90"
+                        data-mana-cost="150 / 200 / 250"
+                        data-note="Валора використовує залишки своєї старої сили, які лишились після блукань космосом, лише для захисту своїх союзників."
+                >
+                    <img src="2.jpg" alt="Solar Guardian Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Starbreaker"
+                        data-description="Світанкова отримує імунітет до негативних ефектів, 50% опору до магії та безперешкодний рух під час Зореламу. Сповільнюється на 35%, мінімальне сповільнення до 215."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Starbreaker Icon">
+                </button>
+             
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>

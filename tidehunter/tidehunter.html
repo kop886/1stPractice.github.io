@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Tide_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>TIDEHUNTER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ВИТРИВАЛИЙ ГЕРОЙ,ЯКИЙ ЗМЕНШУЄ ШКОДУ ВОРОГІВ</p>
+                        <p>Очолюючи свою команду, Хвилеріз завжди вичікує нагоди завдати удару ворогам. Коли така наступає, він вивільняє свою масивну та руйнівну ультимативну здібність, прокладаючи шлях союзникам, щоби ті могли знищити приголомшених ворогів.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ВИТРИВАЛИЙ ГЕРОЙ,ЯКИЙ ЗМЕНШУЄ ШКОДУ ВОРОГІВ</p>
+                        <p>Хвилеріз, також відомий як Левіафан, — могутній захисник Затонулих островів. Однак зрозуміти його наміри не здатна жодна жива душа. Наприклад, усі ми знаємо про те, яким важливим є контроль над основними морськими маршрутами, і про те, як різко може змінитися економічна ситуація імперії, що контролює той чи інший пролив. Та що нам відомо про підводні маршрути? Чи чули ви коли-небудь про угоду між меранцями й людьми? Підводні маршрути є не менш важливі, аніж надводні. За панування над ними ведуться такі ж криваві війни, а їхні власники такі ж пихаті, як і монархи наземних імперій. Хвилеріз втомився від цієї боротьби, покинув рідні води та вирушив на мілководдя, керований глибинним богом Мельроном. Схоже, що блукає він без мети, якщо не рахувати пошуки капітана Кунка, з яким у Левіафана залишилися свої рахунки.</p>
+                       
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">50% шансу Anchor Smash під час атаки</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+0.8 с до приголомшення від Ravage</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-4 броні від Gush</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">Anchor Smash діє на споруди</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+30% зменшення шкоди від Anchor Smash</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+100 до шкоди від Gush</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15% до сповільнення від Gush</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+40 до шкоди від Anchor Smash</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Підшкірний жир</h3>
+                            <p>Шкіра Хвилеріза усуває негативні ефекти, якщо він зазнає понад 450 шкоди. Усуває більшість негативних ефектів, навіть якщо вони зазвичай не знімаються.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tidehunter_gush.png" alt="Gush" />
+                        <div class="tooltip">
+                            <h3>Gush</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+							<p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Посилає струмінь води, який завдає шкоди ворогу, знижує швидкість руху та броню.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tidehunter_kraken_shell.png" alt="Kraken Shell" />
+                        <div class="tooltip">
+                            <h3>Kraken Shell</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            
+                            <p>Шкіра Хвилеріза грубішає і пасивно блокує частину всієї отримуваної фізичної шкоди від атак. Обсяг блокування менший проти кріпів.
+
+Можна активувати, щоби подвоїти блокування за рахунок 40% швидкості руху. Триває 4 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tidehunter_anchor_smash.png" alt="Anchor Smash" />
+                        <div class="tooltip">
+                            <h3>Anchor Smash</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Фізичний</p>
+                            <p>З розмаху б’є кремезним якорем, атакуючи і завдаючи додаткової шкоди найближчим ворогам та послаблюючи їхню атаку.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="tidehunter_ravage.png" alt="Ravage" />
+                        <div class="tooltip">
+                            <h3>Ravage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Щосили гатить по землі. Із землі вириваються щупальця, що завдають шкоди ворогам навкруги та приголомшують їх.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Струмінь стає хвилею, що застосовується на землю, яка вражає всіх ворогів на шляху. Зменшує перезарядку.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Хвилеріз чіпляє до ворожого героя важкий якір. Герой прив’язується до якоря. Спроба відійти на відстань понад 350 від якоря сповільнить рух героя до 100 і потягне якір за ним. Якір можна знищити 4 атаками героя.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>27</span> <span class="attribute-bonus">+3.6</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>15</span> <span class="attribute-bonus">+1.5</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>20</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 9010%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>52-58</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>2.5</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>300</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="armor.png" alt="Іконка щиту" class="facet-icon">
+                        <h3 class="facet-name">ХВИЛЯ КРАКЕНА</h3>
+                    </div>
+                    <p class="facet-description">Панцир кракена отримує постійне блокування шкоди, коли ворожий герой гине під дією Удару якорем.</p>
+                    <div class="facet-ability-link">
+                        <img src="innate ability.png" alt="KRAKEN SHELL icon">
+                        <span>KRAKEN SHELL</span>
+                    </div>
+					<p class="facet-bonus">БЛОКУВАННЯ ШКОДИ ЗА ВБИВСТВО:1/2/3/4</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="overshadow.png" alt="Іконка людей" class="facet-icon">
+                        <h3 class="facet-name">ПОЖИРАЧ ПЛАНКТОНУ</h3>
+                    </div>
+                    <p class="facet-description">Хвилеріз збільшується і здобуває додаткові бонуси зі зростанням свого рівня.</p>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Gush</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Посилає струмінь води, який завдає шкоди ворогу, знижує швидкість руху та броню.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">110/160/210/260</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">4,5</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">0</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">12</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Свою кислоту Разіль готує за традиційними алхімічними рецептами родини Темноварів. Готова суміш здатна роз’їсти найміцніший метал.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Gush"
+                        data-description="Посилає струмінь води, який завдає шкоди ворогу, знижує швидкість руху та броню."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="110/160/210/260"
+                        data-duration="4,5"
+                        data-radius="350/400/450/500"
+                        data-cooldown="12"
+                        data-mana-cost="100"
+                        data-note="Левіафан навчився повелівати силами морів, ще бувши захисником Затонулих островів."
+                >
+                    <img src="tidehunter_gush.png" alt="Gush Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Kraken Shell"
+                        data-description="Шкіра Хвилеріза грубішає і пасивно блокує частину всієї отримуваної фізичної шкоди від атак. Обсяг блокування менший проти кріпів.
+
+Можна активувати, щоби подвоїти блокування за рахунок 40% швидкості руху. Триває 4 с."
+                        data-target="Ненацілена"
+                        data-damage-type=""
+                        data-scales="Ні"
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius=""
+                        data-cooldown="30"
+                        data-mana-cost="45"
+                        data-note="Серед кладдських моряків ходять оповідки про могутнього морського звіра, який навіть із важкими ранами продовжував топити кораблі."
+                >
+                    <img src="tidehunter_kraken_shell.png" alt="Kraken Shell Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Anchor Smash"
+                        data-description="З розмаху б’є кремезним якорем, атакуючи і завдаючи додаткової шкоди найближчим ворогам та послаблюючи їхню атаку."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізичний"
+                        data-scales="Ні"
+                        data-armor-reduction="45/90/135/180"
+                        data-duration="6"
+                        data-radius="375"
+                        data-cooldown="7/6/5/4"
+                        data-mana-cost="40/45/50/55"
+                        data-note="Важкий якір, вкрадений з корабля адмірала Кунки, став гарною зброєю для Левіафана."
+                >
+                    <img src="tidehunter_anchor_smash.png" alt="Anchor Smash Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Ravage"
+                        data-description="Щосили гатить по землі. Із землі вириваються щупальця, що завдають шкоди ворогам навкруги та приголомшують їх."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="275/375/475"
+                        data-duration="2/2,2/2,4"
+                        data-radius="1250"
+                        data-cooldown="150/145/140"
+                        data-mana-cost="125/225/325"
+                        data-note="Коли на заклик приходить бог Мельрон, у морській безодні зникають цілі армади."
+                >
+                    <img src="tidehunter_ravage.png" alt="Ravage Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Dead in the Water"
+                        data-description="Хвилеріз чіпляє до ворожого героя важкий якір. Герой прив’язується до якоря. Спроба відійти на відстань понад 350 від якоря сповільнить рух героя до 100 і потягне якір за ним. Якір можна знищити 4 атаками героя."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="100"
+                        data-duration="7"
+                        data-radius="N/A"
+                        data-cooldown="35"
+                        data-mana-cost="110"
+                        data-note="Anchors Aweigh!"
+                >
+                    <img src="1.jpg" alt="Dead in the Water Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="7.mp4"
+                        data-name="Gush"
+                        data-description="Струмінь стає хвилею, що застосовується на землю, яка вражає всіх ворогів на шляху. Зменшує перезарядку."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="12"
+                        data-mana-cost="100"
+                        data-note="Левіафан навчився повелівати силами морів, ще бувши захисником Затонулих островів."
+                >
+                    <img src="2.jpg" alt="Greevil's Greed Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+ 
+</body>
+</html>

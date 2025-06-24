@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Борозда_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>EARTHSHAKER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">РОЗДІЛЯЄ ВОРОЖУ КОМАНДУ СВОЄЮ СЕРІЄЮ ПРИГОЛОМШЕНЬ</p>
+                        <p>Землетрус має різні прийоми у своєму арсеналі: він може блокувати шляхи відступу ворога, розділяти ворожі сили й трусити землю під ногами супротивників. Його вміння найкраще підходять для несподіваних атак. І навіть якщо після землетрусу залишаться вцілілі, від його могутнього тотема вже ніхто не втече.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ОТРИМУЄ ДОДАТКОВЕ ЗОЛОТО ЗА ВБИВСТВА ЧИ РУНИ ДОСТАТКУ</p>
+                        <p>Колись давно Землетрус був єдиним із землею, як-то ґолеми чи гаргульї, та зараз він вільно крокує по світу. На відміну від інших створив себе сам, лиш виплеском волі, нікому не служить і діє на власний розсуд. У неспокійних снах, глибоко в кам’яних пустотах, він проводив весь свій час, дрімаючи, існуючи поза справжнім життям.</p>
+                        <p>Та якось, в один із сезонів тремтіння землі, піки Нішай трусило як ніколи. Численні лавини змінювали річища й течії річок, долини ставали бездонними прірвами… Коли земля остаточно перестала труситись, Землетрус вийшов із пилу, скинувши з себе вагу масивних брил, немов легку ковдру.</p>
+                        <p>Він постав у образі смертного звіра і назвався Рейґор Кам’яне Копито. Він дихає повітрям, у нім тече кров, тож його може і смерть спіткати. Та дух його земний має велику силу, і він завжди носить її у кремезному тотемі. А в день, коли паде він прахом, земля прийме назад свого блудного сина.</p>
+                                  <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-1.5 с зарядки Enchant Totem</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">-50% зарядки Echo Slam</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+50% до шкоди від Enchant Totem</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+50 до шкоди від Echo</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+50 до шкоди від Aftershock</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+200 до дальності Fissure</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+90 до шкоди від Fissure</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+25 до базової шкоди</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Відбивник</h3>
+                            <p>Убиті Зачарованим тотемом чи іншими здібностями Землетруса вороги відлітають, завдаючи шкоди ворогам, яких зачеплять.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earthshaker_fissure.png" alt="Fissure" />
+                        <div class="tooltip">
+                            <h3>Fissure</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Шкода:</strong>Магічна</p>
+                            <p>Ударяє по землі кремезним тотемом, утворюючи непрохідний бар’єр із каміння, який приголомшує всіх ворожих істот на шляху та завдає їм шкоди.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earthshaker_enchant_totem.png" alt="Enchant Totem" />
+                        <div class="tooltip">
+                            <h3>Enchant Totem</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Діє:</strong>На ворожих істот</p>
+                            <p>Заряджає тотем силою, щоби завдати додаткову шкоду й отримати 100 додаткової дальності атаки під час наступної атаки.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earthshaker_aftershock.png" alt="Aftershock" />
+                        <div class="tooltip">
+                            <h3>Aftershock</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            <p><strong>Шкода:</strong>Магічна</p>
+                            <p>Змушує тремтіти землю під ногами, завдаючи додаткової шкоди та приголомшуючи ворогів довкола, коли Рейгор застосовує свої здібності.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earthshaker_echo_slam.png" alt="Echo Slam" />
+                        <div class="tooltip">
+                            <h3>Echo Slam</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Шкода:</strong>Магічна</p>
+                            <p>Викликає землетрус, що завдає шкоди ворожим істотам. Кожен удар по ворогу викликає сейсмічну хвилю, яка ушкоджує істот поблизу. Справжні герої викликають дві хвилі.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Зачарований тотем стає спрямованою на землю здібністю, що змушує героя стрибнути в повітря та приземлитися на місце атаки, застосовуючи там тотем. Застосування здібності на себе викличе звичайний тотем без стрибка. Дає Зачарованому тотему ефект січі..</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Зменшує час зарядки Розлому й дозволяє Землетрусу проходити через нього. Коли герой чаклує будь-яку здібність, то одночасно застосовується Струс, який приголомшує на зменшений час тривалості.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>22</span> <span class="attribute-bonus">+3.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>12</span> <span class="attribute-bonus">+1.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+2.1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 00%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>49-59</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>4.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>315</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка області" class="facet-icon">
+                        <h3 class="facet-name">ТЕКТОНІЧНЕ НАРОЩЕННЯ</h3>
+                    </div>
+                    <p class="facet-description">Радіус Струсу збільшується на 40 кожен рівень Сейсмічного удару.</p>
+                    <div class="facet-ability-link">
+                        <img src="earthshaker_aftershock.png" alt="AFTERSHOCK icon">
+                        <span>AFTERSHOCK</span>
+                    </div>
+					<p class="facet-bonus">Радіус Струсу збільшується на 40 кожен рівень Сейсмічного удару.</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="ricochet.png" alt="Іконка стрілки" class="facet-icon">
+                        <h3 class="facet-name">РЕЗОНАНСНИЙ КРЯЖ</h3>
+                    </div>
+                    <p class="facet-description">Приголомшені Розломом ворожі герої випромінюють відлуння до кожної істоти поблизу.</p>
+                    <div class="facet-ability-link">
+                        <img src="earthshaker_fissure.png" alt="FISSURE icon">
+                        <span>FISSURE</span>
+                    </div>
+                    
+                </div>              
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Fissure</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Розбризкує кислоту під тиском над цільовою областю. Доки ворог знаходиться в забрудненій зоні, він матиме послаблену броню та щосекунди отримуватиме шкоду.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">110/170/230/290</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">0,8/1/1,2/1,4</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">200</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">18/17/16/15</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">120/125/130/135</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Нішайський тотем вщент розіб’є світ тектонічною силою.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Fissure"
+                        data-description="Ударяє по землі кремезним тотемом, утворюючи непрохідний бар’єр із каміння, який приголомшує всіх ворожих істот на шляху та завдає їм шкоди."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="110/170/230/290"
+                        data-duration="0,8/1/1,2/1,4"
+                        data-radius="200"
+                        data-cooldown="18/17/16/15"
+                        data-mana-cost="120/125/130/135"
+                        data-note="Нішайський тотем вщент розіб’є світ тектонічною силою."
+                >
+                    <img src="earthshaker_fissure.png" alt="Fissure Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Enchant Totem"
+                        data-description="Заряджає тотем силою, щоби завдати додаткову шкоду й отримати 100 додаткової дальності атаки під час наступної атаки."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="100%/200%/300%/400%"
+                        data-duration="14"
+                        data-radius="N/A"
+                        data-cooldown="5"
+                        data-mana-cost="45/55/65/75"
+                        data-note="Сила Рейґора здатна звернути гори."
+                >
+                    <img src="earthshaker_enchant_totem.png" alt="Enchant Totem Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Aftershock"
+                        data-description="Змушує тремтіти землю під ногами, завдаючи додаткової шкоди та приголомшуючи ворогів довкола, коли Рейгор застосовує свої здібності."
+                        data-target="Пасивна"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="70/100/130/160%"
+                        data-duration="1/1,1/1,2/1,3"
+                        data-radius="300"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Під могутнім поступом Рейгора тремтить земля."
+                >
+                    <img src="earthshaker_aftershock.png" alt="Aftershock Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Echo Slam"
+                        data-description="Викликає землетрус, що завдає шкоди ворожим істотам. Кожен удар по ворогу викликає сейсмічну хвилю, яка ушкоджує істот поблизу. Справжні герої викликають дві хвилі."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="100 / 140 / 180"
+                        data-duration="30"
+                        data-radius="700"
+                        data-cooldown="130/120/110"
+                        data-mana-cost="150/200/250"
+                        data-note="Сейсмічний удар ламає тектонічні плити, руйнує гори і вщент чавить ворогів."
+                >
+                    <img src="earthshaker_echo_slam.png" alt="Echo Slam Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Enchant Totem"
+                        data-description="Зачарований тотем стає спрямованою на землю здібністю, що змушує героя стрибнути в повітря та приземлитися на місце атаки, застосовуючи там тотем. Застосування здібності на себе викличе звичайний тотем без стрибка. Дає Зачарованому тотему ефект січі."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="5"
+                        data-mana-cost="45/55/65/75"
+                        data-note="Сила Рейґора здатна звернути гори."
+                >
+                    <img src="2.jpg" alt="Enchant Totem">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Fissure"
+                        data-description="Зменшує час зарядки Розлому й дозволяє Землетрусу проходити через нього. Коли герой чаклує будь-яку здібність, то одночасно застосовується Струс, який приголомшує на зменшений час тривалості."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Fissure Icon">
+                </button>
+                <
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

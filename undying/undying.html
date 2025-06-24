@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Undying_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>UNDYING</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ВИКЛИКАЄ НАВАЛУ ЗОМБІ,ЯКІ АТАКУЮТЬ ВОРОГІВ</p>
+                        <p>Шкутильгаючи в бій, Невмирущий надає вибір ворожим силам: або тікати геть від його гніву, або стати його частиною. Він висмоктує силу з ворогів та викликає орду мерців. До того часу, як він перетвориться на масивного Голема із плоті, його ворогів може вже не стати.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ВИКЛИКАЄ НАВАЛУ ЗОМБІ,ЯКІ АТАКУЮТЬ ВОРОГІВ</p>
+                        <p>Скільки часу пройшло, відколи він втратив своє ім’я? Понівечені руїни його розуму вже не знають цього.</p>
+                        <p>Він слабко пригадує обладунок, стяги й похмурих родичів, що їхали поруч. Він згадує битву, згадує, як біль і страх, неначе кістляві руки смерті, вирвали його із сідла й жбурнули в безодню Мертвого Бога, разом із його братами, щоби небуття поглинуло їх. У нескінченній темряві час покинув їх. Думки покинули їх. Здоровий глузд покинув їх. Проте голод залишився. І вони кинулися один на одного, використовуючи поламані нігті та покришені зуби. І почалося: спочатку здалеку, ледве чутна нота на межі сприйняття, потім до неї приєдналася ще одна, і ще одна, і так безупинно. Хор виріс у відчутну стіну звуку, що лунала в його голові, поки не витіснила собою всі інші думки. Коли похоронна пісня поглинула його, він простяг руки до Мертвого Бога з готовністю прийняти остаточну загибель, але не для цього його було обрано. Мертвий Бог жадав війни. У череві небуття герой отримав нову пропозицію: поширювати землею похоронний спів, підіймаючи мерців проти живих. Він став Невмирущим, вісником Мертвого Бога, готовим щоразу падати й підводитися, але не дати перерватися похоронному співу.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+6 до ударів для знищення Tombstone</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+50% додаткової сили для Flesh Golem</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-2s Decay Cooldown</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">Tombstone з'являється після смерті</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+10 до шкоди/зцілення від Soul Rip</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+20 до шкоди від зомбі</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-15 с зарядки Тombstone</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+40 до шкоди від Десау</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Неспинний похорон</h3>
+                            <p>Коли Невмирущий помирає, він миттєво відроджується на фонтані. На початку гри має зарядку. Не можна оновити зарядку.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="undying_decay.png" alt="Decay" />
+                        <div class="tooltip">
+                            <h3>Decay</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Викрадає силу з усіх ворожих героїв у певній області, завдаючи базової шкоди та присвоюючи силу на час дії здібності. Завдає x2 шкоди кріпам.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="undying_soul_rip.png" alt="Soul Rip" />
+                        <div class="tooltip">
+                            <h3>Soul Rip</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Висмоктує здоров’я з усіх істот навколо та використовує його, щоби вилікувати союзника або завдати шкоди ворогу. Також можна використати, щоби вилікувати Надгробний камінь.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="undying_tombstone.png" alt="Tombstone" />
+                        <div class="tooltip">
+                            <h3>Tombstone</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Діє:</strong>На союзних героїв</p>
+							<p><strong>Урон:</strong>Фізичний</p>
+                            <p>Встановлює надгробний камінь у вказаній точці. Коли до надгробка підходить ворожа істота, із землі з’являється зомбі та починає атакувати ворога. Зомбі мають здібність Жага смерті, що дозволяє сповільнювати ворога під час атаки і, якщо здоров’я цілі падає нижче певного рівня, пришвидшує швидкість руху та атаки зомбі.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="undying_flesh_golem.png" alt="Flesh Golem" />
+                        <div class="tooltip">
+                            <h3>Flesh Golem</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Перетворюється на жахливого ґолема. Отримує відсоткове збільшення сили, а атаки сповільнюють і завдають більшої шкоди.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує викрадання сили.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Надгробний камінь можна чаклувати на союзного героя, щоби сховати його під надгробком. Герої, які туди потраплять, не зможуть вийти чи повторно увійти впродовж 2 с. Якщо надгробний камінь знищується з героєм усередині, то герой приголомшується на 2 с.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>22</span> <span class="attribute-bonus">+2.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>10</span> <span class="attribute-bonus">+1.2</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>27</span> <span class="attribute-bonus">+2.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 5%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>53-53</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>2.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>300</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="summons.png" alt="Іконка шоломів" class="facet-icon">
+                        <h3 class="facet-name">ГНИЛІ КУЛАКИ</h3>
+                    </div>
+                    <p class="facet-description">Після перетворення на Ґолема з плоті атаки створюють зомбі.</p>
+                    <div class="facet-ability-link">
+                        <img src="undying_flesh_golem.png" alt="FLESH GOLEN icon">
+                        <span>FLESH GOLEN</span>
+                    </div>
+					 <p class="facet-bonus">ТРИВАЛІСТЬ ЗОМБІ:15</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="strength.png" alt="Іконка сили" class="facet-icon">
+                        <h3 class="facet-name">ВІДРИВ</h3>
+                    </div>
+                    <p class="facet-description">Застосування Жнив душ на союзників збільшує їхню силу на відсоток від сили Невмирущого.</p>
+                    <div class="facet-ability-link">
+                        <img src="undying_soul_rip.png" alt="SOUL RIP icon">
+                        <span>SOUL RIP</span>
+                    </div>
+                    <p class="facet-bonus">ОТРИМАННЯ СИЛИ:10%</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ:10</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Decay</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на точку</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Викрадає силу з усіх ворожих героїв у певній області, завдаючи базової шкоди та присвоюючи силу на час дії здібності. Завдає x2 шкоди кріпам.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">20/60/100/140</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">35</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">325</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">13/10/7/4</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Сила живих запозичена в мертвих.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Decay"
+                        data-description="Викрадає силу з усіх ворожих героїв у певній області, завдаючи базової шкоди та присвоюючи силу на час дії здібності. Завдає x2 шкоди кріпам."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="20/60/100/140"
+                        data-duration="35"
+                        data-radius="325"
+                        data-cooldown="13/10/7/4"
+                        data-mana-cost="100"
+                        data-note="Сила живих запозичена в мертвих."
+                >
+                    <img src="undying_decay.png" alt="Decay Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Soul Rip"
+                        data-description="Висмоктує здоров’я з усіх істот навколо та використовує його, щоби вилікувати союзника або завдати шкоди ворогу. Також можна використати, щоби вилікувати Надгробний камінь."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="14/26/38/50"
+                        data-duration="1"
+                        data-radius="1300"
+                        data-cooldown="18/14/10/6"
+                        data-mana-cost="80/90/100/110"
+                        data-note="Навіть союзники впадають у відчай у присутності Невмирущого."
+                >
+                    <img src="undying_soul_rip.png" alt="Soul Rip Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Tombstone"
+                        data-description="Встановлює надгробний камінь у вказаній точці. Коли до надгробка підходить ворожа істота, із землі з’являється зомбі та починає атакувати ворога. Зомбі мають здібність Жага смерті, що дозволяє сповільнювати ворога під час атаки і, якщо здоров’я цілі падає нижче певного рівня, пришвидшує швидкість руху та атаки зомбі."
+                        data-target="Націлена на точку"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="34%"
+                        data-duration="30"
+                        data-radius="1200"
+                        data-cooldown="80"
+                        data-mana-cost="125/150/175/200"
+                        data-note="Плакальник кличе своїх полеглих братів на битву в ім’я Мертвого Бога."
+                >
+                    <img src="undying_tombstone.png" alt="Tombstone Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Flesh Golem"
+                        data-description="Перетворюється на жахливого ґолема. Отримує відсоткове збільшення сили, а атаки сповільнюють і завдають більшої шкоди."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="25%/30%/35%"
+                        data-duration="40"
+                        data-radius="N/A"
+                        data-cooldown="140"
+                        data-mana-cost="100/125/150"
+                        data-note="Плоть нещодавно померлих посилює чуму Плакальника."
+                >
+                    <img src="undying_flesh_golem.png" alt="Flesh Golem Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Decay"
+                        data-description="Збільшує викрадання сили."
+                        data-target="Націлена"
+                        data-damage-type="N/A"
+                        data-scales=""
+                        data-armor-reduction=""
+                        data-duration=""
+                        data-radius="N/A"
+                        data-cooldown="13/10/7/4"
+                        data-mana-cost="100"
+                        data-note="Сила живих запозичена в мертвих."
+                >
+                    <img src="2.jpg" alt="Decay Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Tombstone"
+                        data-description="Надгробний камінь можна чаклувати на союзного героя, щоби сховати його під надгробком. Герої, які туди потраплять, не зможуть вийти чи повторно увійти впродовж 2 с. Якщо надгробний камінь знищується з героєм усередині, то герой приголомшується на 2 с."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Tombstone Icon">
+                </button>
+               
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

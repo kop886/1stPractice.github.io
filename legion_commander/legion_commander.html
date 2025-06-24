@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="Lega_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>LEGION COMMANDER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">СТАЄ СИЛЬНІШОЮ З КОЖНОЮ ПЕРЕМОГОЮ В ДУЕЛІ</p>
+                        <p>Крокуючи полем бою, Командувачка Легіону кидає виклик самотнім ворогам у двобої. З кожною перемогою в дуелі вона збільшує силу своїх атак, допоки не стане армією в особі однієї жінки.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">СТАЄ СИЛЬНІШОЮ З КОЖНОЮ ПЕРЕМОГОЮ В ДУЕЛІ</p>
+                        <p>Вони прийшли без попередження. У стінах Стоунхолу пролунав жахливий гуркіт, і з таємничої чорноти явилася незліченна орда звірів з вогнем та поганським чаклунством, що вбивали та викрадали матерів і синів задля темних цілей. З усього могутнього війська лише Бронзовий Легіон під командуванням норовливої командувачки Тресдін був досить близько, аби відповісти на заклик до бою. Вони їхали в місто через заплямовані кров’ю провулки та ринки в полум’ї, прорубуючи собі шлях через жахливий натовп до джерела несподіваного набігу — потойбічного розриву посеред міської площі, на краю якого лютував жахливий очільник темного війська.</p>
+                        <p>Огорнутий їдким мерехтінням, ватажок орди безодні змахував масивним лезом, розрізаючи навпіл воїнів, чия плоть одразу починала псуватися. Тресдін підняла свій заплямований кров’ю меч, спрямувавши свій погляд на звіра. Він озирнувся, вишкіривши ікла у посміху. Попри бурхливу битву навкруги, вони рушили одне на одного.</p>
+                        <p>Відбиваючи удар за ударом, пара танцювала в смертельній дуелі, поки солдати Бронзового Легіону один за одним ішли на той світ. Коли ворог заніс над нею меча, Тресдін стрибнула вперед. Сутичка змінила свій хід. Раптовий безжальний удар влучив у жінку і ледь не збив її з ніг, та Тресдін усе ж спромоглася зібратися з силами для удару у відповідь. Лезо черконуло об лезо й шугнуло вниз, оминувши руків’я, і вже наступної миті поміж іскор і крові виднілася розрубана лапа. Потворні глядачі дивилися з подивом, а командувачка лише збільшувала натиск, меч її гриз ворожу плоть, шукаючи тріпотливе серце. Із хмародерним криком звір вибухнув потоками крові й мук. Пекельний портал замиготів, потойбічний розрив зник так само раптово, як і з’явився. Залишки загарбників швидко полягли від стоунхольської сталі.</p>
+                        <p>Однак переможцям було нічого святкувати: місто в руїнах, уцілілих мало. Пожежа розгоралася. Розгорнувши військові стяги, Тресдін зібрала всіх союзників, яких змогла. Її гнів нуртував, коли вона присяглася жорстоко помститися силам безодні — і нехай буде проклятий той, хто стане їй на шляху.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">Press the Attack дає 1.5 с імунітету до негативних ефектів</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+75% до вампіризму від Moment of Courage</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+8% до шансу спрацювання Moment of Courage</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">Press The Attack діє по області 300</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+35 до шкоди за героя від Overwhelming Odds</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+40 до реген. здоров'я від Press The Attack</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+12% до швидкості руху Press The Attack</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">-2 с зарядки Overwhelming Odds</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>До перемоги</h3>
+                            <p>Напад на ворожого героя з аналогічним чи вищим рівнем збільшує ваше відновлення здоров’я на 30% упродовж 4 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="legion_commander_overwhelming_odds.png" alt="Overwhelming Odds" />
+                        <div class="tooltip">
+                            <h3>Overwhelming Odds</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Обертає чисельну перевагу ворога проти нього самого: Командувачка Легіону завдає шкоди й за кожну вражену ворожу істоту чи героя отримує додаткову швидкість атаки. Прикликані істоти та ілюзії отримують шкоду, що дорівнює частині їхнього поточного здоров’я. Можна чаклувати під час Дуелі.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="legion_commander_press_the_attack.png" alt="Press The Attack" />
+                        <div class="tooltip">
+                            <h3>Press The Attack</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Діє:</strong>На союзних істот</p>
+                            <p>Знімає негативні ефекти з вибраної союзної істоти, а також на короткий час збільшує швидкість руху й дає регенерацію здоров’я.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="legion_commander_moment_of_courage.png" alt="Moment of Courage" />
+                        <div class="tooltip">
+                            <h3>Moment of Courage</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                                   <p>Коли Командувачку атакують, вона має шанс завдати миттєвий контрудар із додатковим вампіризмом.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="legion_commander_duel.png" alt="Duel" />
+                        <div class="tooltip">
+                            <h3>Duel</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на істоту</p>
+							<p><strong>Діє:</strong>На ворожих героїв</p>
+                            <p>Командувачка Легіону та цільовий ворожий герой вступають у нетривалу сутичку, під час якої атакують один одного і не можуть користуватися здібностями та предметами, за виключенням Чисельної переваги Командувачки. Якщо один із героїв гине під час сутички, переможець дуелі отримує постійне посилення до своєї шкоди.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Збільшує тривалість Дуелі. Командувачка Легіону має імунітет до негативних ефектів на час дії Дуелі.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Дає 100 додаткового радіуса під час Дуелі.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>24</span> <span class="attribute-bonus">+3.1</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>18</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>20</span> <span class="attribute-bonus">+2.2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>57-61</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>325</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="armor.png" alt="Іконка щиту" class="facet-icon">
+                        <h3 class="facet-name">КАМ’ЯНОЗАЛЬНА ПЛАСТИНА</h3>
+                    </div>
+                    <p class="facet-description">Чисельна перевага дає бар’єр від усіх видів шкоди відповідно до завданої нею шкоди ворожим героям.</p>
+                    <div class="facet-ability-link">
+                        <img src="legion_commander_overwhelming_odds.png" alt="OVERWHELMING ODDS">
+                        <span>OVERWHELMING ODDS</span>
+                    </div>
+					<p class="facet-bonus">ШКОДА ЯК БАР’ЄР:40%</p>
+					<p class="facet-bonus">ДІЯ БАР’ЄРА:6</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="damage (1).png" alt="Іконка меча" class="facet-icon">
+                        <h3 class="facet-name">БОЙОВІ ТРОФЕЇ</h3>
+                    </div>
+                    <p class="facet-description">Коли Дуель виграно, істоти, що завдавали шкоди переможеному в Дуелі, здобувають постійну додаткову шкоду. Якщо Командувачка Легіону перемагає в Дуелі, вона автоматично застосовує Рішучий натиск на себе та союзників, які допомагали.</p>
+                    <div class="facet-ability-link">
+                        <img src="legion_commander_duel.png" alt="DUEL">
+                        <span>DUEL</span>
+                    </div>
+                    <p class="facet-bonus">Коли Дуель виграно, істоти, що завдавали шкоди переможеному в Дуелі, здобувають постійну додаткову шкоду. Якщо Командувачка Легіону перемагає в Дуелі, вона автоматично застосовує Рішучий натиск на себе та союзників, які допомагали (для останніх тривалість менша на 50%).</p>
+					<p class="facet-bonus">ДОД. ШКОДА ЗА ПІДМОГУ:5 / 10 / 15</p>
+					                </div>
+                <!-- Приклад аспекту 3 -->
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4" />
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Overwhelming Odds</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Обертає чисельну перевагу ворога проти нього самого: Командувачка Легіону завдає шкоди й за кожну вражену ворожу істоту чи героя отримує додаткову швидкість атаки. Прикликані істоти та ілюзії отримують шкоду, що дорівнює частині їхнього поточного здоров’я. Можна чаклувати під час Дуелі.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">40/70/100/130</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">6</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">600</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">18</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">90/105/120/135</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Лучники Кам’янозалля готові випустити стріли за першим наказом Тресдін.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Overwhelming Odds"
+                        data-description="Обертає чисельну перевагу ворога проти нього самого: Командувачка Легіону завдає шкоди й за кожну вражену ворожу істоту чи героя отримує додаткову швидкість атаки. Прикликані істоти та ілюзії отримують шкоду, що дорівнює частині їхнього поточного здоров’я. Можна чаклувати під час Дуелі."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="40/70/100/130"
+                        data-duration="6"
+                        data-radius="600"
+                        data-cooldown="18"
+                        data-mana-cost="90/105/120/135"
+                        data-note="Лучники Кам’янозалля готові випустити стріли за першим наказом Тресдін."
+                >
+                    <img src="legion_commander_overwhelming_odds.png" alt="Overwhelming Odds Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Press The Attack"
+                        data-description="Алхімік готує нестабільну суміш, яку можна жбурнути у ворожого героя, щоб приголомшити та завдати шкоди усім ворогам біля нього. Чим довше готується суміш, тим більша від неї шкода та довше приголомшення. Алхімік пришвидшується під час готування суміші. Максимальні характеристики суміш отримує після 5 с приготування, однак якщо завчасно не викинути її, через 5,5 с вона вибухне в руках Алхіміка."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="5"
+                        data-radius="N/A"
+                        data-cooldown="16/15/14/14"
+                        data-mana-cost="110"
+                        data-note="Звук горну Бронзового Легіону вселяє надію навіть у зневірені серця."
+                >
+                    <img src="legion_commander_press_the_attack.png" alt="Press The Attack Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Moment of Courage"
+                        data-description="Коли Командувачку атакують, вона має шанс завдати миттєвий контрудар із додатковим вампіризмом."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="1,9/1,5/1,1/0,7"
+                        data-mana-cost="N/A"
+                        data-note="Тресдін добре відомо, що ворог найбільш вразливий після своєї найжорсткішої атаки."
+                >
+                    <img src="legion_commander_moment_of_courage.png" alt="Moment of Courage Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Duel"
+                        data-description="Командувачка Легіону та цільовий ворожий герой вступають у нетривалу сутичку, під час якої атакують один одного і не можуть користуватися здібностями та предметами, за виключенням Чисельної переваги Командувачки. Якщо один із героїв гине під час сутички, переможець дуелі отримує постійне посилення до своєї шкоди."
+                        data-target="Націлена на істоту"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="10/20/30"
+                        data-duration="4/4,5/5"
+                        data-radius="N/A"
+                        data-cooldown="60/55/50"
+                        data-mana-cost="75/75/75"
+                        data-note="Зілля, яким Разіль напоїв огра, щоби вирватися з в’язниці, стало в пригоді й на полі бою."
+                >
+                    <img src="legion_commander_duel.png" alt="Duel Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Overwhelming Odds"
+                        data-description="Дає 100 додаткового радіуса під час Дуелі."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Overwhelming Odds">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Duel"
+                        data-description="Збільшує тривалість Дуелі. Командувачка Легіону має імунітет до негативних ефектів на час дії Дуелі."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="60/55/50"
+                        data-mana-cost="75/75/75"
+                        data-note="Небагатьом під силу вистояти в бою один на один проти воїна Кам’янозалля."
+                >
+                    <img src="2.jpg" alt="Duel Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

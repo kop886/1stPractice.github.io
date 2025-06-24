@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="CLOCWERK_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>CLOCKWERK</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПРИТЯГУЄ СЕБЕ ДО ВОРОГІВ ВЛАСНИМ ГАКОМ</p>
+                        <p>Притягуючи себе до ворогів своїм гаком, Торохтій відділяє ворога від своїх союзників, а потім вражає їх приголомшливою шрапнеллю. Завдяки своїм ракетам розвідки він завжди знайде собі ціль.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПРИТЯГУЄ СЕБЕ ДО ВОРОГІВ ВЛАСНИМ ГАКОМ</p>
+                        <p>Торохтій віддалено належить до того ж роду мастаків, що й Снайпер і Механік, і, як і більшість своїх родичів, компенсує низький зріст механічними пристроями та гострим розумом. Син сина годинникаря, Торохтій багато років навчався цьому ремеслу, доки з гір не зійшла війна і не примусила майстрів покинути мирні діяння й пристати до воєнного ремесла. «Тепер твоя справа — війна», — сказав йому батько перед смертю, коли поселення їхніх прадідів ущент спалили ворожі орди.</p>
+                        <p>Кажуть, поганому реміснику інструменти заважають, але Торохтій був не з тих, хто придумує відмовки. Поховавши батька серед руїн селища, він вирішив перетворити себе на найдосконаліше знаряддя війни, яких ще не бачив світ. Він присягнувся, що його більше ніколи не захоплять зненацька, і змайстрував механізовані лати — Годинникаря. У порівнянні з ним броня іноземних лицарів була схожа на бляшанки. Відтоді Торохтій наче зрісся зі своєю механічною оболонкою, ставши смертоносним воїном і до автоматизму довівши мистецтво несподіваної атаки із засідки. Він швидко завершує життя непідготовлених супротивників за допомогою своїх механізмів, які стали справжнім проривом у розробці військового спорядження. Чуєте цокання годинника? Це годинник Годинникаря підказує, що ваш час скінчився!</p>
+                                                <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-0.25 с інтервалу між Battery Assault</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Імунітет до негативних ефектів y Power Cogs</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+70 до спалення мани від Power Cogs</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">Істинний зір від Rocket Flare</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+24 до шкоди від Battery Assault</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+2 ударів для знищення Power Cogs</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+75 до шкоди від Hookshot</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">+0.4 с до сповільнення від Rocket Flare</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Броньова сила</h3>
+                            <p>Вихідна шкода Годинникаря збільшується на 0,25% за одиницю броні.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="rattletrap_battery_assault.png" alt="Battery Assault" />
+                        <div class="tooltip">
+                            <h3>Battery Assault</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Випускає силову шрапнель у випадкових ворожих істот неподалік, завдаючи незначної магічної шкоди та ненадовго їх приголомшуючи.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="rattletrap_power_cogs.png" alt="Power Cogs" />
+                        <div class="tooltip">
+                            <h3>Power Cogs</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Створює кільце із заряджених шестерень навколо Годинникаря, полонячи всіх істот, що опиняться поруч. Якщо ворог торкнеться шестерні із зовнішнього боку пастки, то отримає розряд, який відкине його назад і випалить частину здоров’я та мани. Після розряду шестерня знеструмлюється. Шкода збільшується на 50% випаленої мани.</p>
+							<p>Щоби зруйнувати шестерні, ворогам потрібно завдати кілька ударів по кожній, а Годинникар може одним ударом відштовхнути всі шестерені на відстань до 1000.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="rattletrap_rocket_flare.png" alt="Rocket Flare" />
+                        <div class="tooltip">
+                            <h3>Rocket Flare</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на точку</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Запускає в будь-яку точку мапи сигнальну ракету, яка вибухає над вказаною областю. Після вибуху вороги в зоні дії зазнають шкоди й ненадовго сповільнюються. Ракета дає видимість над областю вибуху на 6 с.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="rattletrap_hookshot.png" alt="Hookshot" />
+                        <div class="tooltip">
+                            <h3>Hookshot</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4spel.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong>Націлена на точку</p>
+							<p><strong>Урон:</strong>Магічний</p>
+                            <p>Швидко вистрілює гаком на ланцюгу у вказану точку. Якщо гак потрапляє в істоту, Годинникар притягується до неї, завдаючи шкоди та приголомшуючи всіх у радіусі 175 від цілі. Усі ворожі істоти, з якими Годинникар стикається на льоту, отримують шкоду та приголомшуються.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Посилює здібності Годинникаря: Гальванічна атака застосовується на всіх ворогів у радіусі дії; швидкість атаки Годинникаря в Силових шестернях збільшується; Сигнальна ракета має зменшену зарядку і стріляє додатковими ракетами по обидва боки від цілі; радіус і тривалість приголомшення Кидка гака збільшено; Ракетний ранець рухає швидше. Після завершення дії швидкість руху й атаки Годинникаря суттєво сповільнюються.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Годинникар активує реактивний ранець, який дозволяє йому літати, дає польотну видимість та додаткову швидкість руху. Годинникар отримує суттєво обмежену швидкість обертання під час польоту й не може атакувати. Ракетний ранець скасовується після чаклування Кидка гака.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>26</span> <span class="attribute-bonus">+3.2</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>13</span> <span class="attribute-bonus">+2.3</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+1.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 10%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>50-52</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>3.2</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>310</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>800</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="cooldown.png" alt="Іконка часів" class="facet-icon">
+                        <h3 class="facet-name">ПІД’ЄДНАННЯ</h3>
+                    </div>
+                    <p class="facet-description">Якщо поруч із ціллю Кидка гака в радіусі 350 знаходиться інший союзний герой, Годинникар і всі його союзники в області здобувають додаткову броню, а також повертається частина зарядки й витрати мани Кидка гака.</p>
+                    <div class="facet-ability-link">
+                        <img src="rattletrap_hookshot.png" alt="hookshot icon">
+                        <span>HOOKSHOT</span>
+                    </div>
+					<p class="facet-description">Якщо поруч із ціллю Кидка гака в радіусі 350 знаходиться інший союзний герой, Годинникар і всі його союзники в області здобувають додаткову броню, а також повертається частина зарядки й витрати мани Кидка гака.</p>
+					 <p class="facet-bonus">ПОВЕРНЕННЯ ЗАРЯДКИ І ВИТРАТ МАНИ:75%</p>
+					  <p class="facet-bonus">ДІЯ БРОНІ СОЮЗНИКАМ:4</p>
+					   <p class="facet-bonus">ДОД. БРОНЯ СОЮЗНИКАМ:15 / 20 / 25</p>
+					    <p class="facet-bonus">ДОД. БРОНЯ СОЮЗНИКАМ:0 / 0 / 0</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка area_of_effect" class="facet-icon">
+                        <h3 class="facet-name">РОЗШИРЕНИЙ КАРКАС</h3>
+                    </div>
+                    <p class="facet-description">Силові шестерні утворюють коло більшого радіуса.</p>
+                    <div class="facet-ability-link">
+                        <img src="rattletrap_power_cogs.png" alt="rattletrap_power_cogs icon">
+                        <span>POWER COGS</span>
+                    </div>
+					<p class="facet-description">Силові шестерні утворюють коло більшого радіуса.</p>
+                    <p class="facet-bonus">РАДІУС ФОРМУВАННЯ:115</p>
+                </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="armor.png" alt="Іконка armor" class="facet-icon">
+                        <h3 class="facet-name">КОЛЬЧУГОЇД</h3>
+                    </div>
+                    <p class="facet-description">Годинникар може спожити Кольчугу й назавжди отримати +4 до броні.</p>
+                    <div class="facet-ability-link">
+                        <img src="innate ability.png" alt="innate ability icon">
+                        <span>ARMOR POWER</span>
+                    </div>
+                    <p class="facet-description">Годинникар може спожити Кольчугу й назавжди отримати +4 до броні за спожиту Кольчугу. Може поєднуватися. Для споживання слід застосовувати на себе.</p>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        <!-- Placeholder for video, REPLACE WITH YOUR PATHS -->
+                        <source src="1spel.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Battery Assault</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Ненацілена</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Випускає силову шрапнель у випадкових ворожих істот неподалік, завдаючи незначної магічної шкоди та ненадовго їх приголомшуючи.</p>
+                    <div class="ability-values">
+                        <p><strong>ЗМЕНШЕННЯ БРОНІ:</strong> <span id="abilityArmorReduction">3/4/5/6</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">10,5</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">275</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">24/22/20/18</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">90</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Не всі винаходи Торохтія працюють справно, проте інколи вони досить доречно вибухають у битві, розлякуючи ворогів.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1spel.mp4"
+                        data-name="Battery Assault"
+                        data-description="Випускає силову шрапнель у випадкових ворожих істот неподалік, завдаючи незначної магічної шкоди та ненадовго їх приголомшуючи."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="3/4/5/6"
+                        data-duration="10,5"
+                        data-radius="275"
+                        data-cooldown="24/22/20/18"
+                        data-mana-cost="90"
+                        data-note="Не всі винаходи Торохтія працюють справно, проте інколи вони досить доречно вибухають у битві, розлякуючи ворогів."
+                >
+                    <img src="rattletrap_battery_assault.png" alt="rattletrap_battery_assault Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2spel.mp4"
+                        data-name="Power Cogs"
+                        data-description="Створює кільце із заряджених шестерень навколо Годинникаря, полонячи всіх істот, що опиняться поруч. Якщо ворог торкнеться шестерні із зовнішнього боку пастки, то отримає розряд, який відкине його назад і випалить частину здоров’я та мани. Після розряду шестерня знеструмлюється. Шкода збільшується на 50% випаленої мани.
+
+ Щоби зруйнувати шестерні, ворогам потрібно завдати кілька ударів по кожній, а Годинникар може одним ударом відштовхнути всі шестерені на відстань до 1000."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="50 / 125 / 200 / 275"
+                        data-duration="5 / 6 / 7 / 8"
+                        data-radius="175"
+                        data-cooldown="21 / 19 / 17 / 15"
+                        data-mana-cost="70"
+                        data-note="Торохтій найбільше пишається своїми силовими шестернями, хоча цей винахід іноді створює багато незручностей для союзників."
+                >
+                    <img src="rattletrap_power_cogs.png" alt="rattletrap_power_cogs Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3spel.mp4"
+                        data-name="Rocket Flare"
+                        data-description="Запускає в будь-яку точку мапи сигнальну ракету, яка вибухає над вказаною областю. Після вибуху вороги в зоні дії зазнають шкоди й ненадовго сповільнюються. Ракета дає видимість над областю вибуху на 6 с."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="80 / 120 / 160 / 200"
+                        data-duration="0,4"
+                        data-radius="600"
+                        data-cooldown="20 / 18 / 16 / 14"
+                        data-mana-cost="35 / 40 / 45 / 50"
+                        data-note="Винахід, який спочатку задумувався як святкова розвага, виявився корисним для розвідки в бою та бомбардування ворожих позицій."
+                >
+                    <img src="rattletrap_rocket_flare.png" alt="rattletrap_rocket_flare Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4spel.mp4"
+                        data-name="Hookshot"
+                        data-description="Швидко вистрілює гаком на ланцюгу у вказану точку. Якщо гак потрапляє в істоту, Годинникар притягується до неї, завдаючи шкоди та приголомшуючи всіх у радіусі 175 від цілі. Усі ворожі істоти, з якими Годинникар стикається на льоту, отримують шкоду та приголомшуються."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="0"
+                        data-duration="1,2 / 1,4 / 1,6"
+                        data-radius="N/A"
+                        data-cooldown="60 / 45 / 30"
+                        data-mana-cost="100 / 125 / 150"
+                        data-note="За допомогою цього дещо недоладного крюка Торохтій може посилати свою механічну броню у вільний політ."
+                >
+                    <img src="rattletrap_hookshot.png" alt="rattletrap_hookshot Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5spel.mp4"
+                        data-name="Jetpack"
+                        data-description="Годинникар активує реактивний ранець, який дозволяє йому літати, дає польотну видимість та додаткову швидкість руху. Годинникар отримує суттєво обмежену швидкість обертання під час польоту й не може атакувати. Ракетний ранець скасовується після чаклування Кидка гака."
+                        data-target="Націлена"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="6"
+                        data-radius="N/A"
+                        data-cooldown="75"
+                        data-mana-cost="16"
+                        data-note="Звичайно, його підірвали понад чотирнадцять тестових манекенів, але принаймні всі вони літали!"
+                >
+                    <img src="1.jpg" alt="Jetpack Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6spel.mp4"
+                        data-name="Overclocking"
+                        data-description="Посилює здібності Годинникаря: Гальванічна атака застосовується на всіх ворогів у радіусі дії; швидкість атаки Годинникаря в Силових шестернях збільшується; Сигнальна ракета має зменшену зарядку і стріляє додатковими ракетами по обидва боки від цілі; радіус і тривалість приголомшення Кидка гака збільшено; Ракетний ранець рухає швидше. Після завершення дії швидкість руху й атаки Годинникаря суттєво сповільнюються."
+                        data-target="Ненацілена"
+                        data-damage-type="N/A"
+                        data-scales="Так"
+                        data-armor-reduction="N/A"
+                        data-duration="13"
+                        data-radius="N/A"
+                        data-cooldown="50"
+                        data-mana-cost="90"
+                        data-note="Торохтій знає обмеження своєї броні. Так само він знає ризики, коли за потреби треба витискати з неї ще більше."
+                >
+                    <img src="2.jpg" alt="Overclocking Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>

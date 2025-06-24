@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="EARTH_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>EARTH SPIRIT</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ЗНЕРУХОМЛЮЄ ТА ПЕРЕМІЩУЄ СВОЇХ ВОРОГІВ</p>
+                        <p>Земний Дух не дає ворогам розслабитися та допомагає друзям у бою. Він пристосовується до будь-якого бойового розкладу й можете штовхати своїх бовванів вперед і назад, щоби завдати шкоди ворогам або витягнути побратима з кігтів смерті.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ЗНЕРУХОМЛЮЄ ТА ПЕРЕМІЩУЄ СВОЇХ ВОРОГІВ</p>
+                        <p>Серед скель й ущелин Верховини є покинутий рудний кар’єр, з якого добувався священний нефрит. З цього рідкісного матеріалу один умілець вирізав статую великого генерала Каоліня, головнокомандуючого знищеної десятитисячної армії. Солдати і священики, блазні й акробати, усі були поховані під землею довгі тисячоліття зі статуєю самого генерала на чолі.</p>
+                        <p>Та ремісник не міг знати, що у кар’єрі мешкав дух землі — елементаль, що перебував у єдності з планетою. Коли нефрит увібрав цю силу, що накопичувалася довгими століттями, статуя ожила і вийшла на поверхню. Тепер перероджений Каолінь, або Дух Землі, мандрує стежками Верховини і бореться заради землі, закликаючи при необхідності залишки своєї могутньої армії, що донині схована у земних глибинах.</p>
+                            <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="white star.png" alt="Біла Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-3 с зарядки Boulder Smash</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">Magnetize не розвіюється</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+180 до шкоди від Rolling Boulder</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+30% до шкоди і тривалості Magnetize</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+80 до шкоди від Boulder Smash</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+0.3 с до приголомшення від Rolling Boulder</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+150 до дальності Rolling Boulder</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">-3 с зарядки Geomagnetic Grip</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Кам’яний бовван</h3>
+                            <p>Встановлює кам’яного боввана у вибране місце. Боввани не дають огляду місцевості, невразливі до атак і можуть використовуватися в поєднанні зі здібностями Каоліня. При встановленні боввана витрачається заряд, який відновлюється з часом. Отримує додаткові заряди кожні 5 рівнів героя.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earth_spirit_boulder_smash.png" alt="Boulder Smash" />
+                        <div class="tooltip">
+                            <h3>Boulder Smash</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Шкода:</strong>Магічна</p>
+                            <p>Б’є по ворогу або союзнику, відштовхуючи його в напрямку свого зору. Якщо удар націлюється на область, Каолінь вдарить по найближчій цілі в радіусі 200 із пріоритетом на кам’яних бовванів. Запущена істота або бовван завдає шкоди всім ворожим істотам, на яких натрапить у польоті. Якщо по ворожій істоті потрапляє бовван, то вона, окрім шкоди, сповільнюється. Кам’яні боввани летять на довшу відстань, ніж інші істоти.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earth_spirit_rolling_boulder.png" alt="Rolling Boulder" />
+                        <div class="tooltip">
+                            <h3>Rolling Boulder</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Шкода:</strong>Магічна</p>
+                            <p>Герой упродовж 0,6 с перетворюється на брилу, після чого починає котитися у вказану точку, завдаючи 60 шкоди + 100% шкоди за силу та приголомшуючи ворожих істот на своєму шляху. Брила зупиниться від приголомшення або зіткнення з ворожим героєм. Якщо брила натрапить на кам’яного боввана, то котитиметься далі і швидше, а також приголомшуватиме ворогів на довший час.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earth_spirit_geomagnetic_grip.png" alt="Geomagnetic Grip" />
+                        <div class="tooltip">
+                            <h3>Geomagnetic Grip</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Націлена на істоту</p>
+                            <p><strong>Шкода:</strong>Магічна</p>
+                            <p>Притягує до себе кам’яного боввана. Вороги, які опиняться на шляху, будуть знемовлені й отримають шкоду.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="earth_spirit_magnetize.png" alt="Magnetize" />
+                        <div class="tooltip">
+                            <h3>Magnetize</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Шкода:</strong>Магічна</p>
+                            <p>Намагнічує істот недалеко від себе, завдаючи їм шкоди протягом короткого часу. Якщо намагнічений герой проходить біля кам’яного боввана, той вибухає, заново намагнічуючи всіх ворогів навколо боввана. Процес може повторюватися кілька разів. Якщо ворожий герой знемовлюється здібністю Геомагнітний захват або сповільнюється здібністю Удар брили, то ефект передається всім намагніченим героям.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Зачаровує героя, перетворюючи його на кам’яного боввана. Через деякий час бовван розпадається на уламки, вивільняючи героя та завдаючи шкоди навколишнім ворогам.</p>
+								<p>Можна чаклувати на кам’яні боввани. Якщо застосовувати таким чином, то має зарядку 5 секунд. Має більшу дальність чаклування, якщо застосовується на союзного героя.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Може притягувати союзників.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>22</span> <span class="attribute-bonus">+3.8</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>17</span> <span class="attribute-bonus">+2.4</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>18</span> <span class="attribute-bonus">+2.1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 60%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 20%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>47-57</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>2.8</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>290</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="damage (1).png" alt="Іконка меча" class="facet-icon">
+                        <h3 class="facet-name">РЕЗОНАНС</h3>
+                    </div>
+                    <p class="facet-description">Здобуває додаткову шкоду від атаки, коли застосовує Магнетизм на кам’яних бовванів.</p>
+                    <div class="facet-ability-link">
+                        <img src="earth_spirit_magnetize.png" alt="MAGNETIZE icon">
+                        <span>MAGNETIZE</span>
+                    </div>
+					<p class="facet-description">Магнетизм на Кам’яного боввана дає Земляному Духу додаткову шкоду від атаки на 8 с. Не поєднується.</p>
+					<p class="facet-bonus">ДОД. ШКОДА ВІД АТАКИ:40 / 80 / 120</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="cooldown.png" alt="Іконка Часу" class="facet-icon">
+                        <h3 class="facet-name">ПЕРЕКОТИКАМІНЬ</h3>
+                    </div>
+                    <p class="facet-description">Кам’яний бовван має 4 с зарядки замість зарядів, а боввани не руйнуються Плющильною брилою.</p>
+                    <div class="facet-ability-link">
+                        <img src="innate ability.png" alt="STONE REMNANT icon">
+                        <span>STONE REMNANT</span>
+                    </div>
+					<p class="facet-description">Має фіксовану зарядку, а не заряди.</p>
+					<p class="facet-bonus">ТРИВАЛІСТЬ:20</p>
+                </div>
+                <!-- Приклад аспекту 3 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="spinning.png" alt="Іконка перекочення" class="facet-icon">
+                        <h3 class="facet-name">ГОТОВИЙ УВІРВАТИСЯ</h3>
+                    </div>
+                    <p class="facet-description">Плющильна брила дозволяє накочуватися на союзних героїв задля додаткових бонусів.</p>
+                    <div class="facet-ability-link">
+                        <img src="earth_spirit_rolling_boulder.png" alt="ROLLING BOULDER">
+                        <span>ROLLING BOULDER</span>
+                    </div>
+					<p class="facet-description">Накочування на союзного героя дає тому й Земляному Духу 15/20/25/30% додаткової швидкості руху на 4 с, а сам Земляний Дух котитиметься далі і швидше, а також приголомшуватиме ворогів на довший час.</p>
+                    <p class="facet-bonus">ШВИДКІСТЬ (СОЮЗНИЙ ГЕРОЙ):1900</p>
+					<p class="facet-bonus">МНОЖНИК ВІДСТАНІ (СОЮЗНИЙ ГЕРОЙ):2,5</p>
+					<p class="facet-bonus">ДІЯ ДОД. ПРИГОЛОМШЕННЯ (СОЮЗНИЙ ГЕРОЙ):0,3 / 0,5 / 0,7 / 0,9</p>
+					<p class="facet-bonus">ДІЯ ДОД. ПРИГОЛОМШЕННЯ (СОЮЗНИЙ ГЕРОЙ):0 / 0 / 0 / 0</p>
+                </div>
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Boulder Smash</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Б’є по ворогу або союзнику, відштовхуючи його в напрямку свого зору. Якщо удар націлюється на область, Каолінь вдарить по найближчій цілі в радіусі 200 із пріоритетом на кам’яних бовванів. Запущена істота або бовван завдає шкоди всім ворожим істотам, на яких натрапить у польоті. Якщо по ворожій істоті потрапляє бовван, то вона, окрім шкоди, сповільнюється. Кам’яні боввани летять на довшу відстань, ніж інші істоти.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">110/180/250/320</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,25/2,5/3,25/4</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius">220</span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">22/18/14/10</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">100</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">В ударі Каоліня — сила гірських кряжів.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Boulder Smash"
+                        data-description="Б’є по ворогу або союзнику, відштовхуючи його в напрямку свого зору. Якщо удар націлюється на область, Каолінь вдарить по найближчій цілі в радіусі 200 із пріоритетом на кам’яних бовванів. Запущена істота або бовван завдає шкоди всім ворожим істотам, на яких натрапить у польоті. Якщо по ворожій істоті потрапляє бовван, то вона, окрім шкоди, сповільнюється. Кам’яні боввани летять на довшу відстань, ніж інші істоти."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="110/180/250/320"
+                        data-duration="1,25/2,5/3,25/4"
+                        data-radius="220"
+                        data-cooldown="22/18/14/10"
+                        data-mana-cost="100"
+                        data-note="В ударі Каоліня — сила гірських кряжів."
+                >
+                    <img src="earth_spirit_boulder_smash.png" alt="Boulder Smash Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Rolling Boulder"
+                        data-description="Герой упродовж 0,6 с перетворюється на брилу, після чого починає котитися у вказану точку, завдаючи 60 шкоди + 100% шкоди за силу та приголомшуючи ворожих істот на своєму шляху. Брила зупиниться від приголомшення або зіткнення з ворожим героєм. Якщо брила натрапить на кам’яного боввана, то котитиметься далі і швидше, а також приголомшуватиме ворогів на довший час."
+                        data-target="Націлена на точку"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="60/70/80/90"
+                        data-duration="0,3 / 0,5 / 0,7 / 0,9"
+                        data-radius="750"
+                        data-cooldown="16/12/8/4"
+                        data-mana-cost="50"
+                        data-note="Маючи зв’язок із землею, Каолінь може притягувати до себе каміння і перетворюватися на круглу брилу, що котиться на невелику відстань."
+                >
+                    <img src="earth_spirit_rolling_boulder.png" alt="Rolling Boulder Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Geomagnetic Grip"
+                        data-description="Притягує до себе кам’яного боввана. Вороги, які опиняться на шляху, будуть знемовлені й отримають шкоду."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="70/140/210/280"
+                        data-duration="2/2,5/3/3,5"
+                        data-radius="600"
+                        data-cooldown="13"
+                        data-mana-cost="75"
+                        data-note="Рід до роду — своїм покликом Каолінь може притягувати навіть мінерали, що містяться в крові та кістках живих істот."
+                >
+                    <img src="earth_spirit_geomagnetic_grip.png" alt="Geomagnetic Grip Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Magnetize"
+                        data-description="Намагнічує істот недалеко від себе, завдаючи їм шкоди протягом короткого часу. Якщо намагнічений герой проходить біля кам’яного боввана, той вибухає, заново намагнічуючи всіх ворогів навколо боввана. Процес може повторюватися кілька разів. Якщо ворожий герой знемовлюється здібністю Геомагнітний захват або сповільнюється здібністю Удар брили, то ефект передається всім намагніченим героям."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Так"
+                        data-armor-reduction="45/85/125"
+                        data-duration="6"
+                        data-radius="350"
+                        data-cooldown="100/90/80"
+                        data-mana-cost="100"
+                        data-note="За покликом Каоліня в крові та кістках ворогів закипають мінерали, постаючи проти їхніх власних тіл.."
+                >
+                    <img src="earth_spirit_magnetize.png" alt="Magnetize Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Enchant Remnant"
+                        data-description="Зачаровує героя, перетворюючи його на кам’яного боввана. Через деякий час бовван розпадається на уламки, вивільняючи героя та завдаючи шкоди навколишнім ворогам.
+
+Можна чаклувати на кам’яні боввани. Якщо застосовувати таким чином, то має зарядку 5 секунд.
+Має більшу дальність чаклування, якщо застосовується на союзного героя."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="450"
+                        data-duration="2,4"
+                        data-radius="450"
+                        data-cooldown="45"
+                        data-mana-cost="150"
+                        data-note="За допомогою сили землі Каолінь перетворює живих істот на камінь, щоби поповнити лави своєї нерухомої армії."
+                >
+                    <img src="2.jpg" alt="Berserk Potion Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Geomagnetic Grip"
+                        data-description="Може притягувати союзників."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Хоча з горою у Разіля нічого не вийшло, перетворювати на золото менші об’єкти він може без проблем."
+                >
+                    <img src="1.jpg" alt="Geomagnetic Grip Icon">
+                </button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

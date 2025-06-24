@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dota 2 Герої - Alchemist (UI)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+	<script src="script.js"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Навігація по героям (завжди зверху) -->
+        <div class="hero-nav">
+            <div class="hero-nav-button">
+                <button onclick="prevHero()">←</button>
+                <p>Минулий герой</p>
+            </div>
+            <div class="hero-nav-button">
+                <button onclick="nextHero()">→</button>
+                <p>Наступний герой</p>
+            </div>
+        </div>
+
+        <!-- Головна візуальна область героя: відео + накладені елементи -->
+        <div class="hero-visual-area">
+            <!-- Фонове відео персонажа -->
+            <div class="hero-background-video">
+                <video autoplay muted loop>
+                    <source src="NIgtstalker_fon.mp4" type="video/webm" />
+                    Ваш браузер не підтримує відео тег.
+                </video>
+            </div>
+
+            <!-- Верхній лівий блок: Заголовок героя та ліва колонка інформації (накладається на відео) -->
+            <div class="hero-top-left-overlay">
+                <div class="hero-title-area">
+                    <img src="strength-logo.png" alt="Сила" class="hero-attribute-icon" />
+                    <h1>NIGHT STALKER</h1>
+                </div>
+                <!-- Інформація про героя: коротка або повна -->
+                <div class="hero-description-short">
+                    <div id="short-story">
+                        <p class="highlight-text">ПІДСИЛЮЄТЬСЯ ТІНЯМИ НОЧІ</p>
+                        <p>Із заходом сонця розпочинається полювання Нічного Мисливця. Тінистими лісами він заманює здобич у сповільнювальну порожнечу, а потім рве її на шмаття. І варто лише сонцю скінчити його терор, як він може викликати затемнення неба, щоби закінчити розпочату справу.</p>
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, true)">Читати повну історію</a>
+                    </div>
+                    <div id="full-story" class="full-story-content" style="display: none;">
+                        <p class="highlight-text">ПІДСИЛЮЄТЬСЯ ТІНЯМИ НОЧІ</p>
+                        <p>Про Нічного Мисливця відсутні будь-які відомості — лише історії. У древніх розповідях різних рас і культур є історія про часи, що передували появі сонця, коли над землею панувала нескінченна ніч, в якій жили породження пітьми.</p>
+                        <p>І, як відомо з тих історій, на світанку першого дня усі нічні почвари загинули. Але одна істота вижила. Втілення зла, Нічний Мисливець впивається своєю жорстокістю. Він став прообразом нічних жахів, усіляких бабаїв, якими лякають неслухняних дітлахів. Баланару така роль до вподоби, але причини його боятися не безглузді. Під покровом ночі він розриває на шмаття тих, хто відбився від світла, звернув з дороги або проігнорував поради й пішов блукати в темряві. Нічний Мисливець — це живий доказ того, що коли дитина боїться спати в темній кімнаті… вона має на те підстави.</p>
+                        
+                        <a href="#" class="read-full-story-toggle" onclick="toggleStory(event, false)">Закрити історію</a>
+                    </div>
+                </div>
+                <!-- Тип атаки та складність -->
+                <div class="hero-details-row">
+                    <p class="detail-label">ТИП АТАКИ</p>
+                    <div class="detail-item">
+                        <img src="close combat.png" alt="Ближній бій" />
+                        <span>БЛИЖНІЙ БІЙ</span>
+                    </div>
+                </div>
+                <div class="hero-details-row">
+                    <p class="detail-label">СКЛАДНІСТЬ</p>
+                    <div class="complexity-stars">
+                        <img src="white star.png" alt="Біла Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                        <img src="star.png" alt="Зірка" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секція ЗДІБНОСТІ - накладається на відео, праворуч -->
+            <div class="abilities-section-overlay">
+                <div class="abilities-row-inner">
+                    <div class="talent-tree-wrapper">
+                        <img src="tree of talents.png" alt="Дерево талантів" />
+                        <div class="talent-tree-tooltip tooltip">
+                            <h3>Дерево Талантів</h3>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">-40s Dark Ascension Cooldown</div>
+                                <div class="talent-level">25</div>
+                                <div class="talent-description talent-right">+100 до швидкості атаки від Hunter In The Night</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+15 до сили</div>
+                                <div class="talent-level">20</div>
+                                <div class="talent-description talent-right">+20 до ШЗС від Crippling Fear</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+20% до опору ефектам від Hunter in the Night</div>
+                                <div class="talent-level">15</div>
+                                <div class="talent-description talent-right">+25 до шкоди від Dark Ascension</div>
+                            </div>
+                            <div class="talent-row">
+                                <div class="talent-description talent-left">+5 с до тривалості Dark Ascension</div>
+                                <div class="talent-level">10</div>
+                                <div class="talent-description talent-right">-1 с зарядки Void</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ability-icon">
+                        <img src="innate ability.png" alt="Вродженна здібність" />
+                        <div class="tooltip">
+                            <h3>Серце пітьми</h3>
+                            <p>Уночі регенерацію здоров’я Нічного Мисливця збільшено на 20%, а впродовж дня її зменшено на 20%.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="night_stalker_void.png" alt="Void" />
+                        <div class="tooltip">
+                            <h3>Void</h3>
+                            <video controls autoplay muted loop>
+                                <source src="1.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Націлена на істоту</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Створює порожнечу, що сповільнює ворога та завдає йому шкоди. Уночі ворог ненадовго приголомшується, що перериває його чаклувальні здібності, а ефекти Порожнечі тривають довше.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="night_stalker_crippling_fear.png" alt="Crippling Fear" />
+                        <div class="tooltip">
+                            <h3>Crippling Fear</h3>
+                            <video controls autoplay muted loop>
+                                <source src="2.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong>Ненацілена</p>
+                            <p><strong>Урон:</strong>Магічний</p>
+                            <p>Баланар жахає усіх ворогів поблизу, через що ті знемовлюються та зазнають періодичної шкоди поруч із ним. Уночі ефект триває довше.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="night_stalker_hunter_in_the_night.png" alt="Hunter in the Night" />
+                        <div class="tooltip">
+                            <h3>Hunter in the Night</h3>
+                            <video controls autoplay muted loop>
+                                <source src="3.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Тип:</strong> Пасивна</p>
+                            
+                            <p>Ніч — стихія Баланара. У цей час він рухається й атакує із шаленою швидкістю.</p>
+                        </div>
+                    </div>
+
+                    <div class="ability-icon">
+                        <img src="night_stalker_darkness.png" alt="Dark Ascension" />
+                        <div class="tooltip">
+                            <h3>Dark Ascension</h3>
+                            <video controls autoplay muted loop>
+                                <source src="4.mp4" type="video/mp4" />
+                                Ваша версія браузера не підтримує відео.
+                            </video>
+                            <p><strong>Здібність:</strong> Ненацілена</p>
+							<p><strong>Урон:</strong>Фізичний</p>
+                            <p>Нічний мисливець гасить сонце, миттєво викликаючи темряву, щоби посилити свої здібності. У цей час герой має необмежену видимість.</p>
+                        </div>
+                    </div>
+                    <div class="aghanim-icon">
+                        <img src="Aganim.png" alt="Аганім" title="Аганім Скіпетр та Шард" />
+                        <div class="tooltip">
+                            <div class="tooltip-section">
+                                <h3>Скіпетр</h3>
+                                <p>Зменшує зарядку Нестерпного жаху й цю здібність можна перемикати. Для її підтримки в активному стані використовується відсоток від максимальної мани за секунду після початкового часу дії.</p>
+                            </div>
+                            <div class="tooltip-section">
+                                <h3>Шард</h3>
+                                <p>Здібність Нічний мисливець може застосовуватися на кріпа, що миттєвого його вбиває та відновлює частину від максимального здоров’я й мани Нічного Мисливця. Не може застосовуватися на древніх кріпів удень.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижня панель зі статистиками та ролями -->
+        <div class="hero-bottom-panel">
+            <div class="bottom-left-stats">
+                <p class="section-label">ХАРАКТЕРИСТИКИ</p>
+                <div class="stats-grid-attributes">
+                    <div class="attribute-item">
+                        <img src="strength-logo.png" alt="Сила" />
+                        <span>23</span> <span class="attribute-bonus">+3.0</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Agility_attribute_symbol.png" alt="Спритність" />
+                        <span>18</span> <span class="attribute-bonus">+2.2</span>
+                    </div>
+                    <div class="attribute-item">
+                        <img src="Intelligence_attribute_symbol.png" alt="Інтелект" />
+                        <span>15</span> <span class="attribute-bonus">+1.6</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-center-roles">
+                <p class="section-label">РОЛІ</p>
+                <div class="roles-list">
+                    <div class="role-line">
+                        <span>Лідер</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 40%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Підтримка</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Нападник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Знерухомлювач</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Лісних</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Танк</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Невловимий</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Обложник</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="role-line">
+                        <span>Ініціатор</span>
+                        <div class="role-bar-container"><div class="role-bar" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right-indicators">
+                <p class="section-label">ПОКАЗНИКИ</p>
+                <div class="stats-grid-indicators">
+                    <div class="indicator-item">
+                        <img src="close combat.png" alt="Атака" />
+                        <span>63-67</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="wmremove-transformed.png" alt="Захист" />
+                        <span>5.0</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="opir mag.png" alt="Опір магії" />
+                        <span>25%</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="time.png" alt="Швидкість атаки" />
+                        <span>1.7</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="distance.png" alt="Швидкість повороту" />
+                        <span>150</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="speed.png" alt="Швидкість пересування" />
+                        <span>295</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="damage.png" alt="Огляд вдень" />
+                        <span>1800</span>
+                    </div>
+                    <div class="indicator-item">
+                        <img src="vision.png" alt="Огляд вночі" />
+                        <span>900</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція "ПРО ГРАНІ" -->
+        <div class="hero-facets-section">
+            <h2 class="facets-title">ПРО ГРАНІ:</h2>
+            <div class="facets-grid-container">
+                <!-- Приклад аспекту 1 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="moon.png" alt="Іконка луни" class="facet-icon">
+                        <h3 class="facet-name">NIGHT REIGN</h3>
+                    </div>
+                    <p class="facet-description">Тепер гра почнеться вночі, а не вдень. Ніч триває довше за день. Нічний Мисливець розпочинає з бонусним рівнем здібності Нічний мисливець.</p>
+                    <div class="facet-ability-link">
+                        <img src="night_stalker_hunter_in_the_night.png" alt="HUNTER IN THE NIGHT icon">
+                        <span>HUNTER IN THE NIGHT</span>
+                    </div>
+					<p class="facet-bonus">ШВИДКІСТЬ РУХУ:10%/22%/28%/34%/40%</p>
+					<p class="facet-bonus">ШВИДКІСТЬ АТАКИ:15/35/55/75/95</p>
+                </div>
+                <!-- Приклад аспекту 2 -->
+                <div class="facet-item">
+                    <div class="facet-header">
+                        <img src="area_of_effect.png" alt="Іконка кола" class="facet-icon">
+                        <h3 class="facet-name">ПОРОЖНЕЧОНОСЕЦЬ</h3>
+                    </div>
+                    <p class="facet-description">Збільшує максимальний рівень Порожнечі. Вночі Порожнеча 5-го рівня застосовується на землю й діє в області.</p>
+                    <div class="facet-ability-link">
+                        <img src="night_stalker_void.png" alt="VOID icon">
+                        <span>VOID</span>
+                    </div>
+                    <p class="facet-bonus">СПОВІЛЬНЕННЯ РУХУ:50%/50%/50%/50%/60%</p>
+					<p class="facet-bonus">СПОВІЛЬНЕННЯ АТАКИ:50/50/50/50/60</p>
+                </div>
+                            </div>
+        </div>
+
+        <!-- Нова секція: ПОДРОБИЦІ ЗДІБНОСТЕЙ -->
+        <div class="hero-ability-details-section">
+            <h2 class="ability-details-title">ПОДРОБИЦІ ЗДІБНОСТЕЙ:</h2>
+            <div class="ability-details-content-wrapper">
+                <div class="ability-video-player">
+                    <video id="currentAbilityVideo" controls autoplay muted loop>
+                        
+                        <source src="1.mp4" type="video/mp4"/>
+                        Ваш браузер не підтримує відео тег.
+                    </video>
+                </div>
+                <div class="ability-info-display">
+                    <h3 id="currentAbilityName">Void</h3>
+                    <div class="ability-stats-row">
+                        <p><strong>ЗДІБНІСТЬ:</strong> <span id="abilityTarget">Націлена на істоту</span></p>
+                        <p><strong>ТИП ШКОДИ:</strong> <span id="abilityDamageType">Магічна</span></p>
+                        <p><strong>ПРОБИВАЄ ІМУНІТЕТ ДО ЧАРІВ:</strong> <span id="abilityScales">Ні</span></p>
+                    </div>
+                    <p id="currentAbilityDescription">Створює порожнечу, що сповільнює ворога та завдає йому шкоди. Уночі ворог ненадовго приголомшується, що перериває його чаклувальні здібності, а ефекти Порожнечі тривають довше.</p>
+                    <div class="ability-values">
+                        <p><strong>ШКОДА:</strong> <span id="abilityArmorReduction">80/160/240/320/400</span></p>
+                        <p><strong>ТРИВАЛІСТЬ:</strong> <span id="abilityDuration">1,6/2,2/2,8/3,4/4</span></p>
+                        <p><strong>Радіус:</strong> <span id="abilityRadius"></span></p>
+                        <p><strong>КД:</strong> <span id="abilityCooldown">11/10/9/8</span></p>
+                        <p><strong>ВИТРАТИ МАНИ:</strong> <span id="abilityManaCost">90/95/100/105</span></p>
+                    </div>
+                    <p class="ability-note"><span id="abilityNote">Баланар створює вирву в безкінечну ніч, затягуючи ворогів у вічну темряву, що колись панувала у світі.</span></p>
+                </div>
+            </div>
+
+            <div class="ability-buttons-container">
+                <!-- Ability Buttons -->
+                <button class="ability-button active"
+                        data-video-src="1.mp4"
+                        data-name="Void"
+                        data-description="Створює порожнечу, що сповільнює ворога та завдає йому шкоди. Уночі ворог ненадовго приголомшується, що перериває його чаклувальні здібності, а ефекти Порожнечі тривають довше."
+                        data-target="Націлена на істоту"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="80/160/240/320/400"
+                        data-duration="1,6/2,2/2,8/3,4/4"
+                        data-radius=""
+                        data-cooldown="11/10/9/8"
+                        data-mana-cost="90/95/100/105"
+                        data-note="Баланар створює вирву в безкінечну ніч, затягуючи ворогів у вічну темряву, що колись панувала у світі."
+                >
+                    <img src="night_stalker_void.png" alt="Void Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="2.mp4"
+                        data-name="Crippling Fear"
+                        data-description="Баланар жахає усіх ворогів поблизу, через що ті знемовлюються та зазнають періодичної шкоди поруч із ним. Уночі ефект триває довше."
+                        data-target="Ненацілена"
+                        data-damage-type="Магічна"
+                        data-scales="Ні"
+                        data-armor-reduction="25/30/35/40"
+                        data-duration="4,5/5/5,5/6"
+                        data-radius="375"
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="50"
+                        data-note="Досить лише раз побачити страхітливу пащу Баланара, і ви вже ніколи не зможете спати спокійно."
+                >
+                    <img src="night_stalker_crippling_fear.png" alt="Crippling Fear Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="3.mp4"
+                        data-name="Hunter in the Night"
+                        data-description="Ніч — стихія Баланара. У цей час він рухається й атакує із шаленою швидкістю."
+                        data-target="Пасивна"
+                        data-damage-type="N/A"
+                        data-scales="Ні"
+                        data-armor-reduction="22%/28%/34%/40%/40%"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note="Мисливські інстинкти Баланара загострюються з настанням ночі."
+                >
+                    <img src="night_stalker_hunter_in_the_night.png" alt="Hunter in the Night Icon">
+                </button>
+                <button class="ability-button"
+                        data-video-src="4.mp4"
+                        data-name="Dark Ascension"
+                        data-description="Нічний мисливець гасить сонце, миттєво викликаючи темряву, щоби посилити свої здібності. У цей час герой має необмежену видимість."
+                        data-target="Ненацілена"
+                        data-damage-type="Фізична"
+                        data-scales="Так"
+                        data-armor-reduction="50/100/150"
+                        data-duration="30"
+                        data-radius=""
+                        data-cooldown="140/135/130"
+                        data-mana-cost="125/175/225"
+                        data-note="Який сором бачити, як наймогутніші з воїнів починають боятися темряви."
+                >
+                    <img src="night_stalker_darkness.png" alt="Dark Ascension Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="6.mp4"
+                        data-name="Crippling Fear"
+                        data-description="Зменшує зарядку Нестерпного жаху й цю здібність можна перемикати. Для її підтримки в активному стані використовується відсоток від максимальної мани за секунду після початкового часу дії."
+                        data-target=""
+                        data-damage-type=""
+                        data-scales="Ні"
+                        data-armor-reduction="50/100/150"
+                        data-duration="30"
+                        data-radius=""
+                        data-cooldown="30/25/20/15"
+                        data-mana-cost="50"
+                        data-note="Досить лише раз побачити страхітливу пащу Баланара, і ви вже ніколи не зможете спати спокійно."
+                >
+                    <img src="2.jpg" alt="Crippling Fear Icon">
+                </button>
+				<button class="ability-button"
+                        data-video-src="5.mp4"
+                        data-name="Hunter in the Night"
+                        data-description="Здібність Нічний мисливець може застосовуватися на кріпа, що миттєвого його вбиває та відновлює частину від максимального здоров’я й мани Нічного Мисливця. Не може застосовуватися на древніх кріпів удень."
+                        data-target="N/A"
+                        data-damage-type="N/A"
+                        data-scales="N/A"
+                        data-armor-reduction="N/A"
+                        data-duration="N/A"
+                        data-radius="N/A"
+                        data-cooldown="N/A"
+                        data-mana-cost="N/A"
+                        data-note=""
+                >
+                    <img src="1.jpg" alt="Hunter in the Night Icon">
+                </button>
+                <!-- Add more ability buttons here, each with its data attributes -->
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
